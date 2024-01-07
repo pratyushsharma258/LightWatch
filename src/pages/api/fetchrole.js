@@ -5,19 +5,20 @@ export default async function handle(req, res) {
 
     const { method } = req;
 
-    console.log(req.body);
-
     await mongooseConnect();
 
     if (method === "GET") {
-        const { userId, userRole } = req.body;
+
+        const { userId, userRole } = req.query;
 
         const ifExists = await userModel.findOne({
             _id: userId, role: userRole
         })
 
+        const username = ifExists?.username;
+
         if (ifExists?.username) {
-            return res.json({ "found": "true" });
+            return res.json({ "found": "true", username });
         }
         else {
             return res.json({ "found": "false" });

@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import jwt from "jsonwebtoken";
 
 function signup() {
 
@@ -39,7 +40,7 @@ function signup() {
 
         console.log(response);
 
-        if (response.data.found) {
+        if (response.data.found === "true") {
             toast("User already registered", {
                 description: "Please check your details",
                 action: {
@@ -50,7 +51,19 @@ function signup() {
             router.push('/login');
         }
         else {
-            router.replace('/');
+            var userData = null;
+            jwt.verify(
+                response.data.token,
+                process.env.NEXT_PUBLIC_JWT_SECRET,
+                {},
+                (err, data) => {
+                    if (err) throw err;
+                    console.log(data);
+                    userData = data;
+                }
+            );
+
+            router.replace(`/${userData.userRole}/${userData.userId}`)
         }
     }
 

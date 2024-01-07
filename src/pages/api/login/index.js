@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         username, role: userRole
     })
 
-    console.log(ifExists);
+    // console.log(ifExists);
 
     const userId = ifExists._id;
 
