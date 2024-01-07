@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import Navbar from "@/components/Navbar";
+import jwt from "jsonwebtoken";
 
 function login() {
 
@@ -34,12 +35,27 @@ function login() {
 
         const userFormData = { username, password, userRole }
 
-        const response = await axios.post('/api/login', userFormData);
-
-        console.log(response);
+        const response = await axios.get('/api/login', {
+            params: {
+                ...userFormData
+            }
+        });
 
         if (response.data.found && response.data.passwordMatch) {
-            router.replace('/');
+            var userData = null;
+            jwt.verify(
+                response.data.token,
+                process.env.NEXT_PUBLIC_JWT_SECRET,
+                {},
+                (err, data) => {
+                    if (err) throw err;
+                    console.log(data);
+                    userData = data;
+                }
+            );
+
+            router.replace(`/${userData.userRole}/${userData.userId}`)
+
         } else {
             toast("Wrong credentials", {
                 description: "Please check your details",
