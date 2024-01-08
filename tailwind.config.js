@@ -23,6 +23,7 @@ module.exports = {
         'lctrine': '#FFFD82',
         'light-green': '#2EC4B6',
         'orange-peel': '#FF9F1C',
+        'deepblue': '#003566'
       },
       keyframes: {
         "accordion-down": {
