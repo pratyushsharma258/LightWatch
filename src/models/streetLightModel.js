@@ -4,7 +4,7 @@ const streetLightSchema = new Schema(
     {
         latitude: { type: Number, required: true },
         longitude: { type: Number, required: true },
-        createdAt: { type: String, required: true },
+        createdAt: { type: String, required: true, default: Date.now },
         ratedWattage: { type: Number, required: true },
         criticalWattage: { type: Number, required: true },
         expectedLife: { type: Number, required: true },

@@ -1,15 +1,18 @@
 import Map from "@/components/Map";
 import Navbar from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
 import axios from "axios";
-import { useRouter } from "next/router"
 
 function userpage({ username }) {
-    const router = useRouter();
 
     return (
-        <div className="w-screen min-h-screen flex items-center justify-center">
+        <div className="w-screen min-h-screen flex flex-col items-center justify-center overflow-y-auto">
             <Navbar username={username} />
             <Map position={[75.4123, 42.526]} zoom={4} />
+            <Button>Add street light</Button>
+            <Button>Greviance management</Button>
+            <Button>Editing street lights</Button>
+            <Button>Removing street lights</Button>
         </div>
     )
 }
@@ -21,8 +24,9 @@ export async function getServerSideProps(context) {
     // }
 
     const { userId } = context.params;
+    // console.log(userId);
 
-    const actualId = userId[0];
+    const actualId = userId;
 
     // return {
     //     props: { title: "role", content: "true" }

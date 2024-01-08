@@ -8,7 +8,7 @@ export default function Map(props) {
 
     return (
         <div className="flex">
-            <MapContainer center={position} zoom={zoom} scrollWheelZoom={true} className=" w-[90rem] h-[40rem]">
+            <MapContainer center={position} zoom={zoom} scrollWheelZoom={true} className={props.className}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
