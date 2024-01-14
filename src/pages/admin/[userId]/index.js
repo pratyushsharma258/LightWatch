@@ -6,7 +6,7 @@ import Createicon from "@/components/icons/Createicon";
 import Usericon from "@/components/icons/Usericon";
 import Deleteicon from "@/components/icons/Deleteicon";
 import Editicon from "@/components/icons/Editicon";
-import MarkerMap from "@/components/MarkerMap";
+import MarkerMap from "@/components/Markermap";
 
 function userpage({ username }) {
     const buttonStyles = "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
