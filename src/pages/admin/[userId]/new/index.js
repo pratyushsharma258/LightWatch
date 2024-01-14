@@ -86,7 +86,7 @@ function index({ username }) {
                                     placeholder="Description (Optional)"
                                     value={description}
                                     onChange={(e) => { setDescription(e.target.value) }}
-                                    className="w-full mb-2 min-h-8 max-h-14 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                                    className="w-full mb-2 min-h-8 max-h-14 h-10 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                                 />
                                 <Button className="w-full h-8 text-sm" type="submit">Save</Button>
                             </form>
