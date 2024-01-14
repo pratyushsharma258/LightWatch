@@ -32,12 +32,13 @@ function index({ username }) {
     return (
         <div className="w-screen min-h-screen flex flex-row items-center bg-deepblue justify-center">
             <Navbar username={username} />
-            <div className="flex flex-row items-center gap-40">
-                <div className="shadow-2xl w-[24rem] h-[35rem] shadow-orange-peel rounded-lg bg-orange-peel">
-                    <Card className="w-[24rem] h-[35rem] flex flex-grow flex-col justify-around rounded-lg border-orange-peel bg-orange-peel text-licorice">
+            <div className="flex flex-col flex-grow">
+                <Map position={[lat, long]} zoom={20} center={[lat, long - 0.002]} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" />
+                <div className="shadow-2xl w-[22rem] h-[30rem] shadow-orange-peel rounded-lg bg-orange-peel relative z-20 left-20">
+                    <Card className="w-[22rem] h-[30rem] flex flex-grow flex-col rounded-lg border-orange-peel bg-orange-peel text-licorice">
                         <CardHeader>
-                            <CardTitle className="mb-3 text-licorice">Spread more light</CardTitle>
-                            <CardDescription>Please enter details of the installed Street Light</CardDescription>
+                            <CardTitle className="mb-1 text-licorice text-xl">Spread more light</CardTitle>
+                            <CardDescription className="text-xs">Please enter details of the installed Street Light</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={submitHandler} className="flex flex-col gap-2" >
@@ -46,7 +47,7 @@ function index({ username }) {
                                     placeholder="Latitude"
                                     value={lat}
                                     required={true}
-                                    className="w-full mb-3 h-9 text-sm text-licorice"
+                                    className="w-full mb-2 h-8 text-sm text-licorice"
                                     disabled={true}
                                 />
                                 <Input
@@ -54,7 +55,7 @@ function index({ username }) {
                                     placeholder="Longitude"
                                     value={long}
                                     required={true}
-                                    className="w-full mb-3 h-9 text-sm text-licorice"
+                                    className="w-full mb-2 h-8 text-sm text-licorice"
                                     disabled={true}
                                 />
                                 <Input
@@ -63,7 +64,7 @@ function index({ username }) {
                                     value={ratedWattage}
                                     onChange={(e) => { setRatedWattage(e.target.value) }}
                                     required={true}
-                                    className="w-full mb-3 h-9 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                                    className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                                 />
                                 <Input
                                     type="number"
@@ -71,7 +72,7 @@ function index({ username }) {
                                     value={criticalWattage}
                                     onChange={(e) => { setCriticalWattage(e.target.value) }}
                                     required={true}
-                                    className="w-full mb-3 h-9 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                                    className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                                 />
                                 <Input
                                     type="number"
@@ -79,21 +80,20 @@ function index({ username }) {
                                     value={expectedLife}
                                     onChange={(e) => { setExpectedLife(e.target.value) }}
                                     required={true}
-                                    className="w-full mb-3 h-9 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                                    className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                                 />
                                 <Textarea
                                     placeholder="Description (Optional)"
                                     value={description}
                                     onChange={(e) => { setDescription(e.target.value) }}
-                                    className="w-full mb-3 max-h-14 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                                    className="w-full mb-2 min-h-8 max-h-14 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                                 />
-                                <Button className="w-full h-9 text-sm" type="submit">Save</Button>
+                                <Button className="w-full h-8 text-sm" type="submit">Save</Button>
                             </form>
                         </CardContent>
                     </Card>
                     <Toaster />
                 </div>
-                <Map position={[lat, long]} zoom={16} className='w-[30rem] h-[24rem] shadow-2xl shadow-thistle-blue rounded-lg' />
             </div>
         </div>
     )

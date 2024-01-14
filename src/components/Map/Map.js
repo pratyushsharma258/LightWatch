@@ -4,11 +4,11 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet-defaulticon-compatibility';
 
 export default function Map(props) {
-    const { position, zoom } = props
+    const { position, center, zoom } = props
 
     return (
         <div className="flex">
-            <MapContainer center={position} zoom={zoom} scrollWheelZoom={true} className={props.className}>
+            <MapContainer center={center} zoom={zoom} scrollWheelZoom={false} className={props.className}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
