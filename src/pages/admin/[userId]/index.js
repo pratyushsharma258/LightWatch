@@ -10,11 +10,15 @@ import MarkerMap from "@/components/Markermap";
 import { useState } from "react";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
+import { useRouter } from "next/router";
 
-function userpage({ username }) {
+function userpage({ username, userId }) {
     const buttonStyles = "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
 
     const [userIsMarking, setUserIsMarking] = useState(false);
+    const [markerPosition, setMarkerPosition] = useState([0, 0]);
+
+    const router = useRouter();
 
     return (
         <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto relative">
@@ -23,18 +27,21 @@ function userpage({ username }) {
                 userIsMarking
                     ?
                     <>
-                        <MarkerMap position={[75.4123, 42.526]} zoom={4} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" center={[75.4123, 42.526]} />
+                        <MarkerMap position={[0, 0]} zoom={3} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" center={[0, 0]} handler={setMarkerPosition} />
                         <div className="z-20 absolute w-full bg-thistle-blue p-6 rounded-lg h-[8rem] bottom-0 grid grid-cols-2" style={{ boxShadow: "0px -4px 100px 8px black" }}>
                             <Button
-                                className="m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2"
+                                className={buttonStyles}
                                 onClick={
-                                    () => setUserIsMarking(true)
+                                    () => router.push(`/admin/${userId}/new?lat=${markerPosition.lat || markerPosition[0]}&long=${markerPosition.lng || markerPosition[1]}`)
                                 }
                             >
                                 Proceed with current marker location
                                 <Check className={"w-8 h-full ml-2"} />
                             </Button>
-                            <Button className={buttonStyles}>
+                            <Button
+                                className={buttonStyles}
+                                onClick={() => setUserIsMarking(false)}
+                            >
                                 Go Back to User Options
                                 <Close className={"w-8 h-full ml-2"} />
                             </Button>
@@ -42,10 +49,10 @@ function userpage({ username }) {
                     </>
                     :
                     <>
-                        <Map position={[75.4123, 42.526]} zoom={4} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" center={[75.4123, 42.526]} />
+                        <Map position={[0, 0]} zoom={3} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" center={[0, 0]} />
                         <div className="z-20 absolute w-full bg-thistle-blue p-6 rounded-lg h-[13rem] bottom-0 grid grid-cols-2" style={{ boxShadow: "0px -4px 100px 8px black" }}>
                             <Button
-                                className="m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2"
+                                className={buttonStyles}
                                 onClick={
                                     () => setUserIsMarking(true)
                                 }
@@ -88,7 +95,7 @@ export async function getServerSideProps(context) {
 
     if (res.data.found === "true") {
         return {
-            props: { content: "true", username }
+            props: { content: "true", username, userId }
         }
     } else {
         return {
