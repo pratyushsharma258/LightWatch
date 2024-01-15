@@ -5,8 +5,11 @@ import 'leaflet-defaulticon-compatibility';
 import { useState } from "react";
 
 export default function Map(props) {
+
     const { position, center, zoom } = props
     const [newMarkingPosition, setNewMarkingPosition] = useState(position);
+
+
     const handleMarkerDrag = function (ev) {
         setNewMarkingPosition(ev.target.getLatLng());
     }
@@ -22,10 +25,15 @@ export default function Map(props) {
                     <Marker
                         position={newMarkingPosition}
                         draggable={true}
-                        onDragend={handleMarkerDrag}
+                        eventHandlers={{
+                            dragend: handleMarkerDrag,
+                        }}
                     >
-                        <Popup>
-                            A pretty CSS
+                        <Popup maxWidth={200}>
+                            <>
+                                {`Latitude : ${newMarkingPosition[0] || newMarkingPosition.lat}`}<br />
+                                {`Longitude : ${newMarkingPosition[1] || newMarkingPosition.lng}`}
+                            </>
                         </Popup>
                     </Marker>
                 }
