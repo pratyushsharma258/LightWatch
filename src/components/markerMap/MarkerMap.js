@@ -6,16 +6,16 @@ import { useState } from "react";
 
 export default function Map(props) {
 
-    const { position, center, zoom } = props
+    const { position, center, zoom, handler } = props
     const [newMarkingPosition, setNewMarkingPosition] = useState(position);
 
-
     const handleMarkerDrag = function (ev) {
+        handler(ev.target.getLatLng());
         setNewMarkingPosition(ev.target.getLatLng());
     }
     return (
         <div className="flex">
-            <MapContainer center={center} zoom={zoom} scrollWheelZoom={false} className={props.className}>
+            <MapContainer center={center} zoom={zoom} scrollWheelZoom={true} className={props.className}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -31,8 +31,8 @@ export default function Map(props) {
                     >
                         <Popup maxWidth={200}>
                             <>
-                                {`Latitude : ${newMarkingPosition[0] || newMarkingPosition.lat}`}<br />
-                                {`Longitude : ${newMarkingPosition[1] || newMarkingPosition.lng}`}
+                                {`Latitude : ${newMarkingPosition.lat || 0}`}<br />
+                                {`Longitude : ${newMarkingPosition.lng || 0}`}
                             </>
                         </Popup>
                     </Marker>
