@@ -33,9 +33,9 @@ function index({ username }) {
         <div className="w-screen min-h-screen flex flex-row items-center bg-deepblue justify-center">
             <Navbar username={username} />
             <div className="flex flex-col flex-grow">
-                <Map position={[lat, long]} zoom={20} center={[lat, long - 0.002]} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" />
-                <div className="shadow-2xl w-[22rem] h-[30rem] shadow-orange-peel rounded-lg bg-orange-peel relative z-20 left-20">
-                    <Card className="w-[22rem] h-[30rem] flex flex-grow flex-col rounded-lg border-orange-peel bg-orange-peel text-licorice">
+                <Map position={[lat, long]} zoom={12} center={[lat, long - 0.002]} className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10" />
+                <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_40px)] shadow-orange-peel rounded-lg bg-orange-peel z-20 absolute top-10">
+                    <Card className="w-[24rem] h-[calc(100vh_-_40px)] flex flex-grow flex-col rounded-lg border-orange-peel bg-orange-peel text-licorice">
                         <CardHeader>
                             <CardTitle className="mb-1 text-licorice text-xl">Spread more light</CardTitle>
                             <CardDescription className="text-xs">Please enter details of the installed Street Light</CardDescription>
