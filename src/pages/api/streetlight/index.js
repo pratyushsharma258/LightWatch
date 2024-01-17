@@ -6,8 +6,8 @@ export default async function handler(req, res) {
 
     await mongooseConnect();
 
-    if (method === "GET") {
-        const { lat, long, ratedWattage, criticalWattage, expectedLife, description } = req.query;
+    if (method === "POST") {
+        const { lat, long, ratedWattage, criticalWattage, expectedLife, description } = req.body;
 
         const newLight = await streetLightModel.create({
             latitude: lat, longitude: long, ratedWattage, criticalWattage, expectedLife, description
@@ -22,6 +22,6 @@ export default async function handler(req, res) {
             latitude: lat, longitude: long
         });
 
-        return res.json({ deleteStatus: deletedLight.acknowledged })
+        return res.json({ deleteStatus: deletedLight.deletedCount == 1 ? true : false })
     }
 }   

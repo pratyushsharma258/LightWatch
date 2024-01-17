@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/router";
 import Map from "@/components/Map";
 
-function index({ username }) {
+function index({ username, userId }) {
     const router = useRouter();
     const { lat, long } = router.query;
 
@@ -27,6 +27,15 @@ function index({ username }) {
 
     const submitHandler = async function (ev) {
         ev.preventDefault();
+        const data = { lat, long, ratedWattage, criticalWattage, expectedLife, description };
+        const response = await axios.post('/api/streetlight', data);
+        if (response.data._id) {
+            redirectHandler();
+        }
+    }
+
+    const redirectHandler = function (ev) {
+        router.push(`/admin/${userId}`);
     }
 
     return (
@@ -41,7 +50,7 @@ function index({ username }) {
                             <CardDescription className="text-xs">Please enter details of the installed Street Light</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={submitHandler} className="flex flex-col gap-2" >
+                            <form onSubmit={submitHandler} className="flex flex-col gap-6" >
                                 <Input
                                     type="number"
                                     placeholder="Latitude"
@@ -88,7 +97,16 @@ function index({ username }) {
                                     onChange={(e) => { setDescription(e.target.value) }}
                                     className="w-full mb-2 min-h-8 max-h-14 h-10 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                                 />
-                                <Button className="w-full h-8 text-sm" type="submit">Save</Button>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <Button
+                                        className="w-full h-8 text-sm"
+                                        type="submit"
+                                    >Save</Button>
+                                    <Button
+                                        className="w-full h-8 text-sm"
+                                        onClick={redirectHandler}
+                                    >Go Back</Button>
+                                </div>
                             </form>
                         </CardContent>
                     </Card>
@@ -114,7 +132,7 @@ export async function getServerSideProps(context) {
 
     if (res.data.found === "true") {
         return {
-            props: { content: "true", username }
+            props: { content: "true", username, userId }
         }
     } else {
         return {
