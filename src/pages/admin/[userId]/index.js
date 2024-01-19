@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Createicon from "@/components/icons/Createicon";
 import Usericon from "@/components/icons/Usericon";
-import Deleteicon from "@/components/icons/Deleteicon";
-import Editicon from "@/components/icons/Editicon";
 import MarkerMap from "@/components/Markermap";
 import { useState } from "react";
 import Check from "@/components/icons/Check";
@@ -62,10 +60,8 @@ function userpage({ username, userId, existingLightInfo }) {
       ) : (
         <>
           <Map
-            position={[0, 0]}
-            zoom={3}
+            zoom={18}
             className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10"
-            center={[0, 0]}
             markers={existingLightInfo}
           />
           <div

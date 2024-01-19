@@ -22,8 +22,15 @@ import { EditIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
+const customWorkingIcon = new L.Icon({
+  iconUrl: "/workingLamp.png",
+  iconSize: [36, 36],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
 export default function Map(props) {
-  const { center, position, zoom, markers } = props;
+  const { position, zoom, markers } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
 
   const contentRef = useRef();
@@ -51,8 +58,8 @@ export default function Map(props) {
   return (
     <div className="flex">
       <MapContainer
-        center={center}
-        zoom={4}
+        center={markers?.responseObject[0].coordinates || position || [0, 0]}
+        zoom={zoom}
         scrollWheelZoom={true}
         className={props.className}
       >
@@ -61,7 +68,11 @@ export default function Map(props) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {markers?.responseObject.map((pos, index) => (
-          <Marker key={index} position={pos.coordinates}>
+          <Marker
+            key={index}
+            position={pos.coordinates}
+            icon={customWorkingIcon}
+          >
             <Popup
               onOpen={handlePopupOpen}
               maxWidth={popupMaxWidth}
