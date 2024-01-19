@@ -7,10 +7,20 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { EditIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function Map(props) {
   const { center, position, zoom, markers } = props;
@@ -26,6 +36,14 @@ export default function Map(props) {
     }
   };
 
+  const deleteHandler = async (_id) => {
+    const response = await axios.delete("/api/streetlight", {
+      params: { _id },
+    });
+    if (response.data.deleteStatus) {
+      router.replace(`/admin/${userId}`);
+    }
+  };
   const router = useRouter();
 
   const { userId } = router.query;
@@ -68,12 +86,43 @@ export default function Map(props) {
                       >
                         <EditIcon size={18} />
                       </Button>
-                      <Button
-                        className="text-xs text-red-500 bg-inherit p-1 h-full"
-                        variant="link"
-                      >
-                        <TrashIcon size={18} />
-                      </Button>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            className="text-xs text-red-500 bg-inherit p-1 h-full"
+                            variant="link"
+                          >
+                            <TrashIcon size={18} />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Are you Sure ?</DialogTitle>
+                            <DialogDescription>
+                              Delete the current entry
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="flex flex-grow items-center">
+                              Database ID : {pos._id}
+                            </div>
+                            <div className="flex flex-grow items-center">
+                              Created At :{" "}
+                              {new Date(
+                                parseInt(pos.createdAt)
+                              ).toLocaleDateString("en-GB")}
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button
+                              className="bg-deepblue text-orange-peel"
+                              onClick={() => deleteHandler(pos._id)}
+                            >
+                              Proceed
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </HoverCardTrigger>

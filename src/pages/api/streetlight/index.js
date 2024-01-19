@@ -50,18 +50,16 @@ export default async function handler(req, res) {
       return res.json({ foundLight });
     }
   } else if (method === "DELETE") {
-    const { lat, long } = req.query;
+    const { _id } = req.query;
 
     const deletedLight = await streetLightModel.deleteOne({
-      latitude: lat,
-      longitude: long,
+      _id,
     });
 
     return res.json({
       deleteStatus: deletedLight.deletedCount == 1 ? true : false,
     });
   } else if (method === "PATCH") {
-    // console.log(req.body);
     const { _id, ratedWattage, criticalWattage, expectedLife, description } =
       req.body;
 
