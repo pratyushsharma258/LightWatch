@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
-import { DeleteIcon, EditIcon } from "lucide-react";
+import { DeleteIcon, EditIcon, TrashIcon } from "lucide-react";
 
 export default function Map(props) {
-  const { center, zoom, markers } = props;
+  const { center, position, zoom, markers } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
 
   const contentRef = useRef();
@@ -37,7 +37,7 @@ export default function Map(props) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {markers.responseObject.map((pos, index) => (
+        {markers?.responseObject.map((pos, index) => (
           <Marker key={index} position={pos.coordinates}>
             <Popup
               onOpen={handlePopupOpen}
@@ -46,24 +46,26 @@ export default function Map(props) {
             >
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <div className="flex items-center text-xs">
-                    <div>
-                      <strong>Date:</strong>{" "}
-                      {new Date(parseInt(pos.createdAt)).toLocaleDateString(
-                        "en-GB"
-                      )}
+                  <div className="flex items-center justify-center text-sm">
+                    <div className="flex items-center justify-center">
+                      <Button variant="link" className="p-0">
+                        <strong>Installed On : </strong>{" "}
+                        {new Date(parseInt(pos.createdAt)).toLocaleDateString(
+                          "en-GB"
+                        )}
+                      </Button>
                       <Button
-                        className="text-xs text-orange-peel bg-inherit p-1 ml-2"
+                        className="text-xs text-orange-peel p-0 ml-2 mr-1 h-full bg-inherit"
                         variant="link"
                         onClick={() => console.log("helolo")}
                       >
-                        <EditIcon size={14} />
+                        <EditIcon size={18} />
                       </Button>
                       <Button
-                        className="text-xs text-red-500 bg-inherit p-1"
+                        className="text-xs text-red-500 bg-inherit p-1 h-full"
                         variant="link"
                       >
-                        <DeleteIcon size={14} />
+                        <TrashIcon size={18} />
                       </Button>
                     </div>
                   </div>
@@ -95,6 +97,17 @@ export default function Map(props) {
             </Popup>
           </Marker>
         ))}
+        {position && (
+          <Marker position={position}>
+            <Popup maxWidth={200}>
+              <>
+                {`Latitude : ${position[0]}`}
+                <br />
+                {`Longitude : ${position[1]}`}
+              </>
+            </Popup>
+          </Marker>
+        )}
       </MapContainer>
     </div>
   );

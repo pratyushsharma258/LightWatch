@@ -121,13 +121,12 @@ export async function getServerSideProps(context) {
   // console.log(res);
   const { username } = res.data;
 
-  const resLight = await axios.get("http://localhost:3000/api/streetlight", {
-    params: {},
-  });
-
-  const existingLightInfo = resLight.data;
-
   if (res.data.found === "true") {
+    const resLight = await axios.get("http://localhost:3000/api/streetlight", {
+      params: {},
+    });
+
+    const existingLightInfo = resLight.data;
     return {
       props: { content: "true", username, userId, existingLightInfo },
     };

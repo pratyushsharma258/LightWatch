@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 
     return res.json(newLight);
   } else if (method === "GET") {
-    if (!req.params?.id) {
+    if (!req.query.id) {
       const allLights = await streetLightModel.find({});
 
       const responseObject = allLights.map((light) => ({
@@ -42,6 +42,12 @@ export default async function handler(req, res) {
       }));
 
       return res.json({ responseObject });
+    } else {
+      const { id } = req.query;
+
+      const foundLight = await streetLightModel.findOne({ _id: id });
+
+      return res.json({ foundLight });
     }
   } else if (method === "DELETE") {
     const { lat, long } = req.query;
