@@ -83,14 +83,6 @@ function userpage({ username, userId, existingLightInfo }) {
               <Usericon />
               Grievance management
             </Button>
-            <Button className={buttonStyles}>
-              <Editicon />
-              Editing street lights
-            </Button>
-            <Button className={buttonStyles}>
-              <Deleteicon />
-              Removing street lights
-            </Button>
           </div>
         </>
       )}

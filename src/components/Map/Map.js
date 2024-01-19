@@ -8,8 +8,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
-import { useEffect, useRef, useState } from "react";
-import { DeleteIcon, EditIcon, TrashIcon } from "lucide-react";
+import { useRef, useState } from "react";
+import { EditIcon, TrashIcon } from "lucide-react";
+import { useRouter } from "next/router";
 
 export default function Map(props) {
   const { center, position, zoom, markers } = props;
@@ -24,6 +25,10 @@ export default function Map(props) {
       setPopupMaxWidth(contentWidth);
     }
   };
+
+  const router = useRouter();
+
+  const { userId } = router.query;
 
   return (
     <div className="flex">
@@ -57,7 +62,9 @@ export default function Map(props) {
                       <Button
                         className="text-xs text-orange-peel p-0 ml-2 mr-1 h-full bg-inherit"
                         variant="link"
-                        onClick={() => console.log("helolo")}
+                        onClick={() =>
+                          router.push(`/admin/${userId}/edit/${pos._id}`)
+                        }
                       >
                         <EditIcon size={18} />
                       </Button>
