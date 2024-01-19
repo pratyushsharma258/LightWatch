@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import Map from "@/components/Map";
 
 function index({ username, userId, foundLight }) {
+  const router = useRouter();
   const {
     latitude,
     longitude,
@@ -31,20 +32,21 @@ function index({ username, userId, foundLight }) {
   const [criticalWattage, setCriticalWattage] = useState(cW);
   const [expectedLife, setExpectedLife] = useState(exL);
   const [description, setDescription] = useState(des);
-  console.log(username, userId, latitude, longitude);
 
   const submitHandler = async function (ev) {
     ev.preventDefault();
     const data = {
-      lat,
-      long,
+      _id,
+      latitude,
+      longitude,
       ratedWattage,
       criticalWattage,
       expectedLife,
       description,
     };
-    const response = await axios.post("/api/streetlight", data);
-    if (response.data._id) {
+    const response = await axios.patch("/api/streetlight", data);
+    console.log(response.data.status);
+    if (response.data.status) {
       redirectHandler();
     }
   };
@@ -52,6 +54,15 @@ function index({ username, userId, foundLight }) {
   const redirectHandler = function (ev) {
     router.push(`/admin/${userId}`);
   };
+
+  function formatTimestamp(timestamp) {
+    const date = new Date(parseInt(timestamp));
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is zero-based
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
 
   return (
     <div className="w-screen min-h-screen flex flex-row items-center bg-deepblue justify-center">
@@ -69,28 +80,47 @@ function index({ username, userId, foundLight }) {
               <CardTitle className="mb-1 text-licorice text-xl">
                 Spread more light
               </CardTitle>
-              <CardDescription className="text-xs">
-                Please enter details of the installed Street Light
-              </CardDescription>
             </CardHeader>
             <CardContent>
-              {/* <form onSubmit={submitHandler} className="flex flex-col gap-6">
+              <form onSubmit={submitHandler} className="flex flex-col gap-1.5">
+                <Input
+                  type="text"
+                  placeholder="id"
+                  value={_id}
+                  required={true}
+                  className="w-full mb-0 h-8 text-sm text-licorice"
+                  disabled={true}
+                />
+                <span className="text-xs text-licorice mb-2">Database ID</span>
                 <Input
                   type="number"
                   placeholder="Latitude"
-                  value={lat}
+                  value={latitude}
                   required={true}
-                  className="w-full mb-2 h-8 text-sm text-licorice"
+                  className="w-full mb-0 h-8 text-sm text-licorice"
                   disabled={true}
                 />
+                <span className="text-xs text-licorice mb-2">Latitude</span>
                 <Input
                   type="number"
                   placeholder="Longitude"
-                  value={long}
+                  value={longitude}
                   required={true}
-                  className="w-full mb-2 h-8 text-sm text-licorice"
+                  className="w-full h-8 text-sm text-licorice"
                   disabled={true}
                 />
+                <span className="text-xs text-licorice mb-2">Longitude</span>
+                <Input
+                  type="text"
+                  placeholder="CreatedAt"
+                  value={createdAt ? formatTimestamp(createdAt) : ""}
+                  required={true}
+                  className="w-full h-8 text-sm text-licorice"
+                  disabled={true}
+                />
+                <span className="text-xs text-licorice mb-2">
+                  The date when the street light was installed.
+                </span>
                 <Input
                   type="number"
                   placeholder="Rated Wattage"
@@ -99,8 +129,11 @@ function index({ username, userId, foundLight }) {
                     setRatedWattage(e.target.value);
                   }}
                   required={true}
-                  className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                  className="w-full h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  The Rated Power Consumption.
+                </span>
                 <Input
                   type="number"
                   placeholder="Critical Wattage"
@@ -109,8 +142,11 @@ function index({ username, userId, foundLight }) {
                     setCriticalWattage(e.target.value);
                   }}
                   required={true}
-                  className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                  className="w-full h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  The Critical Power Consumption.
+                </span>
                 <Input
                   type="number"
                   placeholder="Life expectancy in hours"
@@ -119,16 +155,22 @@ function index({ username, userId, foundLight }) {
                     setExpectedLife(e.target.value);
                   }}
                   required={true}
-                  className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                  className="w-full h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  The expected operating lifespan of the Streetlight.
+                </span>
                 <Textarea
                   placeholder="Description (Optional)"
                   value={description}
                   onChange={(e) => {
                     setDescription(e.target.value);
                   }}
-                  className="w-full mb-2 min-h-8 max-h-14 h-10 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                  className="w-full min-h-8 max-h-14 h-10 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-4">
+                  Description (if Any)
+                </span>
                 <div className="grid grid-cols-2 gap-2">
                   <Button className="w-full h-8 text-sm" type="submit">
                     Save
@@ -140,7 +182,7 @@ function index({ username, userId, foundLight }) {
                     Go Back
                   </Button>
                 </div>
-              </form>*/}
+              </form>
             </CardContent>
           </Card>
           <Toaster />

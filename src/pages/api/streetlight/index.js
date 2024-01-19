@@ -60,5 +60,22 @@ export default async function handler(req, res) {
     return res.json({
       deleteStatus: deletedLight.deletedCount == 1 ? true : false,
     });
+  } else if (method === "PATCH") {
+    // console.log(req.body);
+    const { _id, ratedWattage, criticalWattage, expectedLife, description } =
+      req.body;
+
+    await streetLightModel.findByIdAndUpdate(
+      _id,
+      {
+        ratedWattage,
+        criticalWattage,
+        expectedLife,
+        description,
+      },
+      { new: true } // Return the updated document
+    );
+
+    return res.json({ status: true });
   }
 }
