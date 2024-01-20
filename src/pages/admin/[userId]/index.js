@@ -9,6 +9,8 @@ import { useState } from "react";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 import { useRouter } from "next/router";
+import Sidebar from "@/components/Sidebar";
+import Section from "@/components/Section";
 
 function userpage({ username, userId, existingLightInfo }) {
   const buttonStyles =
@@ -20,8 +22,9 @@ function userpage({ username, userId, existingLightInfo }) {
   const router = useRouter();
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center overflow-y-auto relative">
-      <Navbar username={username} />
+    <div className="w-screen min-h-screen flex flex-col">
+      <Sidebar />
+      <Section />
       {userIsMarking ? (
         <>
           <MarkerMap
@@ -61,10 +64,10 @@ function userpage({ username, userId, existingLightInfo }) {
         <>
           <Map
             zoom={18}
-            className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10"
+            className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
             markers={existingLightInfo}
           />
-          <div
+          {/* <div
             className="z-20 absolute w-full bg-thistle-blue p-6 rounded-lg h-[13rem] bottom-0 grid grid-cols-2"
             style={{ boxShadow: "0px -4px 100px 8px black" }}
           >
@@ -79,7 +82,7 @@ function userpage({ username, userId, existingLightInfo }) {
               <Usericon />
               Grievance management
             </Button>
-          </div>
+          </div> */}
         </>
       )}
     </div>
