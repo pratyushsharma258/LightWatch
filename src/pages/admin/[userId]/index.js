@@ -2,15 +2,14 @@ import Map from "@/components/Map";
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
-import Createicon from "@/components/icons/Createicon";
-import Usericon from "@/components/icons/Usericon";
 import MarkerMap from "@/components/Markermap";
 import { useState } from "react";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
-import Section from "@/components/Section";
+import { useEffect } from "react";
+import jwt from "jsonwebtoken";
 
 function userpage({ username, userId, existingLightInfo }) {
   const buttonStyles =
@@ -21,10 +20,29 @@ function userpage({ username, userId, existingLightInfo }) {
 
   const router = useRouter();
 
+  useEffect(() => {
+    const cookies = document.cookie;
+
+    const parsedCookies = cookies.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
+
+    jwt.verify(
+      parsedCookies.token,
+      process.env.NEXT_PUBLIC_JWT_SECRET,
+      {},
+      (err, data) => {
+        if (err) console.log("Not found");
+        console.log(data);
+      }
+    );
+  }, []);
+
   return (
     <div className="w-screen min-h-screen flex flex-col">
-      <Sidebar />
-      <Section />
+      <Sidebar username={username} role={"admin"} />
       {userIsMarking ? (
         <>
           <MarkerMap
