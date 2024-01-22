@@ -11,7 +11,8 @@ export default async function handler(req, res) {
       lat,
       long,
       ratedWattage,
-      criticalWattage,
+      luminosity,
+      criticalLuminosity,
       expectedLife,
       description,
     } = req.body;
@@ -20,7 +21,8 @@ export default async function handler(req, res) {
       latitude: lat,
       longitude: long,
       ratedWattage,
-      criticalWattage,
+      luminosity,
+      criticalLuminosity,
       expectedLife,
       description,
     });
@@ -33,7 +35,8 @@ export default async function handler(req, res) {
       const responseObject = allLights.map((light) => ({
         coordinates: [light.latitude, light.longitude],
         ratedWattage: light.ratedWattage,
-        criticalWattage: light.criticalWattage,
+        luminosity: light.luminosity,
+        criticalLuminosity: light.criticalLuminosity,
         expectedLife: light.expectedLife,
         description: light.description,
         createdAt: light.createdAt,
@@ -60,20 +63,28 @@ export default async function handler(req, res) {
       deleteStatus: deletedLight.deletedCount == 1 ? true : false,
     });
   } else if (method === "PATCH") {
-    const { _id, ratedWattage, criticalWattage, expectedLife, description } =
-      req.body;
+    const {
+      _id,
+      ratedWattage,
+      luminosity,
+      criticalLuminosity,
+      expectedLife,
+      description,
+    } = req.body;
 
     await streetLightModel.findByIdAndUpdate(
       _id,
       {
         ratedWattage,
-        criticalWattage,
+        luminosity,
+        criticalLuminosity,
         expectedLife,
         description,
       },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     return res.json({ status: true });
   }
 }
+// 19.021134907590966 72.85179018974306 http://localhost:3000/admin/65ae6afba0fb4143f8c6f666/new?lat=19.021134907590966&long=72.85179018974306

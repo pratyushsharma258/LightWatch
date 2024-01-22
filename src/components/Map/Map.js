@@ -58,7 +58,7 @@ export default function Map(props) {
   return (
     <div className="flex">
       <MapContainer
-        center={markers?.responseObject[0].coordinates || position || [0, 0]}
+        center={markers?.responseObject[0]?.coordinates || position || [0, 0]}
         zoom={zoom}
         scrollWheelZoom={true}
         className={props.className}
@@ -148,7 +148,11 @@ export default function Map(props) {
                       <strong>Rated Wattage:</strong> {pos.ratedWattage}
                     </p>
                     <p className="text-xs">
-                      <strong>Critical Wattage:</strong> {pos.criticalWattage}
+                      <strong>Luminosity:</strong> {pos.luminosity}
+                    </p>
+                    <p className="text-xs">
+                      <strong>Critical Luminosity:</strong>{" "}
+                      {pos.criticalLuminosity}
                     </p>
                     <p className="text-xs">
                       <strong>Expected Life:</strong> {pos.expectedLife} hours

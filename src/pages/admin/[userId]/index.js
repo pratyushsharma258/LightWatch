@@ -42,7 +42,7 @@ function userpage({ username, userId, existingLightInfo }) {
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
-      <Sidebar username={username} role={"admin"} />
+      <Sidebar username={username} role={"admin"} info={existingLightInfo} />
       {userIsMarking ? (
         <>
           <MarkerMap

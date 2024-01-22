@@ -13,8 +13,6 @@ export default async function handler(req, res) {
     role: userRole,
   });
 
-  // console.log(ifExists);
-
   const userId = ifExists._id;
 
   if (!ifExists?.username) {

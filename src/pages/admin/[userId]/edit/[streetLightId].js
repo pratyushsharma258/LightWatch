@@ -22,14 +22,16 @@ function index({ username, userId, foundLight }) {
     latitude,
     longitude,
     ratedWattage: rW,
-    criticalWattage: cW,
+    luminosity: luM,
+    criticalLuminosity: cL,
     expectedLife: exL,
     description: des,
     _id,
     createdAt,
   } = foundLight;
   const [ratedWattage, setRatedWattage] = useState(rW);
-  const [criticalWattage, setCriticalWattage] = useState(cW);
+  const [luminosity, setLuminosity] = useState(luM);
+  const [criticalLuminosity, setCriticalLuminosity] = useState(cL);
   const [expectedLife, setExpectedLife] = useState(exL);
   const [description, setDescription] = useState(des);
 
@@ -40,7 +42,8 @@ function index({ username, userId, foundLight }) {
       latitude,
       longitude,
       ratedWattage,
-      criticalWattage,
+      luminosity,
+      criticalLuminosity,
       expectedLife,
       description,
     };
@@ -77,12 +80,12 @@ function index({ username, userId, foundLight }) {
         <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_40px)] shadow-orange-peel rounded-lg bg-orange-peel z-20 absolute top-10">
           <Card className="w-[24rem] h-[calc(100vh_-_40px)] flex flex-grow flex-col rounded-lg border-orange-peel bg-orange-peel text-licorice">
             <CardHeader>
-              <CardTitle className="mb-1 text-licorice text-xl">
+              <CardTitle className="mb-0 mt-0 text-licorice text-xl">
                 Spread more light
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={submitHandler} className="flex flex-col gap-1.5">
+              <form onSubmit={submitHandler} className="flex flex-col gap-1">
                 <Input
                   type="text"
                   placeholder="id"
@@ -136,16 +139,29 @@ function index({ username, userId, foundLight }) {
                 </span>
                 <Input
                   type="number"
-                  placeholder="Critical Wattage"
-                  value={criticalWattage}
+                  placeholder="Luminosity"
+                  value={luminosity}
                   onChange={(e) => {
-                    setCriticalWattage(e.target.value);
+                    setLuminosity(e.target.value);
                   }}
                   required={true}
                   className="w-full h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
                 <span className="text-xs text-licorice mb-2">
-                  The Critical Power Consumption.
+                  The expected Luminous Intensity of the Streetlight.
+                </span>
+                <Input
+                  type="number"
+                  placeholder="Critical Luminosity"
+                  value={criticalLuminosity}
+                  onChange={(e) => {
+                    setCriticalLuminosity(e.target.value);
+                  }}
+                  required={true}
+                  className="w-full h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                />
+                <span className="text-xs text-licorice mb-2">
+                  The Critical Luminous Intensity of the Streetlight.
                 </span>
                 <Input
                   type="number"
@@ -168,7 +184,7 @@ function index({ username, userId, foundLight }) {
                   }}
                   className="w-full min-h-8 max-h-14 h-10 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
-                <span className="text-xs text-licorice mb-4">
+                <span className="text-xs text-licorice mb-2">
                   Description (if Any)
                 </span>
                 <div className="grid grid-cols-2 gap-2">

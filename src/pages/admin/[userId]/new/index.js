@@ -22,7 +22,8 @@ function index({ username, userId }) {
   const { lat, long } = router.query;
 
   const [ratedWattage, setRatedWattage] = useState();
-  const [criticalWattage, setCriticalWattage] = useState();
+  const [luminosity, setLuminosity] = useState();
+  const [criticalLuminosity, setCriticalLuminosity] = useState();
   const [expectedLife, setExpectedLife] = useState();
   const [description, setDescription] = useState();
 
@@ -32,14 +33,21 @@ function index({ username, userId }) {
       lat,
       long,
       ratedWattage,
-      criticalWattage,
+      luminosity,
+      criticalLuminosity,
       expectedLife,
       description,
     };
+    console.log(data);
     const response = await axios.post("/api/streetlight", data);
+    console.log(response.data);
     if (response.data._id) {
       redirectHandler();
     }
+  };
+
+  const redirectHandler = function (ev) {
+    router.push(`/admin/${userId}`);
   };
 
   useEffect(() => {
@@ -57,14 +65,10 @@ function index({ username, userId }) {
       {},
       (err, data) => {
         if (err) console.log("Not found");
-        console.log(data);
+        // console.log(data);
       }
     );
   }, []);
-
-  const redirectHandler = function (ev) {
-    router.push(`/admin/${userId}`);
-  };
 
   return (
     <div className="w-screen min-h-screen flex flex-row items-center bg-deepblue justify-center">
@@ -87,7 +91,7 @@ function index({ username, userId }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={submitHandler} className="flex flex-col gap-6">
+              <form onSubmit={submitHandler} className="flex flex-col gap-1">
                 <Input
                   type="number"
                   placeholder="Latitude"
@@ -96,6 +100,7 @@ function index({ username, userId }) {
                   className="w-full mb-2 h-8 text-sm text-licorice"
                   disabled={true}
                 />
+                <span className="text-xs text-licorice mb-2">Latitude</span>
                 <Input
                   type="number"
                   placeholder="Longitude"
@@ -104,6 +109,7 @@ function index({ username, userId }) {
                   className="w-full mb-2 h-8 text-sm text-licorice"
                   disabled={true}
                 />
+                <span className="text-xs text-licorice mb-2">Longitude</span>
                 <Input
                   type="number"
                   placeholder="Rated Wattage"
@@ -114,16 +120,35 @@ function index({ username, userId }) {
                   required={true}
                   className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  The Rated Wattage of the Streetlight (in Watts).
+                </span>
                 <Input
                   type="number"
-                  placeholder="Critical Wattage"
-                  value={criticalWattage}
+                  placeholder="Luminosity"
+                  value={luminosity}
                   onChange={(e) => {
-                    setCriticalWattage(e.target.value);
+                    setLuminosity(e.target.value);
                   }}
                   required={true}
                   className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  The expected operating Luminos Intensity (in Candella).
+                </span>
+                <Input
+                  type="number"
+                  placeholder="Critical Luminosity"
+                  value={criticalLuminosity}
+                  onChange={(e) => {
+                    setCriticalLuminosity(e.target.value);
+                  }}
+                  required={true}
+                  className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
+                />
+                <span className="text-xs text-licorice mb-2">
+                  The critical Luminos Intensity (in Candella).
+                </span>
                 <Input
                   type="number"
                   placeholder="Life expectancy in hours"
@@ -134,6 +159,9 @@ function index({ username, userId }) {
                   required={true}
                   className="w-full mb-2 h-8 text-sm placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  The expected operating lifespan of the Streetlight.
+                </span>
                 <Textarea
                   placeholder="Description (Optional)"
                   value={description}
@@ -142,6 +170,9 @@ function index({ username, userId }) {
                   }}
                   className="w-full mb-2 min-h-8 max-h-14 h-10 text-xs placeholder-licorice text-licorice bg-orange-200 border-orange-peel"
                 />
+                <span className="text-xs text-licorice mb-2">
+                  Description (if Any)
+                </span>
                 <div className="grid grid-cols-2 gap-2">
                   <Button className="w-full h-8 text-sm" type="submit">
                     Save
