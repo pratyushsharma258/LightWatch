@@ -107,6 +107,7 @@ function login() {
                 <SelectContent>
                   <SelectItem value="user">Normal User</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
+                  <SelectItem value="super">Super Admin</SelectItem>
                 </SelectContent>
               </Select>
               <Button className="w-full" type="submit">
