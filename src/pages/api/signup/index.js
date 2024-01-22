@@ -7,6 +7,7 @@ export default async function handler(req, res) {
   await mongooseConnect();
 
   const { username, email, password, userRole } = req.body;
+  const isAllowed = userRole === "user" ? true : false;
 
   const ifExists = await userModel.findOne({
     username,
@@ -25,6 +26,7 @@ export default async function handler(req, res) {
     email,
     password: hashedPass,
     role: userRole,
+    isAllowed,
   });
 
   const createdUserId = newUser._id;
