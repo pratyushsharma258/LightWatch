@@ -10,15 +10,13 @@ export default async function handler(req, res) {
     const admins = await userModel.find({ role: "admin" });
     return res.json({ admins });
   } else if (method === "PATCH") {
-    const { _id } = req.query;
-    const updatedAdmin = userModel.findByIdAndUpdate(
-      {
-        _id,
-      },
-      {
-        isAllowed: true,
-      }
-    );
-    return res.json({ status: "successful" });
+    const { _id, isAllowed } = req.body;
+
+    const newOptions = isAllowed ? false : true;
+    const updatedAdmin = await userModel.findByIdAndUpdate(_id, {
+      isAllowed: newOptions,
+    });
+
+    return res.json({ status: true });
   }
 }

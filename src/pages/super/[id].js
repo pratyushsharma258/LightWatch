@@ -1,37 +1,31 @@
+import axios from "axios";
 import Navbar from "@/components/Navbar";
+import AdminDataTable from "@/components/AdminDataTable";
 
-function page() {
+function page({ admins }) {
   return (
     <div className="min-w-screen min-h-screen bg-deepblue">
       <Navbar />
+      {admins && (
+        <AdminDataTable
+          admins={admins}
+          className={
+            "absolute top-10 w-full text-orange-peel flex items-center"
+          }
+        />
+      )}
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
+  const response = await axios.get("http://localhost:3000/api/fetchAdmins");
+
+  const { admins } = response.data;
+
   return {
-    props: { content: true },
+    props: { content: "true", admins },
   };
-  const { username } = res.data;
-
-  if (res.data.found === "true") {
-    const resLight = await axios.get("http://localhost:3000/api/streetlight", {
-      params: { id: streetLightId },
-    });
-
-    const { foundLight } = resLight.data;
-
-    return {
-      props: { content: "true", username, userId, foundLight },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
 }
 
 export default page;
