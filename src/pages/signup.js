@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import jwt from "jsonwebtoken";
 
 function signup() {
   const router = useRouter();
@@ -37,8 +36,6 @@ function signup() {
 
     const response = await axios.post("/api/signup", userFormData);
 
-    console.log(response);
-
     if (response.data.found === "true") {
       toast("User already registered", {
         description: "Please check your details",
@@ -49,19 +46,13 @@ function signup() {
       });
       router.push("/login");
     } else {
-      var userData = null;
-      jwt.verify(
-        response.data.token,
-        process.env.NEXT_PUBLIC_JWT_SECRET,
-        {},
-        (err, data) => {
-          if (err) throw err;
-          console.log(data);
-          userData = data;
-        }
-      );
-
-      router.replace(`/${userData.userRole}/${userData.userId}`);
+      const { role: userRole, _id } = response.data.newUser;
+      if (userRole === "user") router.replace(`/${userRole}/${_id}`);
+      else {
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        router.replace("/signupFallback");
+      }
     }
   };
 

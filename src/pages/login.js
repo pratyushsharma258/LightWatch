@@ -51,8 +51,13 @@ function login() {
           userData = data;
         }
       );
-
-      router.replace(`/${userData.userRole}/${userData.userId}`);
+      if (userData.isAllowed)
+        router.replace(`/${userData.userRole}/${userData.userId}`);
+      else {
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        router.replace("/signupFallback");
+      }
     } else {
       toast("Wrong credentials", {
         description: "Please check your details",

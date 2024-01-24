@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     process.env.JWT_SECRET
   );
 
-  res.setHeader("Set-Cookie", token);
+  res.setHeader("Set-Cookie", `token=${token}; Max-Age=${172800}; Path=/`);
 
-  return res.json({ found: "false", ...newUser, token: token });
+  return res.json({ found: "false", newUser });
 }

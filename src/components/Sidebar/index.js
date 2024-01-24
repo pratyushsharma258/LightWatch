@@ -1,5 +1,5 @@
 import Addicon from "../icons/Addicon";
-import Singleusericon from "../icons/Singleusericon";
+import { useRouter } from "next/router";
 import Homeicon from "../icons/Homeicon";
 import { useState } from "react";
 import Bellicon from "../icons/Bellicon";
@@ -10,10 +10,43 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Section from "../Section";
+import Backicon from "../icons/Backicon";
+import { useEffect } from "react";
+import jwt from "jsonwebtoken";
 
 function Sidebar(props) {
-  const { username, role, info } = props;
+  const { username, info, userRole } = props;
   const [toggleValue, setToggleValue] = useState("home");
+
+  const [user, setUser] = useState();
+
+  const router = useRouter();
+  const handleLogout = () => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.replace("/login");
+  };
+
+  useEffect(() => {
+    const cookies = document.cookie;
+
+    const parsedCookies = cookies.split(";").reduce((acc, cookie) => {
+      const [key, value] = cookie.trim().split("=");
+      acc[key] = value;
+      return acc;
+    }, {});
+
+    jwt.verify(
+      parsedCookies.token,
+      process.env.NEXT_PUBLIC_JWT_SECRET,
+      {},
+      (err, data) => {
+        if (err) console.error("Not found");
+        if (data && !data.isAllowed) handleLogout();
+        if (data?.userRole !== userRole) handleLogout();
+        setUser(data);
+      }
+    );
+  }, [router]);
 
   return (
     <>
@@ -33,24 +66,7 @@ function Sidebar(props) {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {role === "super" && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <div
-                  className="w-full flex justify-center items-center"
-                  onClick={() => setToggleValue("admin")}
-                >
-                  <Singleusericon />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className="relative left-4 bottom-2">
-                <p>Manage Admin requests</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
-        {role === "user" ? (
+        {userRole === "user" ? (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -83,7 +99,7 @@ function Sidebar(props) {
             </Tooltip>
           </TooltipProvider>
         )}
-        {role !== "user" && (
+        {userRole !== "user" && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -100,6 +116,21 @@ function Sidebar(props) {
             </Tooltip>
           </TooltipProvider>
         )}
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <div
+                className="w-full flex justify-center items-center"
+                onClick={handleLogout}
+              >
+                <Backicon />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent className="relative left-4 bottom-2">
+              <p>Logout</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       <Section content={toggleValue} name={username} info={info} />
     </>

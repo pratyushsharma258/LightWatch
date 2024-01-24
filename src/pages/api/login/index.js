@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     role: userRole,
   });
 
-  const userId = ifExists._id;
+  const { _id: userId, isAllowed } = ifExists;
 
   if (!ifExists?.username) {
     return res.json({ found: "false" });
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     .compare(password, ifExists.password)
     .then(() => {
       const token = jwt.sign(
-        { username, userRole, userId },
+        { username, userRole, userId, isAllowed },
         process.env.JWT_SECRET
       );
 

@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const { userRole } = props;
   const [user, setUser] = useState();
 
   const router = useRouter();
@@ -21,12 +22,20 @@ export default function Navbar() {
       return acc;
     }, {});
 
+    if (
+      (router.asPath.includes("login") || router.asPath.includes("signup")) &&
+      parsedCookies.token
+    )
+      router.back();
+
     jwt.verify(
       parsedCookies.token,
       process.env.NEXT_PUBLIC_JWT_SECRET,
       {},
       (err, data) => {
         if (err) console.error("Not found");
+        if (data && !data.isAllowed) handleLogout();
+        if (userRole && data.userRole !== userRole) handleLogout();
         setUser(data);
       }
     );
