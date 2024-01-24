@@ -29,6 +29,9 @@ function Section(props) {
           {/* <PieChart streetlights={streetlights} /> */}
         </div>
       )}
+      {/* {
+        contentValue===""
+      } */}
     </div>
   );
 }

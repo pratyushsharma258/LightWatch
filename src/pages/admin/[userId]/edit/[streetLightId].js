@@ -208,10 +208,6 @@ function index({ username, userId, foundLight }) {
   );
 }
 export async function getServerSideProps(context) {
-  // console.log(context.params);
-  // return {
-  //   props: { title: "role", content: "true" },
-  // };
   const { userId, streetLightId } = context.params;
 
   const actualId = userId;
