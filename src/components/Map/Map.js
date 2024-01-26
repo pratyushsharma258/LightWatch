@@ -29,6 +29,13 @@ const customWorkingIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 
+const customStaticIcon = new L.Icon({
+  iconUrl: "/staticLamp.png",
+  iconSize: [36, 36],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
 export default function Map(props) {
   const { position, zoom, markers } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
@@ -71,7 +78,11 @@ export default function Map(props) {
           <Marker
             key={index}
             position={pos.coordinates}
-            icon={customWorkingIcon}
+            icon={
+              pos.luminosity > pos.criticalLuminosity
+                ? customWorkingIcon
+                : customStaticIcon
+            }
           >
             <Popup
               onOpen={handlePopupOpen}

@@ -66,7 +66,10 @@ function Sidebar(props) {
             <TooltipTrigger>
               <div
                 className="relative w-full flex flex-col items-center"
-                onClick={() => setToggleValue("home")}
+                onClick={() => {
+                  setToggleValue("home");
+                  markingHandler(false);
+                }}
               >
                 {toggleValue === "home" && (
                   <div className="top-0 w-full h-2 rounded-br-lg bg-deepblue absolute" />

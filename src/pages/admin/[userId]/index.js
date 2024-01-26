@@ -29,16 +29,18 @@ function userpage({ username, userId, existingLightInfo }) {
       {userIsMarking ? (
         <>
           <MarkerMap
-            markerPosition={[0, 0]}
-            zoom={4}
+            markingPosition={[0, 0]}
+            zoom={2}
             className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
             center={[0, 0]}
             handler={setMarkerPosition}
             markers={existingLightInfo}
           />
           <div
-            className="z-20 absolute left-[50rem] w-full bg-thistle-blue p-6 rounded-lg h-[8rem] bottom-0 grid grid-cols-2"
-            style={{ boxShadow: "0px -4px 100px 8px black" }}
+            className="z-20 absolute left-[33vw] w-[67vw] bg-deepblue p-6 h-[8rem] bottom-0 grid grid-cols-2"
+            style={{
+              boxShadow: "0px -4px 100px 8px black",
+            }}
           >
             <Button
               className={buttonStyles}
