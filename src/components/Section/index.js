@@ -29,9 +29,17 @@ function Section(props) {
           {/* <PieChart streetlights={streetlights} /> */}
         </div>
       )}
-      {/* {
-        contentValue===""
-      } */}
+      {contentValue === "addLight" && (
+        <div className="flex flex-col items-center">
+          <div className="relative top-2 text-xl">
+            <strong>Welcome {username}</strong>
+          </div>
+          <div className="relative top-10 p-2 w-full text-licorice">
+            Drag the marker and select your location to add the streetlight.
+          </div>
+          {/* <PieChart streetlights={streetlights} /> */}
+        </div>
+      )}
     </div>
   );
 }

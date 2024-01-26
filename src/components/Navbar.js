@@ -22,12 +22,6 @@ export default function Navbar(props) {
       return acc;
     }, {});
 
-    if (
-      (router.asPath.includes("login") || router.asPath.includes("signup")) &&
-      parsedCookies.token
-    )
-      router.back();
-
     jwt.verify(
       parsedCookies.token,
       process.env.NEXT_PUBLIC_JWT_SECRET,
@@ -40,6 +34,14 @@ export default function Navbar(props) {
       }
     );
   }, [router]);
+
+  useEffect(() => {
+    if (
+      (router.asPath.includes("login") || router.asPath.includes("signup")) &&
+      user
+    )
+      router.replace(`/${user?.userRole}/${user?.userId}`);
+  }, [user]);
 
   return (
     <div className="h-10 bg-black text-white fixed top-0 w-screen flex flex-grow justify-between">

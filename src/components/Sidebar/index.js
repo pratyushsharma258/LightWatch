@@ -16,7 +16,7 @@ import jwt from "jsonwebtoken";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Sidebar(props) {
-  const { username, info, userRole } = props;
+  const { username, info, userRole, markingHandler } = props;
   const [toggleValue, setToggleValue] = useState("home");
 
   const [user, setUser] = useState();
@@ -128,7 +128,10 @@ function Sidebar(props) {
               <TooltipTrigger>
                 <div
                   className="relative w-full flex flex-col items-center"
-                  onClick={() => setToggleValue("addLight")}
+                  onClick={() => {
+                    setToggleValue("addLight");
+                    markingHandler(true);
+                  }}
                 >
                   {toggleValue === "addLight" && (
                     <div

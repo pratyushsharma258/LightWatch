@@ -7,8 +7,6 @@ import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
-import { useEffect } from "react";
-import jwt from "jsonwebtoken";
 
 function userpage({ username, userId, existingLightInfo }) {
   const buttonStyles =
@@ -25,18 +23,21 @@ function userpage({ username, userId, existingLightInfo }) {
         username={username}
         userRole={"admin"}
         info={existingLightInfo}
+        markerPosition={markerPosition}
+        markingHandler={setUserIsMarking}
       />
       {userIsMarking ? (
         <>
           <MarkerMap
-            position={[0, 0]}
-            zoom={3}
-            className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10"
+            markerPosition={[0, 0]}
+            zoom={4}
+            className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
             center={[0, 0]}
             handler={setMarkerPosition}
+            markers={existingLightInfo}
           />
           <div
-            className="z-20 absolute w-full bg-thistle-blue p-6 rounded-lg h-[8rem] bottom-0 grid grid-cols-2"
+            className="z-20 absolute left-[50rem] w-full bg-thistle-blue p-6 rounded-lg h-[8rem] bottom-0 grid grid-cols-2"
             style={{ boxShadow: "0px -4px 100px 8px black" }}
           >
             <Button
