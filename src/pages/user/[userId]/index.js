@@ -12,14 +12,12 @@ function userpage({ existingLightInfo }) {
   return (
     <div className="w-screen min-h-screen flex flex-col">
       <Sidebar info={existingLightInfo} />
-      <>
-        <Map
-          zoom={18}
-          className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
-          markers={existingLightInfo}
-          role={"user"}
-        />
-      </>
+      <Map
+        zoom={18}
+        className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
+        markers={existingLightInfo}
+        role={"user"}
+      />
     </div>
   );
 }
