@@ -29,6 +29,8 @@ export default function MarkerMap(props) {
     setNewMarkingPosition(ev.target.getLatLng());
   };
 
+  // console.log(markingPosition);
+
   const contentRef = useRef();
 
   const handlePopupOpen = () => {
@@ -39,14 +41,6 @@ export default function MarkerMap(props) {
     }
   };
 
-  const deleteHandler = async (_id) => {
-    const response = await axios.delete("/api/streetlight", {
-      params: { _id },
-    });
-    if (response.data.deleteStatus) {
-      router.replace(`/admin/${userId}`);
-    }
-  };
   const router = useRouter();
 
   const { userId } = router.query;
@@ -118,7 +112,7 @@ export default function MarkerMap(props) {
             </Popup>
           </Marker>
         ))}
-        {markingPosition && (
+        {newMarkingPosition && (
           <Marker
             position={newMarkingPosition}
             draggable={true}

@@ -37,7 +37,7 @@ const customStaticIcon = new L.Icon({
 });
 
 export default function Map(props) {
-  const { position, zoom, markers } = props;
+  const { position, zoom, markers, role } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
 
   const contentRef = useRef();
@@ -99,52 +99,56 @@ export default function Map(props) {
                           "en-GB"
                         )}
                       </Button>
-                      <Button
-                        className="text-xs text-orange-peel p-0 ml-2 mr-1 h-full bg-inherit"
-                        variant="link"
-                        onClick={() =>
-                          router.push(`/admin/${userId}/edit/${pos._id}`)
-                        }
-                      >
-                        <EditIcon size={18} />
-                      </Button>
-                      <Dialog>
-                        <DialogTrigger asChild>
+                      {role !== "user" && (
+                        <>
                           <Button
-                            className="text-xs text-red-500 bg-inherit p-1 h-full"
+                            className="text-xs text-orange-peel p-0 ml-2 mr-1 h-full bg-inherit"
                             variant="link"
+                            onClick={() =>
+                              router.push(`/admin/${userId}/edit/${pos._id}`)
+                            }
                           >
-                            <TrashIcon size={18} />
+                            <EditIcon size={18} />
                           </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                          <DialogHeader>
-                            <DialogTitle>Are you Sure ?</DialogTitle>
-                            <DialogDescription>
-                              Delete the current entry
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="grid gap-4 py-4">
-                            <div className="flex flex-grow items-center">
-                              Database ID : {pos._id}
-                            </div>
-                            <div className="flex flex-grow items-center">
-                              Created At :{" "}
-                              {new Date(
-                                parseInt(pos.createdAt)
-                              ).toLocaleDateString("en-GB")}
-                            </div>
-                          </div>
-                          <DialogFooter>
-                            <Button
-                              className="bg-deepblue text-orange-peel"
-                              onClick={() => deleteHandler(pos._id)}
-                            >
-                              Proceed
-                            </Button>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                className="text-xs text-red-500 bg-inherit p-1 h-full"
+                                variant="link"
+                              >
+                                <TrashIcon size={18} />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[425px]">
+                              <DialogHeader>
+                                <DialogTitle>Are you Sure ?</DialogTitle>
+                                <DialogDescription>
+                                  Delete the current entry
+                                </DialogDescription>
+                              </DialogHeader>
+                              <div className="grid gap-4 py-4">
+                                <div className="flex flex-grow items-center">
+                                  Database ID : {pos._id}
+                                </div>
+                                <div className="flex flex-grow items-center">
+                                  Created At :{" "}
+                                  {new Date(
+                                    parseInt(pos.createdAt)
+                                  ).toLocaleDateString("en-GB")}
+                                </div>
+                              </div>
+                              <DialogFooter>
+                                <Button
+                                  className="bg-deepblue text-orange-peel"
+                                  onClick={() => deleteHandler(pos._id)}
+                                >
+                                  Proceed
+                                </Button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                        </>
+                      )}
                     </div>
                   </div>
                 </HoverCardTrigger>

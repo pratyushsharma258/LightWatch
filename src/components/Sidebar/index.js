@@ -16,7 +16,7 @@ import jwt from "jsonwebtoken";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function Sidebar(props) {
-  const { username, info, userRole, markingHandler } = props;
+  const { info, markingHandler } = props;
   const [toggleValue, setToggleValue] = useState("home");
 
   const [user, setUser] = useState();
@@ -43,13 +43,12 @@ function Sidebar(props) {
       (err, data) => {
         if (err) console.error("Not found");
         if (data && !data.isAllowed) handleLogout();
-        if (data?.userRole !== userRole) handleLogout();
+        if (!router.asPath.includes(data?.userRole)) handleLogout();
         setUser(data);
       }
     );
   }, [router]);
 
-  console.log(toggleValue);
   return (
     <>
       <div className="h-full w-[4vw] bg-deepblue absolute left-0 right-auto flex flex-col justify-center gap-12 text-orange-peel">
@@ -57,7 +56,7 @@ function Sidebar(props) {
           <Avatar className="shadow-md shadow-orange-peel bg-orange-peel text-licorice">
             <AvatarImage src="/usericon.svg" alt="usericon" />
             <AvatarFallback className="text-licorice">
-              {username[1] || "U"}
+              {user?.username[1] || "U"}
             </AvatarFallback>
           </Avatar>
         </div>
@@ -68,7 +67,7 @@ function Sidebar(props) {
                 className="relative w-full flex flex-col items-center"
                 onClick={() => {
                   setToggleValue("home");
-                  markingHandler(false);
+                  if (user?.userRole === "admin") markingHandler(false);
                 }}
               >
                 {toggleValue === "home" && (
@@ -92,28 +91,31 @@ function Sidebar(props) {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        {userRole === "user" ? (
+        {user?.userRole === "user" ? (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
                 <div
                   className="relative w-full flex flex-col items-center"
-                  onClick={() => setToggleValue("addGreivance")}
+                  onClick={() => {
+                    setToggleValue("addGrievance");
+                    if (user?.userRole === "admin") markingHandler(false);
+                  }}
                 >
-                  {toggleValue === "addGreivance" && (
+                  {toggleValue === "addGrievance" && (
                     <div
                       className={`top-0 w-full h-2 rounded-br-lg bg-deepblue absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
-                      toggleValue === "addGreivance" &&
+                      toggleValue === "addGrievance" &&
                       "bg-orange-peel text-licorice h-16"
                     }`}
                   >
                     <Addicon />
                   </div>
-                  {toggleValue === "addGreivance" && (
+                  {toggleValue === "addGrievance" && (
                     <div
                       className={`bottom-0 w-full h-2 rounded-tr-lg bg-deepblue absolute`}
                     />
@@ -121,7 +123,7 @@ function Sidebar(props) {
                 </div>
               </TooltipTrigger>
               <TooltipContent className="relative left-4 bottom-2">
-                <p>File a General Greivance</p>
+                <p>File a General Grievance</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -162,28 +164,28 @@ function Sidebar(props) {
             </Tooltip>
           </TooltipProvider>
         )}
-        {userRole === "admin" && (
+        {user?.userRole === "admin" && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
                 <div
                   className="relative w-full flex flex-col items-center"
-                  onClick={() => setToggleValue("manageGreivance")}
+                  onClick={() => setToggleValue("manageGrievance")}
                 >
-                  {toggleValue === "manageGreivance" && (
+                  {toggleValue === "manageGrievance" && (
                     <div
                       className={`top-0 w-full h-2 rounded-br-lg bg-deepblue absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
-                      toggleValue === "manageGreivance" &&
+                      toggleValue === "manageGrievance" &&
                       "bg-orange-peel text-licorice h-16"
                     }`}
                   >
                     <Bellicon />
                   </div>
-                  {toggleValue === "manageGreivance" && (
+                  {toggleValue === "manageGrievance" && (
                     <div
                       className={`bottom-0 w-full h-2 rounded-tr-lg bg-deepblue absolute`}
                     />
@@ -191,7 +193,7 @@ function Sidebar(props) {
                 </div>
               </TooltipTrigger>
               <TooltipContent className="relative left-4 bottom-2">
-                <p>Manage Greivances</p>
+                <p>Manage Grievances</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -212,7 +214,7 @@ function Sidebar(props) {
           </Tooltip>
         </TooltipProvider>
       </div>
-      <Section content={toggleValue} username={username} info={info} />
+      <Section content={toggleValue} username={user?.username} info={info} />
     </>
   );
 }

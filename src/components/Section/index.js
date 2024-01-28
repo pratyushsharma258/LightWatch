@@ -6,7 +6,6 @@ import PieChart from "../charts/Piechart";
 function Section(props) {
   const { username, info, content } = props;
   const streetlights = info?.responseObject;
-  // console.log(info);
 
   useEffect(() => {
     return () => {
@@ -37,7 +36,6 @@ function Section(props) {
           <div className="relative top-40 p-4 w-full text-licorice text-center">
             Drag the marker and select your location to add the streetlight.
           </div>
-          {/* <PieChart streetlights={streetlights} /> */}
         </div>
       )}
     </div>

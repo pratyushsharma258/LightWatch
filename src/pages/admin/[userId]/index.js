@@ -8,7 +8,7 @@ import Close from "@/components/icons/Close";
 import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
 
-function userpage({ username, userId, existingLightInfo }) {
+function userpage({ userId, existingLightInfo }) {
   const buttonStyles =
     "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
 
@@ -19,13 +19,7 @@ function userpage({ username, userId, existingLightInfo }) {
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
-      <Sidebar
-        username={username}
-        userRole={"admin"}
-        info={existingLightInfo}
-        markerPosition={markerPosition}
-        markingHandler={setUserIsMarking}
-      />
+      <Sidebar info={existingLightInfo} markingHandler={setUserIsMarking} />
       {userIsMarking ? (
         <>
           <MarkerMap
@@ -70,6 +64,7 @@ function userpage({ username, userId, existingLightInfo }) {
             zoom={18}
             className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
             markers={existingLightInfo}
+            role={"admin"}
           />
         </>
       )}
@@ -80,32 +75,14 @@ function userpage({ username, userId, existingLightInfo }) {
 export async function getServerSideProps(context) {
   const { userId } = context.params;
 
-  const res = await axios.get("http://localhost:3000/api/fetchrole", {
-    params: {
-      userId,
-      userRole: "admin",
-    },
+  const resLight = await axios.get("http://localhost:3000/api/streetlight", {
+    params: {},
   });
 
-  const { username } = res.data;
-
-  if (res.data.found === "true") {
-    const resLight = await axios.get("http://localhost:3000/api/streetlight", {
-      params: {},
-    });
-
-    const existingLightInfo = resLight.data;
-    return {
-      props: { content: "true", username, userId, existingLightInfo },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
+  const existingLightInfo = resLight.data;
+  return {
+    props: { content: "true", userId, existingLightInfo },
+  };
 }
 
 export default userpage;
