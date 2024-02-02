@@ -9,11 +9,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import Section from "../Section";
 import Backicon from "../icons/Backicon";
 import { useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "../ui/button";
 
 function Sidebar(props) {
   const { info, markingHandler } = props;
@@ -52,7 +62,10 @@ function Sidebar(props) {
   return (
     <>
       <div className="h-full w-[4vw] bg-deepblue absolute left-0 right-auto flex flex-col justify-center gap-12 text-orange-peel">
-        <div className="absolute top-3 left-0 w-full flex flex-row justify-center items-center">
+        <div
+          onClick={() => setToggleValue("home")}
+          className="absolute top-3 left-0 w-full flex flex-row justify-center items-center"
+        >
           <Avatar className="shadow-md shadow-orange-peel bg-orange-peel text-licorice">
             <AvatarImage src="/usericon.svg" alt="usericon" />
             <AvatarFallback className="text-licorice">
@@ -199,19 +212,33 @@ function Sidebar(props) {
           </TooltipProvider>
         )}
         <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <div
-                className="w-full flex justify-center items-center"
-                onClick={handleLogout}
-              >
-                <Backicon />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent className="relative left-4 bottom-2">
-              <p>Logout</p>
-            </TooltipContent>
-          </Tooltip>
+          <Dialog>
+            <DialogTrigger>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="w-full flex justify-center items-center">
+                    <Backicon />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="relative left-4 bottom-2">
+                  <p>Logout</p>
+                </TooltipContent>
+              </Tooltip>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Confirm Action</DialogTitle>
+                <DialogDescription>
+                  Are you sure you want to Log out ?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button type="submit" onClick={handleLogout}>
+                  Log Out
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </TooltipProvider>
       </div>
       <Section content={toggleValue} username={user?.username} info={info} />

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     }
   }
   if (method === "GET") {
-    const allGrivances = await grievanceModel.find({});
-    res.json({ allGrivances });
+    const allGrievances = await grievanceModel.find({});
+    res.json({ allGrievances });
   }
 }

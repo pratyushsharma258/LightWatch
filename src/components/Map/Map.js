@@ -48,6 +48,7 @@ export default function Map(props) {
     const response = await axios.post("/api/grievance", formData);
     if (response.data?.filed) {
       setDescription("");
+      router.reload();
     }
   };
 
