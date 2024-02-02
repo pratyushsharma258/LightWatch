@@ -2,27 +2,35 @@ import { useState, useEffect } from "react";
 import LineChart from "@/components/charts/Linechart";
 import Chart from "chart.js/auto";
 import PieChart from "../charts/Piechart";
-import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 function Section(props) {
+  const router = useRouter();
+  const { userId } = router.query;
   const { username, info, content } = props;
   const streetlights = info?.responseObject;
   const submitHandler = async function (ev) {
     ev.preventDefault();
-    if (contact?.length != 10) {
-      setError("Invalid Contact Number");
-      return;
-    }
 
-    setError(undefined);
+    const formData = { description, userId };
+    const response = await axios.post("/api/grievance", formData);
+
+    if (response.data?.filed) {
+      setDescription("");
+    }
   };
-  const [contact, setContact] = useState();
+
   const [description, setDescription] = useState();
-  const [error, setError] = useState();
+  const [grievances, setGrievances] = useState();
 
   useEffect(() => {
+    const response = axios.get("/api/grievance");
+    const { allGrievances } = response.data;
+    setGrievances(allGrievances);
+
     return () => {
       Chart?.helpers?.each(Chart.instances, function (instance) {
         instance.destroy();
@@ -32,7 +40,7 @@ function Section(props) {
 
   return (
     <div className="h-full w-[29vw] bg-orange-peel left-[4vw] right-auto absolute shadow-orange-peel shadow-2xl">
-      {content === "home" && (
+      {content === "home" && router.asPath.includes("admin") && (
         <div className="flex flex-col items-center">
           <div className="relative top-2 text-xl">
             <strong>Welcome {username}</strong>
@@ -41,6 +49,14 @@ function Section(props) {
             <LineChart streetlights={streetlights} />
           </div>
           {/* <PieChart streetlights={streetlights} /> */}
+        </div>
+      )}
+      {content === "home" && router.asPath.includes("user") && (
+        <div className="flex flex-col items-center">
+          <div className="relative top-2 text-xl">
+            <strong>Welcome {username}</strong>
+          </div>
+          <div className="relative top-10 p-2 w-full text-black"></div>
         </div>
       )}
       {content === "addLight" && (
@@ -68,27 +84,11 @@ function Section(props) {
               className="mt-4 mb-4 gap-4 flex flex-col w-full"
               onSubmit={submitHandler}
             >
-              <Input
-                type="text"
-                placeholder="Contact No."
-                value={contact}
-                className="bg-orange-peel placeholder:text-deepblue"
-                onInput={(e) => {
-                  e.target.value = e.target.value
-                    .slice(0, 10)
-                    .replace(/\D/g, "");
-                }}
-                onChange={(ev) => setContact(ev.target.value)}
-              />
-              {error && (
-                <span className="text-xs text-red-700 mb-2">
-                  Invalid Contact
-                </span>
-              )}
               <Textarea
                 placeholder="Complaint description"
                 value={description}
                 className="bg-orange-peel placeholder:text-deepblue min-h-11 h-48 max-h-80"
+                onChange={(ev) => setDescription(ev.target.value)}
               />
               <div className="grid grid-cols-2 gap-3">
                 <Button type="submit">Submit</Button>

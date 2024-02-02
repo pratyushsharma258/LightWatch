@@ -5,6 +5,12 @@ const grievanceSchema = new Schema({
   streetLightId: { type: Types.ObjectId, required: false },
   description: { type: String, required: true },
   filedAt: { type: String, default: Date.now, required: true },
+  status: {
+    type: String,
+    enum: ["pending", "solved"],
+    required: true,
+    default: "pending",
+  },
 });
 
 export const grievanceModel =

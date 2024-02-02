@@ -21,6 +21,7 @@ import { useRef, useState } from "react";
 import { EditIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { Textarea } from "../ui/textarea";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
@@ -39,6 +40,16 @@ const customStaticIcon = new L.Icon({
 export default function Map(props) {
   const { position, zoom, markers, role } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
+  const [description, setDescription] = useState();
+
+  const submitHandler = async function (ev, streetLightId) {
+    ev.preventDefault();
+    const formData = { userId, streetLightId, description };
+    const response = await axios.post("/api/grievance", formData);
+    if (response.data?.filed) {
+      setDescription("");
+    }
+  };
 
   const contentRef = useRef();
 
@@ -156,26 +167,47 @@ export default function Map(props) {
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <h4 className="text-lg font-semibold">
-                        Streetlight Information
+                        Streetlight Related
                       </h4>
                     </div>
                     <p className="text-xs">
                       <strong>Rated Wattage:</strong> {pos.ratedWattage}
                     </p>
-                    <p className="text-xs">
-                      <strong>Luminosity:</strong> {pos.luminosity}
-                    </p>
-                    <p className="text-xs">
-                      <strong>Critical Luminosity:</strong>{" "}
-                      {pos.criticalLuminosity}
-                    </p>
-                    <p className="text-xs">
-                      <strong>Expected Life:</strong> {pos.expectedLife} hours
-                    </p>
-                    {pos.description && (
-                      <p className="text-xs">
-                        <strong>Description:</strong> {pos.description}
-                      </p>
+                    {role === "admin" ? (
+                      <>
+                        <p className="text-xs">
+                          <strong>Luminosity:</strong> {pos.luminosity}
+                        </p>
+                        <p className="text-xs">
+                          <strong>Critical Luminosity:</strong>{" "}
+                          {pos.criticalLuminosity}
+                        </p>
+                        <p className="text-xs">
+                          <strong>Expected Life:</strong> {pos.expectedLife}{" "}
+                          hours
+                        </p>
+                        {pos.description && (
+                          <p className="text-xs">
+                            <strong>Description:</strong> {pos.description}
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <form
+                          className="mt-2"
+                          onSubmit={(ev) => submitHandler(ev, pos._id)}
+                        >
+                          <Textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="w-full focus-visible:border-deepblue focus-visible:ring-0 focus-visible:shadow-sm focus-visible:shadow-deepblue border-deepblue"
+                          />
+                          <Button className="w-full mt-3" type="submit">
+                            File Grievance
+                          </Button>
+                        </form>
+                      </>
                     )}
                   </div>
                 </HoverCardContent>
