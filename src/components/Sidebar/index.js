@@ -26,7 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 
 function Sidebar(props) {
-  const { info, markingHandler } = props;
+  const { info, markingHandler, markerPosition } = props;
   const [toggleValue, setToggleValue] = useState("home");
 
   const [user, setUser] = useState();
@@ -63,7 +63,10 @@ function Sidebar(props) {
     <>
       <div className="h-full w-[4vw] bg-deepblue absolute left-0 right-auto flex flex-col justify-center gap-12 text-orange-peel">
         <div
-          onClick={() => setToggleValue("home")}
+          onClick={() => {
+            setToggleValue("home");
+            if (user?.userRole === "admin") markingHandler(false);
+          }}
           className="absolute top-3 left-0 w-full flex flex-row justify-center items-center"
         >
           <Avatar className="shadow-md shadow-orange-peel bg-orange-peel text-licorice">
@@ -183,7 +186,10 @@ function Sidebar(props) {
               <TooltipTrigger>
                 <div
                   className="relative w-full flex flex-col items-center"
-                  onClick={() => setToggleValue("manageGrievance")}
+                  onClick={() => {
+                    setToggleValue("manageGrievance");
+                    if (user?.userRole === "admin") markingHandler(false);
+                  }}
                 >
                   {toggleValue === "manageGrievance" && (
                     <div
@@ -241,7 +247,12 @@ function Sidebar(props) {
           </Dialog>
         </TooltipProvider>
       </div>
-      <Section content={toggleValue} username={user?.username} info={info} />
+      <Section
+        content={toggleValue}
+        username={user?.username}
+        info={info}
+        markerPosition={markerPosition}
+      />
     </>
   );
 }

@@ -13,51 +13,31 @@ function userpage({ userId, existingLightInfo }) {
     "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
 
   const [userIsMarking, setUserIsMarking] = useState(false);
-  const [markerPosition, setMarkerPosition] = useState([0, 0]);
+  const [markerPosition, setMarkerPosition] = useState(
+    [
+      existingLightInfo?.responseObject[0]?.coordinates[0] + 0.0002,
+      existingLightInfo?.responseObject[1]?.coordinates[1] + 0.0002,
+    ] || [0, 0]
+  );
 
   const router = useRouter();
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
-      <Sidebar info={existingLightInfo} markingHandler={setUserIsMarking} />
+      <Sidebar
+        info={existingLightInfo}
+        markingHandler={setUserIsMarking}
+        markerPosition={markerPosition}
+      />
       {userIsMarking ? (
-        <>
-          <MarkerMap
-            markingPosition={[0, 0]}
-            zoom={2}
-            className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
-            center={[0, 0]}
-            handler={setMarkerPosition}
-            markers={existingLightInfo}
-          />
-          <div
-            className="z-20 absolute left-[33vw] w-[67vw] bg-deepblue p-6 h-[8rem] bottom-0 grid grid-cols-2"
-            style={{
-              boxShadow: "0px -4px 100px 8px black",
-            }}
-          >
-            <Button
-              className={buttonStyles}
-              onClick={() =>
-                router.push(
-                  `/admin/${userId}/new?lat=${
-                    markerPosition.lat || markerPosition[0]
-                  }&long=${markerPosition.lng || markerPosition[1]}`
-                )
-              }
-            >
-              Proceed with current marker location
-              <Check className={"w-8 h-full ml-2"} />
-            </Button>
-            <Button
-              className={buttonStyles}
-              onClick={() => setUserIsMarking(false)}
-            >
-              Go Back to User Options
-              <Close className={"w-8 h-full ml-2"} />
-            </Button>
-          </div>
-        </>
+        <MarkerMap
+          markingPosition={markerPosition}
+          zoom={18}
+          className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0"
+          center={[0, 0]}
+          handler={setMarkerPosition}
+          markers={existingLightInfo}
+        />
       ) : (
         <>
           <Map

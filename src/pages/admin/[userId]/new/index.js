@@ -15,17 +15,16 @@ import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/router";
 import Map from "@/components/Map";
-import jwt from "jsonwebtoken";
 
-function index({ username, userId }) {
+function index() {
   const router = useRouter();
-  const { lat, long } = router.query;
+  const { lat, long, userId } = router.query;
 
   const [ratedWattage, setRatedWattage] = useState();
   const [luminosity, setLuminosity] = useState();
   const [criticalLuminosity, setCriticalLuminosity] = useState();
   const [expectedLife, setExpectedLife] = useState();
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState("");
 
   const submitHandler = async function (ev) {
     ev.preventDefault();
@@ -38,9 +37,9 @@ function index({ username, userId }) {
       expectedLife,
       description,
     };
-    console.log(data);
+
     const response = await axios.post("/api/streetlight", data);
-    console.log(response.data);
+
     if (response.data._id) {
       redirectHandler();
     }
@@ -50,29 +49,9 @@ function index({ username, userId }) {
     router.push(`/admin/${userId}`);
   };
 
-  useEffect(() => {
-    const cookies = document.cookie;
-
-    const parsedCookies = cookies.split(";").reduce((acc, cookie) => {
-      const [key, value] = cookie.trim().split("=");
-      acc[key] = value;
-      return acc;
-    }, {});
-
-    jwt.verify(
-      parsedCookies.token,
-      process.env.NEXT_PUBLIC_JWT_SECRET,
-      {},
-      (err, data) => {
-        if (err) console.log("Not found");
-        // console.log(data);
-      }
-    );
-  }, []);
-
   return (
     <div className="w-screen min-h-screen flex flex-row items-center bg-deepblue justify-center">
-      <Navbar username={username} />
+      <Navbar userRole={"admin"} />
       <div className="flex flex-col flex-grow">
         <Map
           position={[lat, long]}
@@ -192,33 +171,6 @@ function index({ username, userId }) {
       </div>
     </div>
   );
-}
-export async function getServerSideProps(context) {
-  const { userId } = context.params;
-
-  const actualId = userId;
-
-  const res = await axios.get("http://localhost:3000/api/fetchrole", {
-    params: {
-      userId: actualId,
-      userRole: "admin",
-    },
-  });
-
-  const { username } = res.data;
-
-  if (res.data.found === "true") {
-    return {
-      props: { content: "true", username, userId },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
 }
 
 export default index;

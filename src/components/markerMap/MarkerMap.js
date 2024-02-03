@@ -22,14 +22,12 @@ const customWorkingIcon = new L.Icon({
 export default function MarkerMap(props) {
   const { zoom, markers, markingPosition, handler } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
-  const [newMarkingPosition, setNewMarkingPosition] = useState(markingPosition);
 
+  const [newMarkingPosition, setNewMarkingPosition] = useState(markingPosition);
   const handleMarkerDrag = function (ev) {
     handler(ev.target.getLatLng());
     setNewMarkingPosition(ev.target.getLatLng());
   };
-
-  // console.log(markingPosition);
 
   const contentRef = useRef();
 
@@ -42,8 +40,6 @@ export default function MarkerMap(props) {
   };
 
   const router = useRouter();
-
-  const { userId } = router.query;
 
   return (
     <div className="flex">
@@ -119,15 +115,7 @@ export default function MarkerMap(props) {
             eventHandlers={{
               dragend: handleMarkerDrag,
             }}
-          >
-            <Popup maxWidth={200}>
-              <>
-                {`Latitude : ${newMarkingPosition.lat || 0}`}
-                <br />
-                {`Longitude : ${newMarkingPosition.lng || 0}`}
-              </>
-            </Popup>
-          </Marker>
+          />
         )}
       </MapContainer>
     </div>

@@ -12,12 +12,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { HistoryIcon } from "lucide-react";
+import { Globe2, HistoryIcon } from "lucide-react";
+import { Input } from "../ui/input";
+import Check from "@/components/icons/Check";
+import Close from "@/components/icons/Close";
 
 function Section(props) {
   const router = useRouter();
   const { userId } = router.query;
-  const { username, info, content } = props;
+  const { username, info, content, markerPosition } = props;
   const streetlights = info?.responseObject;
   const submitHandler = async function (ev) {
     ev.preventDefault();
@@ -121,8 +124,42 @@ function Section(props) {
               Welcome {username}
             </strong>
           </div>
-          <div className="relative top-40 p-4 w-full text-licorice text-center">
-            Drag the marker and select your location to add the streetlight.
+          <div className="relative top-40 p-4 w-full text-licorice text-center flex flex-col gap-2">
+            <span className="font-semibold">
+              Drag the marker and select your location to add the streetlight.
+            </span>
+            <span className="text-left flex w-full flex-row gap-1 my-4">
+              <Globe2 />
+              Current Coordinates :{" "}
+            </span>
+            <Input
+              disabled={true}
+              value={markerPosition?.lat || markerPosition[0] || 0}
+            ></Input>
+            <span className="text-sm text-left">Latitude</span>
+            <Input
+              disabled={true}
+              value={markerPosition?.lng || markerPosition[1] || 0}
+            ></Input>
+            <span className="text-sm text-left">Longitude</span>
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <Button
+                onClick={() =>
+                  router.push(
+                    `${router.asPath}/new?lat=${
+                      markerPosition?.lat || markerPosition[0] || 0
+                    }&long=${markerPosition?.lng || markerPosition[1] || 0}`
+                  )
+                }
+              >
+                <Check className={"w-6 h-6 bg-inherit mr-1"} />
+                Proceed
+              </Button>
+              <Button onClick={() => router.reload()}>
+                <Close className={"w-6 h-6 bg-inherit mr-1"} />
+                Go Back
+              </Button>
+            </div>
           </div>
         </div>
       )}
