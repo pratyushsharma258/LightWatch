@@ -85,7 +85,7 @@ function index({ username, userId, foundLight }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={submitHandler} className="flex flex-col gap-1">
+              <form onSubmit={submitHandler} className="flex flex-col gap-0.5">
                 <Input
                   type="text"
                   placeholder="id"
@@ -187,7 +187,7 @@ function index({ username, userId, foundLight }) {
                 <span className="text-xs text-licorice mb-2">
                   Description (if Any)
                 </span>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-2 gap-2 mt-4">
                   <Button className="w-full h-8 text-sm" type="submit">
                     Save
                   </Button>

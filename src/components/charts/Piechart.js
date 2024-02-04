@@ -1,30 +1,36 @@
 const { useEffect, useRef } = require("react");
 const Chart = require("chart.js/auto");
 
-function PieChart({ streetlights }) {
+function PieChart({ streetlights, grievances }) {
   const chartRef = useRef(null);
 
   useEffect(() => {
     if (!streetlights || streetlights.length === 0) return;
 
-    const reportedLights = streetlights.filter((light) => light.reported);
-    const workingLights = streetlights.filter(
+    const functionalStreetlights = streetlights.filter(
       (light) => light.luminosity >= light.criticalLuminosity
-    );
-    const notWorkingLights = streetlights.filter(
+    ).length;
+
+    const nonFunctionalStreetlights = streetlights.filter(
       (light) => light.luminosity < light.criticalLuminosity
-    );
+    ).length;
+
+    const streetlightsWithGrievances = new Set(
+      grievances
+        .filter((grievance) => grievance.streetLightId)
+        .map((grievance) => grievance.streetLightId)
+    ).size;
 
     const data = {
-      labels: ["Reported", "Working", "Not Working"],
+      labels: ["Functional", "Non-Functional", "With Grievances"],
       datasets: [
         {
           data: [
-            reportedLights.length,
-            workingLights.length,
-            notWorkingLights.length,
+            functionalStreetlights,
+            nonFunctionalStreetlights,
+            streetlightsWithGrievances,
           ],
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"], // Colors for each segment
+          backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"], // Colors for each segment
         },
       ],
     };
@@ -59,7 +65,7 @@ function PieChart({ streetlights }) {
         },
       },
     });
-  }, [streetlights]);
+  }, [streetlights, grievances]);
 
   return (
     <div className="h-[200px]">

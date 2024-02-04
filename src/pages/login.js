@@ -20,8 +20,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
-import Navbar from "@/components/Navbar";
 import jwt from "jsonwebtoken";
+import Navbar from "@/components/Navbar";
 
 function login() {
   const router = useRouter();
@@ -70,12 +70,12 @@ function login() {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col justify-center items-center bg-thistle-blue">
+    <div className="w-screen min-h-screen flex flex-col justify-center items-center bg-lightblue">
       <Navbar />
       <div className="shadow-2xl text-lg w-80 h-96 shadow-licorice">
         <Card className="">
           <CardHeader>
-            <CardTitle className="mb-2">Welcome to Lighwatch</CardTitle>
+            <CardTitle className="mb-2">Welcome to LightWatch</CardTitle>
             <CardDescription>Please enter your details</CardDescription>
           </CardHeader>
           <CardContent>

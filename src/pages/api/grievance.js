@@ -12,21 +12,33 @@ export default async function handler(req, res) {
       try {
         await grievanceModel.create({ description, userId, streetLightId });
       } catch {
-        res.json({ filed: false });
+        return res.json({ filed: false });
       }
-      res.json({ filed: true });
+      return res.json({ filed: true });
     } else {
       const { description, userId } = req.body;
       try {
         await grievanceModel.create({ description, userId });
       } catch {
-        res.json({ filed: false });
+        return res.json({ filed: false });
       }
-      res.json({ filed: true });
+      return res.json({ filed: true });
     }
   }
   if (method === "GET") {
     const allGrievances = await grievanceModel.find({});
-    res.json({ allGrievances });
+    return res.json({ allGrievances });
+  }
+  if (method === "PATCH") {
+    const { _id } = req.body;
+    console.log(_id);
+    try {
+      await grievanceModel.findByIdAndUpdate(_id, {
+        status: "solved",
+      });
+    } catch {
+      return res.json({ status: false });
+    }
+    return res.json({ status: true });
   }
 }

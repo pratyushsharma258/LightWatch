@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
 import { Button } from "./ui/button";
+import Image from "next/image";
 
 export default function Navbar(props) {
   const { userRole } = props;
@@ -44,9 +45,11 @@ export default function Navbar(props) {
   }, [user]);
 
   return (
-    <div className="h-10 bg-black text-white fixed top-0 w-screen flex flex-grow justify-between">
-      Navigation links
-      {user?.username ? (
+    <div className="h-12 bg-white text-black fixed top-0 w-screen flex flex-grow justify-between">
+      <div className="h-full flex items-center justify-center ml-4">
+        <Image src={"/logo_full.png"} width={136} height={8} />
+      </div>
+      {user?.username && (
         <div>
           <Button
             variant="link"
@@ -56,8 +59,6 @@ export default function Navbar(props) {
             Logout
           </Button>
         </div>
-      ) : (
-        <div>SignIn</div>
       )}
     </div>
   );

@@ -26,7 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 
 function Sidebar(props) {
-  const { info, markingHandler, markerPosition } = props;
+  const { info, markingHandler, markerPosition, grievanceInfo } = props;
   const [toggleValue, setToggleValue] = useState("home");
 
   const [user, setUser] = useState();
@@ -251,6 +251,7 @@ function Sidebar(props) {
         content={toggleValue}
         username={user?.username}
         info={info}
+        grievanceInfo={grievanceInfo}
         markerPosition={markerPosition}
       />
     </>

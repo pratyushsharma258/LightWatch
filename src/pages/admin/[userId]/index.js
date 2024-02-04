@@ -1,17 +1,10 @@
 import Map from "@/components/Map";
-import { Button } from "@/components/ui/button";
 import axios from "axios";
 import MarkerMap from "@/components/Markermap";
 import { useState } from "react";
-import Check from "@/components/icons/Check";
-import Close from "@/components/icons/Close";
-import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
 
-function userpage({ userId, existingLightInfo }) {
-  const buttonStyles =
-    "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
-
+function userpage({ existingLightInfo, existingGrievanceInfo }) {
   const [userIsMarking, setUserIsMarking] = useState(false);
   const [markerPosition, setMarkerPosition] = useState(
     [
@@ -20,12 +13,11 @@ function userpage({ userId, existingLightInfo }) {
     ] || [0, 0]
   );
 
-  const router = useRouter();
-
   return (
     <div className="w-screen min-h-screen flex flex-col">
       <Sidebar
         info={existingLightInfo}
+        grievanceInfo={existingGrievanceInfo}
         markingHandler={setUserIsMarking}
         markerPosition={markerPosition}
       />
@@ -59,9 +51,22 @@ export async function getServerSideProps(context) {
     params: {},
   });
 
+  const resGrievance = await await axios.get(
+    "http://localhost:3000/api/grievance",
+    {
+      params: {},
+    }
+  );
+
   const existingLightInfo = resLight.data;
+  const existingGrievanceInfo = resGrievance.data;
   return {
-    props: { content: "true", userId, existingLightInfo },
+    props: {
+      content: "true",
+      userId,
+      existingLightInfo,
+      existingGrievanceInfo,
+    },
   };
 }
 

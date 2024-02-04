@@ -10,11 +10,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { useRef, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
   iconSize: [36, 36],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
+const customStaticIcon = new L.Icon({
+  iconUrl: "/staticLamp.png",
+  iconSize: [36, 36],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
+const customHangerIcon = new L.Icon({
+  iconUrl: "/pin.png",
+  iconSize: [40, 46],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
 });
@@ -57,7 +70,11 @@ export default function MarkerMap(props) {
           <Marker
             key={index}
             position={pos.coordinates}
-            icon={customWorkingIcon}
+            icon={
+              pos.luminosity > pos.criticalLuminosity
+                ? customWorkingIcon
+                : customStaticIcon
+            }
           >
             <Popup
               onOpen={handlePopupOpen}
@@ -115,6 +132,7 @@ export default function MarkerMap(props) {
             eventHandlers={{
               dragend: handleMarkerDrag,
             }}
+            icon={customHangerIcon}
           />
         )}
       </MapContainer>
