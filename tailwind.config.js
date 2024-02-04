@@ -23,8 +23,9 @@ module.exports = {
         lctrine: "#FFFD82",
         "light-green": "#2EC4B6",
         "orange-peel": "#FF9F1C",
-        deepblue: "#003566",
+        deepblue: "#011026",
         lightblue: "#0060F0",
+        deepgreen: "#011400",
       },
       keyframes: {
         "accordion-down": {

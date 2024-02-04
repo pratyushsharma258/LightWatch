@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
+import { useTheme } from "next-themes";
 
 function signup() {
   const router = useRouter();
@@ -28,6 +29,13 @@ function signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userRole, setUserRole] = useState("");
+  const [isClient, setIsClient] = useState(false);
+
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const submitHandler = async function (ev) {
     ev.preventDefault();
@@ -57,81 +65,108 @@ function signup() {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col justify-center items-center bg-thistle-blue">
-      <Navbar />
-      <div className="shadow-2xl text-lg w-80 h-50 shadow-licorice">
-        <Card className="">
-          <CardHeader>
-            <CardTitle className="mb-2">Welcome to Lighwatch</CardTitle>
-            <CardDescription>Please enter your details</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={submitHandler} className="">
-              <Input
-                type="text"
-                placeholder="username"
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                required={true}
-                className="w-full mb-4"
-              />
-              <Input
-                type="email"
-                placeholder="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                required={true}
-                className="w-full mb-4"
-              />
-              <Input
-                type="password"
-                placeholder="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                required={true}
-                className="w-full mb-4"
-              />
-              <Select
-                onValueChange={(e) => {
-                  setUserRole(e);
-                }}
-                value={userRole}
-              >
-                <SelectTrigger className="w-full mb-4">
-                  <SelectValue placeholder="Select User Role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="user">Normal User</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button className="w-full" type="submit">
-                Submit
-              </Button>
-            </form>
-          </CardContent>
-          <CardFooter className="justify-center text-sm">
-            <p className="">
-              Already registered?
-              <label
-                className="m-1 hover:cursor-pointer hover:text-green-700"
-                onClick={() => {
-                  router.push("/login");
-                }}
-              >
-                LogIn
-              </label>
-            </p>
-          </CardFooter>
-        </Card>
-        <Toaster />
-      </div>
+    <div
+      className="w-screen min-h-screen flex flex-col justify-center items-center bg-cover bg-center bg-[url('/backgroundLight.png')] dark:bg-[url('/background.png')]"
+      suppressHydrationWarning
+    >
+      {isClient ? (
+        <>
+          <Navbar />
+          <div
+            className="shadow-2xl text-lg w-[22rem] rounded-lg h-full shadow-deepblue dark:shadow-green-800 dark:text-green-800"
+            style={{
+              boxShadow: `0px 20px 80px ${
+                theme !== "light"
+                  ? "rgba(34, 197, 97, 0.2)"
+                  : "rgba(0, 0, 0, 0.4)"
+              }`,
+            }}
+          >
+            <Card className="h-[66vh] border-none rounded-lg dark:bg-deepgreen bg-opacity-20 dark:bg-opacity-75">
+              <CardHeader className="dark:text-green-500 text-lightblue">
+                <CardTitle className="my-2">Welcome to LightWatch</CardTitle>
+                <CardDescription className="dark:text-green-700">
+                  Please enter your details
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form
+                  onSubmit={submitHandler}
+                  className="flex flex-grow items-center flex-col justify-center my-4"
+                >
+                  <Input
+                    type="text"
+                    placeholder="username"
+                    value={username}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                    }}
+                    required={true}
+                    className="w-full mb-4 dark:text-green-500 placeholder:dark:text-green-700"
+                  />
+                  <Input
+                    type="email"
+                    placeholder="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                    required={true}
+                    className="w-full mb-4 dark:text-green-500 placeholder:dark:text-green-700"
+                  />
+                  <Input
+                    type="password"
+                    placeholder="password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    required={true}
+                    className="w-full mb-4 dark:text-green-500 placeholder:dark:text-green-700"
+                  />
+                  <Select
+                    onValueChange={(e) => {
+                      setUserRole(e);
+                    }}
+                    value={userRole}
+                  >
+                    <SelectTrigger className="w-full mb-4 dark:text-green-700">
+                      <SelectValue placeholder="Select User Role" />
+                    </SelectTrigger>
+                    <SelectContent className="dark:text-green-500">
+                      <SelectItem value="user">Normal User</SelectItem>
+                      <SelectItem value="admin">Admin</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    className="w-full dark:bg-green-800 dark:hover:bg-green-500 bg-lightblue"
+                    type="submit"
+                  >
+                    Submit
+                  </Button>
+                </form>
+              </CardContent>
+              <CardFooter className="justify-center text-sm">
+                <p className="dark:text-green-500">
+                  Already registered?
+                  <Button
+                    className="-m-3 dark:hover:text-green-400 dark:text-green-500"
+                    onClick={() => {
+                      router.push("/login");
+                    }}
+                    variant="link"
+                  >
+                    LogIn
+                  </Button>
+                </p>
+              </CardFooter>
+            </Card>
+            <Toaster />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
