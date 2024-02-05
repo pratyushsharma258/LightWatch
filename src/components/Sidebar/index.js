@@ -70,7 +70,7 @@ function Sidebar(props) {
 
   return (
     <>
-      <div className="h-full w-[4vw] bg-lightblue-600 absolute left-0 right-auto flex flex-col justify-center gap-12 text-white">
+      <div className="h-full w-[4vw] bg-lightblue-600 absolute left-0 right-auto flex flex-col justify-center gap-12 text-white dark:bg-green-950 dark:text-green-500">
         <div
           onClick={() => {
             setToggleValue("home");
@@ -78,7 +78,7 @@ function Sidebar(props) {
           }}
           className="absolute top-3 left-0 w-full flex flex-row justify-center items-center"
         >
-          <Avatar className="shadow-md shadow-deepblue bg-white">
+          <Avatar className="shadow-md shadow-deepblue bg-white dark:bg-green-500">
             <AvatarImage src="/logo.png" alt="usericon" />
             <AvatarFallback className="text-licorice">
               {user?.username[1] || "U"}
@@ -96,16 +96,17 @@ function Sidebar(props) {
                 }}
               >
                 {toggleValue === "home" && (
-                  <div className="top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute" />
+                  <div className="top-0 w-full h-2 rounded-br-lg bg-lightblue-600 dark:bg-green-950 absolute" />
                 )}
                 <div
                   className={`flex flex-col justify-center items-center w-full ${
-                    toggleValue === "home" && "bg-white text-deepblue h-16"
+                    toggleValue === "home" &&
+                    "bg-white text-deepblue h-16 dark:bg-deepgreen dark:text-green-600"
                   }`}
                 >
                   <Homeicon />
                   {toggleValue === "home" && (
-                    <div className="bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute" />
+                    <div className="bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 dark:bg-green-950 absolute" />
                   )}
                 </div>
               </div>
@@ -128,20 +129,20 @@ function Sidebar(props) {
                 >
                   {toggleValue === "addGrievance" && (
                     <div
-                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute`}
+                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 dark:bg-green-950 absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
                       toggleValue === "addGrievance" &&
-                      "bg-white text-deepblue h-16"
+                      "bg-white text-deepblue h-16 dark:bg-deepgreen dark:text-green-600"
                     }`}
                   >
                     <Addicon />
                   </div>
                   {toggleValue === "addGrievance" && (
                     <div
-                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute`}
+                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 dark:bg-green-950 absolute`}
                     />
                   )}
                 </div>
@@ -164,20 +165,20 @@ function Sidebar(props) {
                 >
                   {toggleValue === "addLight" && (
                     <div
-                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute`}
+                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 dark:bg-green-950 absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
                       toggleValue === "addLight" &&
-                      "bg-white text-deepblue h-16"
+                      "bg-white text-deepblue h-16 dark:bg-deepgreen dark:text-green-600"
                     }`}
                   >
                     <Addicon />
                   </div>
                   {toggleValue === "addLight" && (
                     <div
-                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute`}
+                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 dark:bg-green-950 absolute`}
                     />
                   )}
                 </div>
@@ -201,20 +202,20 @@ function Sidebar(props) {
                 >
                   {toggleValue === "manageGrievance" && (
                     <div
-                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute`}
+                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 dark:bg-green-950 absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
                       toggleValue === "manageGrievance" &&
-                      "bg-white text-deepblue h-16"
+                      "bg-white text-deepblue h-16 dark:bg-deepgreen dark:text-green-600"
                     }`}
                   >
                     <Bellicon />
                   </div>
                   {toggleValue === "manageGrievance" && (
                     <div
-                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute`}
+                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 dark:bg-green-950  absolute`}
                     />
                   )}
                 </div>
@@ -233,7 +234,7 @@ function Sidebar(props) {
               <span className="sr-only">Toggle theme</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="ml-4">
             <DropdownMenuItem onClick={() => setTheme("light")}>
               Light
             </DropdownMenuItem>
