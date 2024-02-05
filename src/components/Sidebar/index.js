@@ -18,12 +18,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Section from "../Section";
 import Backicon from "../icons/Backicon";
 import { useEffect } from "react";
 import jwt from "jsonwebtoken";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
 function Sidebar(props) {
   const { info, markingHandler, markerPosition, grievanceInfo } = props;
@@ -32,6 +40,7 @@ function Sidebar(props) {
   const [user, setUser] = useState();
 
   const router = useRouter();
+  const { setTheme } = useTheme();
   const handleLogout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     router.replace("/login");
@@ -61,7 +70,7 @@ function Sidebar(props) {
 
   return (
     <>
-      <div className="h-full w-[4vw] bg-deepblue absolute left-0 right-auto flex flex-col justify-center gap-12 text-orange-peel">
+      <div className="h-full w-[4vw] bg-lightblue-600 absolute left-0 right-auto flex flex-col justify-center gap-12 text-white">
         <div
           onClick={() => {
             setToggleValue("home");
@@ -69,8 +78,8 @@ function Sidebar(props) {
           }}
           className="absolute top-3 left-0 w-full flex flex-row justify-center items-center"
         >
-          <Avatar className="shadow-md shadow-orange-peel bg-orange-peel text-licorice">
-            <AvatarImage src="/usericon.svg" alt="usericon" />
+          <Avatar className="shadow-md shadow-deepblue bg-white">
+            <AvatarImage src="/logo.png" alt="usericon" />
             <AvatarFallback className="text-licorice">
               {user?.username[1] || "U"}
             </AvatarFallback>
@@ -87,22 +96,21 @@ function Sidebar(props) {
                 }}
               >
                 {toggleValue === "home" && (
-                  <div className="top-0 w-full h-2 rounded-br-lg bg-deepblue absolute" />
+                  <div className="top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute" />
                 )}
                 <div
                   className={`flex flex-col justify-center items-center w-full ${
-                    toggleValue === "home" &&
-                    "bg-orange-peel text-licorice h-16"
+                    toggleValue === "home" && "bg-white text-deepblue h-16"
                   }`}
                 >
                   <Homeicon />
                   {toggleValue === "home" && (
-                    <div className="bottom-0 w-full h-2 rounded-tr-lg bg-deepblue absolute" />
+                    <div className="bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute" />
                   )}
                 </div>
               </div>
             </TooltipTrigger>
-            <TooltipContent className="relative left-4 bottom-2">
+            <TooltipContent className="relative left-2 bottom-0">
               <p>Home</p>
             </TooltipContent>
           </Tooltip>
@@ -120,20 +128,20 @@ function Sidebar(props) {
                 >
                   {toggleValue === "addGrievance" && (
                     <div
-                      className={`top-0 w-full h-2 rounded-br-lg bg-deepblue absolute`}
+                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
                       toggleValue === "addGrievance" &&
-                      "bg-orange-peel text-licorice h-16"
+                      "bg-white text-deepblue h-16"
                     }`}
                   >
                     <Addicon />
                   </div>
                   {toggleValue === "addGrievance" && (
                     <div
-                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-deepblue absolute`}
+                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute`}
                     />
                   )}
                 </div>
@@ -156,20 +164,20 @@ function Sidebar(props) {
                 >
                   {toggleValue === "addLight" && (
                     <div
-                      className={`top-0 w-full h-2 rounded-br-lg bg-deepblue absolute`}
+                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
                       toggleValue === "addLight" &&
-                      "bg-orange-peel text-licorice h-16"
+                      "bg-white text-deepblue h-16"
                     }`}
                   >
                     <Addicon />
                   </div>
                   {toggleValue === "addLight" && (
                     <div
-                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-deepblue absolute`}
+                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute`}
                     />
                   )}
                 </div>
@@ -193,20 +201,20 @@ function Sidebar(props) {
                 >
                   {toggleValue === "manageGrievance" && (
                     <div
-                      className={`top-0 w-full h-2 rounded-br-lg bg-deepblue absolute`}
+                      className={`top-0 w-full h-2 rounded-br-lg bg-lightblue-600 absolute`}
                     />
                   )}
                   <div
                     className={`flex flex-col justify-center items-center w-full ${
                       toggleValue === "manageGrievance" &&
-                      "bg-orange-peel text-licorice h-16"
+                      "bg-white text-deepblue h-16"
                     }`}
                   >
                     <Bellicon />
                   </div>
                   {toggleValue === "manageGrievance" && (
                     <div
-                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-deepblue absolute`}
+                      className={`bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 absolute`}
                     />
                   )}
                 </div>
@@ -217,6 +225,26 @@ function Sidebar(props) {
             </Tooltip>
           </TooltipProvider>
         )}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <TooltipProvider>
           <Dialog>
             <DialogTrigger>
@@ -239,7 +267,11 @@ function Sidebar(props) {
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter>
-                <Button type="submit" onClick={handleLogout}>
+                <Button
+                  type="submit"
+                  onClick={handleLogout}
+                  className="bg-lightblue-650 text-white hover:bg-lightblue-850 dark:bg-green-700 dark:text-green-400 dark:hover:bg-green-600"
+                >
                   Log Out
                 </Button>
               </DialogFooter>

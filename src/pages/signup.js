@@ -102,7 +102,7 @@ function signup() {
                       setUsername(e.target.value);
                     }}
                     required={true}
-                    className="w-full mb-4 dark:text-green-500 placeholder:dark:text-green-700"
+                    className="w-full mb-4 dark:bg-deepgreen dark:text-green-500 placeholder:dark:text-green-700"
                   />
                   <Input
                     type="email"
@@ -112,7 +112,7 @@ function signup() {
                       setEmail(e.target.value);
                     }}
                     required={true}
-                    className="w-full mb-4 dark:text-green-500 placeholder:dark:text-green-700"
+                    className="w-full mb-4 dark:bg-deepgreen dark:text-green-500 placeholder:dark:text-green-700"
                   />
                   <Input
                     type="password"
@@ -122,7 +122,7 @@ function signup() {
                       setPassword(e.target.value);
                     }}
                     required={true}
-                    className="w-full mb-4 dark:text-green-500 placeholder:dark:text-green-700"
+                    className="w-full mb-4 dark:bg-deepgreen dark:text-green-500 placeholder:dark:text-green-700"
                   />
                   <Select
                     onValueChange={(e) => {
@@ -130,16 +130,16 @@ function signup() {
                     }}
                     value={userRole}
                   >
-                    <SelectTrigger className="w-full mb-4 dark:text-green-700">
+                    <SelectTrigger className="w-full mb-4 dark:text-green-700 dark:bg-deepgreen">
                       <SelectValue placeholder="Select User Role" />
                     </SelectTrigger>
-                    <SelectContent className="dark:text-green-500">
+                    <SelectContent className="dark:text-green-500 dark:bg-deepgreen">
                       <SelectItem value="user">Normal User</SelectItem>
                       <SelectItem value="admin">Admin</SelectItem>
                     </SelectContent>
                   </Select>
                   <Button
-                    className="w-full dark:bg-green-800 dark:hover:bg-green-500 bg-lightblue"
+                    className="w-full bg-lightblue dark:bg-green-800 dark:hover:bg-green-500"
                     type="submit"
                   >
                     Submit
@@ -150,7 +150,7 @@ function signup() {
                 <p className="dark:text-green-500">
                   Already registered?
                   <Button
-                    className="-m-3 dark:hover:text-green-400 dark:text-green-500"
+                    className="-m-3 hover:cursor-pointer hover:text-green-400 dark:text-green-500"
                     onClick={() => {
                       router.push("/login");
                     }}

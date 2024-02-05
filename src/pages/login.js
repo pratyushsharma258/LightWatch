@@ -58,9 +58,12 @@ function login() {
           userData = data;
         }
       );
-      if (userData.isAllowed)
+      if (userData.isAllowed) {
+        toast("Login Successful", {
+          description: "Welcome to Lightwatch",
+        });
         router.replace(`/${userData.userRole}/${userData.userId}`);
-      else {
+      } else {
         document.cookie =
           "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         router.replace("/signupFallback");
@@ -69,7 +72,7 @@ function login() {
       toast("Wrong credentials", {
         description: "Please check your details",
         action: {
-          label: "Undo",
+          label: "Close",
           onClick: () => console.log("Wrong info"),
         },
       });

@@ -13,11 +13,11 @@ export default async function handler(req, res) {
     role: userRole,
   });
 
-  const { _id: userId, isAllowed } = ifExists;
-
   if (!ifExists?.username) {
     return res.json({ found: "false" });
   }
+
+  const { _id: userId, isAllowed } = ifExists;
 
   await bcrypt
     .compare(password, ifExists.password)
