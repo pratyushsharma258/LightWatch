@@ -5,11 +5,6 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -18,6 +13,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function Navbar(props) {
   const { userRole } = props;
@@ -108,45 +109,32 @@ export default function Navbar(props) {
             </Dialog>
           </div>
         )}
-        <Popover>
-          <PopoverTrigger asChild>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
             <Button
-              variant="link"
-              className="border-none w-full h-full ring-0 ring-white border-white focus-visible:border-none focus-visible:ring-0"
+              variant="outline"
+              className="text-lightblue-500 dark:text-green-500"
             >
-              {theme === "light" ? (
-                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              ) : (
-                <Moon className="h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 dark:text-green-500" />
-              )}
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
             </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-20 -mt-2 mr-2 shadow-md shadow-licorice">
-            <div className="flex flex-col">
-              <Button
-                variant="link"
-                className="w-full hover:no-underline"
-                onClick={() => setTheme("light")}
-              >
-                Light
-              </Button>
-              <Button
-                variant="link"
-                className="w-full hover:no-underline"
-                onClick={() => setTheme("dark")}
-              >
-                Dark
-              </Button>
-              <Button
-                variant="link"
-                className="w-full hover:no-underline"
-                onClick={() => setTheme("system")}
-              >
-                System
-              </Button>
-            </div>
-          </PopoverContent>
-        </Popover>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="mx-4 z-[40000] border-md border-lightblue-600 dark:border-green-500"
+          >
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

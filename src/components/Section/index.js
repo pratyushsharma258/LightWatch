@@ -94,15 +94,15 @@ function Section(props) {
       {content === "home" && router.asPath.includes("user") && (
         <div className="flex flex-col items-center mx-2">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700">
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
               Welcome to LightWatch
             </strong>
           </div>
-          <div className="mt-8 text-left w-full pl-2 font-semibold flex flex-row gap-2">
+          <div className="mt-8 text-left w-full pl-2 font-semibold flex flex-row gap-2 text-lightblue-600 dark:text-green-600">
             <HistoryIcon />
             Complaint History :{" "}
           </div>
-          <div className="relative top-4 p-2 w-full text-black flex items-center justify-center flex-col">
+          <div className="relative top-4 p-2 w-full text-lightblue-700 dark:text-green-500 flex items-center justify-center flex-col">
             <div className="hover:overflow-y-auto max-h-[76vh] w-full overflow-hidden pr-4">
               <Accordion type="single" collapsible className="w-full">
                 {grievances?.map((grievance, index) => (
@@ -135,7 +135,7 @@ function Section(props) {
                 ))}
               </Accordion>
             </div>
-            <span className="mt-6 text-left w-full font-normal text-gray-600">
+            <span className="mt-6 text-left w-full font-normal text-lightblue-400 dark:text-green-700">
               Total {grievances?.length !== 0 ? grievances?.length : 0}{" "}
               Complaints made.
             </span>
@@ -288,11 +288,11 @@ function Section(props) {
       {content === "addGrievance" && (
         <div className="flex flex-col items-center">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700">
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
               Welcome to LightWatch
             </strong>
           </div>
-          <div className="relative top-20 p-4 w-full text-licorice flex flex-col">
+          <div className="relative top-20 p-4 w-full text-lightblue-650 dark:text-green-700 flex flex-col">
             <p>
               If you encounter any issues on our website or wish to file a
               complaint, please inform us. We will address your concerns
@@ -305,12 +305,25 @@ function Section(props) {
               <Textarea
                 placeholder="Complaint description"
                 value={description}
-                className="bg-orange-peel placeholder:text-deepblue min-h-11 h-48 max-h-80"
+                className="w-full mb-2 h-48 min-h-40 max-h-96 text-sm placeholder:text-white text-white bg-lightblue border-lightblue dark:bg-inherit dark:text-green-500 dark:placeholder:text-green-700 "
                 onChange={(ev) => setDescription(ev.target.value)}
               />
-              <div className="grid grid-cols-2 gap-3">
-                <Button type="submit">Submit</Button>
-                <Button type="clear">Clear</Button>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
+                  type="submit"
+                >
+                  <Check className="h-5 w-5 mr-1" />
+                  Save
+                </Button>
+                <Button
+                  className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
+                  onClick={() => setDescription("")}
+                  type="clear"
+                >
+                  <Close className="h-5 w-5 mr-1" />
+                  Go Back
+                </Button>
               </div>
             </form>
           </div>

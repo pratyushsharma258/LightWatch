@@ -23,6 +23,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { Textarea } from "../ui/textarea";
 import { useTheme } from "next-themes";
+import Check from "@/components/icons/Check";
+import Close from "@/components/icons/Close";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
@@ -199,7 +201,7 @@ export default function Map(props) {
                   </div>
                 </HoverCardTrigger>
                 <HoverCardContent ref={contentRef} className="w-80">
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-lightblue-600 dark:text-green-500">
                     <div className="flex justify-between items-center">
                       <h4 className="text-lg font-semibold">
                         Streetlight Related
@@ -236,11 +238,25 @@ export default function Map(props) {
                           <Textarea
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full focus-visible:border-deepblue focus-visible:ring-0 focus-visible:shadow-sm focus-visible:shadow-deepblue border-deepblue"
+                            className="w-full placeholder:text-white text-white bg-lightblue border-lightblue dark:bg-inherit dark:text-green-500 dark:placeholder:text-green-700"
                           />
-                          <Button className="w-full mt-3" type="submit">
-                            File Grievance
-                          </Button>
+                          <div className="mt-2 grid grid-cols-2 gap-2">
+                            <Button
+                              className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
+                              type="submit"
+                            >
+                              <Check className="h-5 w-5 mr-1" />
+                              Save
+                            </Button>
+                            <Button
+                              className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
+                              onClick={() => setDescription("")}
+                              type="clear"
+                            >
+                              <Close className="h-5 w-5 mr-1" />
+                              Clear
+                            </Button>
+                          </div>
                         </form>
                       </>
                     )}
