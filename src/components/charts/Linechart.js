@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
+import { useTheme } from "next-themes";
 
 function LineChart({ streetlights }) {
   const chartRef = useRef(null);
+
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!streetlights || streetlights.length === 0) return;
@@ -24,7 +27,7 @@ function LineChart({ streetlights }) {
           {
             label: "Wattage Consumption",
             data: data,
-            borderColor: "#003566",
+            borderColor: theme === "dark" ? "#16a34a" : "#000000",
             borderWidth: 2,
             fill: false,
           },
@@ -34,18 +37,24 @@ function LineChart({ streetlights }) {
         scales: {
           x: {
             display: false,
-            color: "#000",
+            color: theme === "dark" ? "#16a34a" : "#000000",
+            grid: {
+              color: theme === "dark" ? "#16a34a" : "rgba(0, 0, 0, 0.5)",
+            },
           },
           y: {
             beginAtZero: true,
-            color: "#000",
+            color: theme === "dark" ? "#16a34a" : "#000000",
+            grid: {
+              color: theme === "dark" ? "#16a34a" : "rgba(0, 0, 0, 0.5)",
+            },
           },
         },
         plugins: {
           title: {
             display: true,
             text: "Wattage Consumption Trends",
-            color: "#000",
+            color: theme === "dark" ? "#16a34a" : "#000000",
           },
         },
         animations: {
@@ -59,7 +68,7 @@ function LineChart({ streetlights }) {
         },
       },
     });
-  }, [streetlights]);
+  }, [streetlights, theme]);
 
   return <canvas ref={chartRef} />;
 }

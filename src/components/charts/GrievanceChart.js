@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
+import { useTheme } from "next-themes";
 
 function PieChart({ grievances }) {
   const chartRef = useRef(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!grievances || grievances.length === 0) return;
@@ -43,7 +45,7 @@ function PieChart({ grievances }) {
             display: true,
             text: "Grievance Status",
             padding: 20,
-            color: "#000",
+            color: theme === "dark" ? "#16a34a" : "#000000",
           },
         },
         maintainAspectRatio: false,

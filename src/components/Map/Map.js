@@ -38,6 +38,20 @@ const customStaticIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 
+const customHangerIcon = new L.Icon({
+  iconUrl: "/pin.png",
+  iconSize: [40, 46],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
+const customDarkHangerIcon = new L.Icon({
+  iconUrl: "/pinDark.png",
+  iconSize: [40, 46],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
 export default function Map(props) {
   const { position, zoom, markers, role } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
@@ -158,7 +172,7 @@ export default function Map(props) {
                                   Delete the current entry
                                 </DialogDescription>
                               </DialogHeader>
-                              <div className="grid gap-4 py-4">
+                              <div className="grid gap-4 py-4 text-lightblue-400 dark:text-green-600">
                                 <div className="flex flex-grow items-center">
                                   Database ID : {pos._id}
                                 </div>
@@ -171,7 +185,7 @@ export default function Map(props) {
                               </div>
                               <DialogFooter>
                                 <Button
-                                  className="bg-deepblue text-orange-peel"
+                                  className="bg-lightblue-650 text-white hover:bg-lightblue-850 dark:bg-green-700 dark:text-green-400 dark:hover:bg-green-600"
                                   onClick={() => deleteHandler(pos._id)}
                                 >
                                   Proceed
@@ -237,7 +251,10 @@ export default function Map(props) {
           </Marker>
         ))}
         {position && (
-          <Marker position={position}>
+          <Marker
+            position={position}
+            icon={theme === "light" ? customHangerIcon : customDarkHangerIcon}
+          >
             <Popup maxWidth={200}>
               <>
                 {`Latitude : ${position[0]}`}

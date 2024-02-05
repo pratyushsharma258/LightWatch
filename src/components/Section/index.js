@@ -72,21 +72,21 @@ function Section(props) {
   }, []);
 
   return (
-    <div className="h-full w-[29vw] bg-orange-peel left-[4vw] right-auto absolute shadow-orange-peel shadow-2xl">
+    <div className="h-full w-[29vw] bg-white left-[4vw] right-auto absolute shadow-white shadow-2xl dark:bg-deepgreen dark:shadow-none">
       {content === "home" && router.asPath.includes("admin") && (
         <div className="flex flex-col items-center">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl">
-              Welcome {username}
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
+              Welcome to LightWatch
             </strong>
           </div>
-          <div className="relative top-8 p-2 w-full text-black">
+          <div className="relative top-8 p-2 w-full">
             <GrievanceChart grievances={grievanceArray} />
           </div>
-          <div className="relative top-10 p-2 w-full text-black">
+          <div className="relative top-10 p-2 w-full">
             <LineChart streetlights={streetlights} />
           </div>
-          <div className="relative top-10 p-2 w-full text-black">
+          <div className="relative top-10 p-2 w-full">
             <PieChart streetlights={streetlights} grievances={grievanceArray} />
           </div>
         </div>
@@ -94,8 +94,8 @@ function Section(props) {
       {content === "home" && router.asPath.includes("user") && (
         <div className="flex flex-col items-center mx-2">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl">
-              Welcome {username}
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700">
+              Welcome to LightWatch
             </strong>
           </div>
           <div className="mt-8 text-left w-full pl-2 font-semibold flex flex-row gap-2">
@@ -145,15 +145,15 @@ function Section(props) {
       {content === "manageGrievance" && router.asPath.includes("admin") && (
         <div className="flex flex-col items-center mx-2">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl">
-              Welcome {username}
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
+              Welcome to LightWatch
             </strong>
           </div>
-          <div className="mt-8 text-left w-full pl-2 font-semibold flex flex-row gap-2">
+          <div className="mt-8 text-left w-full pl-2 font-semibold flex flex-row gap-2 text-lightblue-600 dark:text-green-600">
             <HistoryIcon />
             Complaint History :{" "}
           </div>
-          <div className="relative top-4 p-2 w-full text-black flex items-center justify-center flex-col">
+          <div className="relative top-4 p-2 w-full text-lightblue-700 dark:text-green-500 flex items-center justify-center flex-col">
             <div className="hover:overflow-y-auto max-h-[76vh] w-full overflow-hidden pr-4">
               <Accordion type="single" collapsible className="w-full">
                 {grievances?.map((grievance, index) => (
@@ -164,7 +164,7 @@ function Section(props) {
                     <AccordionContent className="w-full relative flex gap-3 flex-col">
                       {grievance?.status === "pending" && (
                         <Button
-                          className="absolute top-0 right-0"
+                          className="absolute top-0 right-0 text-lightblue-700 dark:text-green-600"
                           variant="link"
                           onClick={async () => {
                             const data = {
@@ -224,7 +224,7 @@ function Section(props) {
                 ))}
               </Accordion>
             </div>
-            <span className="mt-6 text-left w-full font-normal text-gray-600">
+            <span className="mt-6 text-left w-full font-normal text-lightblue-400 dark:text-green-700">
               Total {grievances?.length !== 0 ? grievances?.length : 0}{" "}
               Complaints recieved.
             </span>
@@ -234,15 +234,15 @@ function Section(props) {
       {content === "addLight" && (
         <div className="flex flex-col items-center">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl">
-              Welcome {username}
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
+              Welcome to LightWatch
             </strong>
           </div>
-          <div className="relative top-40 p-4 w-full text-licorice text-center flex flex-col gap-2">
-            <span className="font-semibold">
+          <div className="relative top-40 p-4 w-full text-lightblue-650 text-center flex flex-col gap-2">
+            <span className="font-semibold dark:text-green-500">
               Drag the marker and select your location to add the streetlight.
             </span>
-            <span className="text-left flex w-full flex-row gap-1 my-4">
+            <span className="text-left flex w-full flex-row gap-1 my-4 text-lightblue-700 dark:text-green-700">
               <Globe2 />
               Current Coordinates :{" "}
             </span>
@@ -250,12 +250,16 @@ function Section(props) {
               disabled={true}
               value={markerPosition?.lat || markerPosition[0] || 0}
             ></Input>
-            <span className="text-sm text-left">Latitude</span>
+            <span className="text-sm text-left text-lightblue-450 dark:text-green-800">
+              Latitude
+            </span>
             <Input
               disabled={true}
               value={markerPosition?.lng || markerPosition[1] || 0}
             ></Input>
-            <span className="text-sm text-left">Longitude</span>
+            <span className="text-sm text-left text-lightblue-450 dark:text-green-800">
+              Longitude
+            </span>
             <div className="grid grid-cols-2 gap-4 mt-4">
               <Button
                 onClick={() =>
@@ -265,11 +269,15 @@ function Section(props) {
                     }&long=${markerPosition?.lng || markerPosition[1] || 0}`
                   )
                 }
+                className="bg-lightblue-650 hover:bg-lightblue-350 dark:bg-green-700 dark:hover:bg-green-500"
               >
                 <Check className={"w-6 h-6 bg-inherit mr-1"} />
                 Proceed
               </Button>
-              <Button onClick={() => router.reload()}>
+              <Button
+                onClick={() => router.reload()}
+                className="bg-lightblue-650 hover:bg-lightblue-350 dark:bg-green-700 dark:hover:bg-green-500"
+              >
                 <Close className={"w-6 h-6 bg-inherit mr-1"} />
                 Go Back
               </Button>
@@ -280,8 +288,8 @@ function Section(props) {
       {content === "addGrievance" && (
         <div className="flex flex-col items-center">
           <div className="relative top-3">
-            <strong className="font-black animate-pulse tracking-wider text-2xl">
-              Welcome {username}
+            <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700">
+              Welcome to LightWatch
             </strong>
           </div>
           <div className="relative top-20 p-4 w-full text-licorice flex flex-col">

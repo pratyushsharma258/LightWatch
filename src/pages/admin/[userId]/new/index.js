@@ -15,6 +15,8 @@ import { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/router";
 import Map from "@/components/Map";
+import Check from "@/components/icons/Check";
+import Close from "@/components/icons/Close";
 
 function index() {
   const router = useRouter();
@@ -69,12 +71,12 @@ function index() {
           <div className="flex flex-col flex-grow">
             <Map
               position={[lat, long]}
-              zoom={12}
+              zoom={22}
               center={[lat, long - 0.002]}
               className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-[56px] z-10"
             />
-            <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_56px)] shadow-lightblue bg-white z-20 absolute top-[56px] dark:bg-deepgreen">
-              <Card className="w-[24rem] h-[calc(100vh_-_56px)] flex flex-grow flex-col rounded-none border-white bg-white text-lightblue dark:bg-deepgreen">
+            <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_56px)] shadow-lightblue dark:shadow-green-500 bg-white z-20 absolute top-[56px] dark:bg-deepgreen">
+              <Card className="w-[24rem] h-[calc(100vh_-_56px)] flex flex-grow flex-col rounded-none border-none bg-white text-lightblue dark:bg-deepgreen">
                 <CardHeader>
                   <CardTitle className="mb-1 text-lightblue text-xl dark:text-green-500">
                     Spread more light
@@ -176,12 +178,15 @@ function index() {
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                         type="submit"
                       >
+                        <Check className="h-5 w-5 mr-1" />
                         Save
                       </Button>
                       <Button
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                         onClick={redirectHandler}
+                        type="clear"
                       >
+                        <Close className="h-5 w-5 mr-1" />
                         Go Back
                       </Button>
                     </div>

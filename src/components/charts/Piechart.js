@@ -1,8 +1,10 @@
-const { useEffect, useRef } = require("react");
-const Chart = require("chart.js/auto");
+import React, { useEffect, useRef } from "react";
+import Chart from "chart.js/auto";
+import { useTheme } from "next-themes";
 
 function PieChart({ streetlights, grievances }) {
   const chartRef = useRef(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!streetlights || streetlights.length === 0) return;
@@ -30,7 +32,7 @@ function PieChart({ streetlights, grievances }) {
             nonFunctionalStreetlights,
             streetlightsWithGrievances,
           ],
-          backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"], // Colors for each segment
+          backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56"],
         },
       ],
     };
@@ -54,7 +56,7 @@ function PieChart({ streetlights, grievances }) {
             display: true,
             text: "Streetlight Status",
             padding: 20,
-            color: "#000",
+            color: theme === "dark" ? "#16a34a" : "#000",
           },
         },
         maintainAspectRatio: false,
@@ -65,7 +67,7 @@ function PieChart({ streetlights, grievances }) {
         },
       },
     });
-  }, [streetlights, grievances]);
+  }, [streetlights, grievances, theme]);
 
   return (
     <div className="h-[200px]">

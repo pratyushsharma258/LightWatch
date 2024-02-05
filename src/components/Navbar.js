@@ -66,7 +66,7 @@ export default function Navbar(props) {
         boxShadow: `0px 20px 80px ${
           theme !== "light" ? "rgba(34, 197, 97, 0.2)" : "rgba(0, 0, 0, 0.4)"
         }`,
-        zIndex: "200",
+        zIndex: "2000",
       }}
       className="h-14 bg-white fixed top-0 w-screen flex flex-grow justify-between items-center dark:bg-deepgreen"
       suppressHydrationWarning
