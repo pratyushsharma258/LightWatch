@@ -17,11 +17,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { EditIcon, TrashIcon } from "lucide-react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { Textarea } from "../ui/textarea";
+import { useTheme } from "next-themes";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
@@ -41,6 +42,15 @@ export default function Map(props) {
   const { position, zoom, markers, role } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
   const [description, setDescription] = useState();
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty(
+      "--background-color",
+      theme === "dark" ? "#011400" : "#ffffff"
+    );
+  }, [theme]);
 
   const submitHandler = async function (ev, streetLightId) {
     ev.preventDefault();
@@ -82,10 +92,17 @@ export default function Map(props) {
         scrollWheelZoom={true}
         className={props.className}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        {theme === "light" ? (
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+        ) : (
+          <TileLayer
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> contributors'
+          />
+        )}
         {markers?.responseObject.map((pos, index) => (
           <Marker
             key={index}
@@ -103,9 +120,12 @@ export default function Map(props) {
             >
               <HoverCard>
                 <HoverCardTrigger asChild>
-                  <div className="flex items-center justify-center text-sm">
-                    <div className="flex items-center justify-center">
-                      <Button variant="link" className="p-0">
+                  <div className="flex flex-grow items-center justify-center text-sm dark:bg-deepgreen dark:text-green-500">
+                    <div className="flex items-center justify-center dark:text-green-500 dark:bg-deepgreen">
+                      <Button
+                        variant="link"
+                        className="p-0 dark:text-green-400"
+                      >
                         <strong>Installed On : </strong>{" "}
                         {new Date(parseInt(pos.createdAt)).toLocaleDateString(
                           "en-GB"
@@ -114,7 +134,7 @@ export default function Map(props) {
                       {role !== "user" && (
                         <>
                           <Button
-                            className="text-xs text-orange-peel p-0 ml-2 mr-1 h-full bg-inherit"
+                            className="text-xs text-lightblue dark:text-green-500 p-0 ml-2 mr-1 h-full bg-inherit"
                             variant="link"
                             onClick={() =>
                               router.push(`/admin/${userId}/edit/${pos._id}`)
@@ -125,7 +145,7 @@ export default function Map(props) {
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button
-                                className="text-xs text-red-500 bg-inherit p-1 h-full"
+                                className="text-xs text-red-700 dark:text-red-500 bg-inherit p-1 h-full"
                                 variant="link"
                               >
                                 <TrashIcon size={18} />
@@ -231,3 +251,11 @@ export default function Map(props) {
     </div>
   );
 }
+
+// :is(.dark .dark\.leaflet-custom-popup .dark\.leaflet-popup-content-wrapper) {
+//   background-color: #000;
+//   color: #333333;
+//   padding: 10px;
+//   border-radius: 5px;
+//   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+// }

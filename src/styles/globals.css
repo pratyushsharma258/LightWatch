@@ -2,12 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background-color: #ffffff;
+}
+
+div.leaflet-popup-content-wrapper {
+  background-color: var(--background-color);
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-/* Styles for the scrollbar thumb */
 ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 8px;
