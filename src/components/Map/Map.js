@@ -26,14 +26,14 @@ import { useTheme } from "next-themes";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
-  iconSize: [36, 36],
+  iconSize: [40, 40],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
 });
 
 const customStaticIcon = new L.Icon({
   iconUrl: "/staticLamp.png",
-  iconSize: [36, 36],
+  iconSize: [40, 40],
   iconAnchor: [16, 32],
   popupAnchor: [0, -32],
 });
