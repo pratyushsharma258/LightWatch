@@ -18,11 +18,13 @@ import {
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
 import jwt from "jsonwebtoken";
 import Navbar from "@/components/Navbar";
 import { useTheme } from "next-themes";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { PulseLoader } from "react-spinners";
 
 function login() {
   const router = useRouter();
@@ -30,7 +32,10 @@ function login() {
   const [password, setPassword] = useState("");
   const [userRole, setUserRole] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { theme } = useTheme();
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsClient(true);
@@ -39,6 +44,8 @@ function login() {
   const submitHandler = async function (ev) {
     ev.preventDefault();
 
+    setIsLoading(true);
+
     const userFormData = { username, password, userRole };
 
     const response = await axios.get("/api/login", {
@@ -46,6 +53,13 @@ function login() {
         ...userFormData,
       },
     });
+
+    if (response) {
+      setIsLoading(false);
+      setPassword("");
+      setUserRole("");
+      setUsername("");
+    }
 
     if (response.data.found && response.data.passwordMatch) {
       var userData = null;
@@ -59,7 +73,8 @@ function login() {
         }
       );
       if (userData.isAllowed) {
-        toast("Login Successful", {
+        toast({
+          title: "Login Successful",
           description: "Welcome to Lightwatch",
         });
         router.replace(`/${userData.userRole}/${userData.userId}`);
@@ -69,12 +84,11 @@ function login() {
         router.replace("/signupFallback");
       }
     } else {
-      toast("Wrong credentials", {
+      toast({
+        variant: "destructive",
+        title: "Login Failed",
         description: "Please check your details",
-        action: {
-          label: "Close",
-          onClick: () => console.log("Wrong info"),
-        },
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
     }
   };
@@ -148,7 +162,11 @@ function login() {
                     className="w-full bg-lightblue dark:bg-green-800 dark:hover:bg-green-500"
                     type="submit"
                   >
-                    Submit
+                    {isLoading ? (
+                      <PulseLoader color="#ffffff" size={8} />
+                    ) : (
+                      "Submit"
+                    )}
                   </Button>
                 </form>
               </CardContent>

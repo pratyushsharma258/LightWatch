@@ -13,8 +13,6 @@ export default async function handler(req, res) {
     username,
   });
 
-  console.log(ifExists);
-
   if (ifExists?.username) {
     return res.json({ found: "true" });
   }

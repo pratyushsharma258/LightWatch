@@ -15,13 +15,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { useTheme } from "next-themes";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { PulseLoader } from "react-spinners";
 
 function signup() {
   const router = useRouter();
@@ -30,8 +32,10 @@ function signup() {
   const [password, setPassword] = useState("");
   const [userRole, setUserRole] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { theme } = useTheme();
+  const { toast } = useToast();
 
   useEffect(() => {
     setIsClient(true);
@@ -40,17 +44,25 @@ function signup() {
   const submitHandler = async function (ev) {
     ev.preventDefault();
 
+    setIsLoading(true);
+
     const userFormData = { username, email, password, userRole };
 
     const response = await axios.post("/api/signup", userFormData);
 
+    if (response) {
+      setEmail("");
+      setPassword("");
+      setUserRole("");
+      setUsername("");
+      setIsLoading(false);
+    }
+
     if (response.data.found === "true") {
-      toast("User already registered", {
+      toast({
+        title: "User already registered",
         description: "Please check your details",
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Existing info"),
-        },
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
       router.push("/login");
     } else {
@@ -59,6 +71,11 @@ function signup() {
       else {
         document.cookie =
           "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        toast({
+          title: "Welcome to LightWatch",
+          description: "You have been successfully registered!",
+          action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
         router.replace("/signupFallback");
       }
     }
@@ -142,7 +159,11 @@ function signup() {
                     className="w-full bg-lightblue dark:bg-green-800 dark:hover:bg-green-500"
                     type="submit"
                   >
-                    Submit
+                    {isLoading ? (
+                      <PulseLoader color="#ffffff" size={8} />
+                    ) : (
+                      "Submit"
+                    )}
                   </Button>
                 </form>
               </CardContent>
