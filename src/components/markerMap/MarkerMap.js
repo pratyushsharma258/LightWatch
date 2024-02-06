@@ -8,8 +8,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { Button } from "@/components/ui/button";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useTheme } from "next-themes";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
@@ -32,9 +33,25 @@ const customHangerIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 
+const customDarkHangerIcon = new L.Icon({
+  iconUrl: "/pinDark.png",
+  iconSize: [40, 46],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
 export default function MarkerMap(props) {
   const { zoom, markers, markingPosition, handler } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
+  const { theme } = useTheme();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty(
+      "--background-color",
+      theme === "dark" ? "#011400" : "#ffffff"
+    );
+  }, [theme]);
 
   const [newMarkingPosition, setNewMarkingPosition] = useState(markingPosition);
   const handleMarkerDrag = function (ev) {
@@ -62,10 +79,17 @@ export default function MarkerMap(props) {
         scrollWheelZoom={true}
         className={props.className}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        {theme === "light" ? (
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+        ) : (
+          <TileLayer
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> contributors'
+          />
+        )}
         {markers?.responseObject.map((pos, index) => (
           <Marker
             key={index}
@@ -132,7 +156,7 @@ export default function MarkerMap(props) {
             eventHandlers={{
               dragend: handleMarkerDrag,
             }}
-            icon={customHangerIcon}
+            icon={theme === "light" ? customHangerIcon : customDarkHangerIcon}
           />
         )}
       </MapContainer>

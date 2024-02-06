@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
-const MarkerMap = dynamic(() => import('./MarkerMap'), {
-    ssr: false
+const MarkerMap = dynamic(() => import("./MarkerMap"), {
+  ssr: false,
 });
 
-export default MarkerMap
+export default MarkerMap;

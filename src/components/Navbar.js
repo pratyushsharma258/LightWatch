@@ -47,7 +47,7 @@ export default function Navbar(props) {
       (err, data) => {
         if (err) console.error("Not found");
         if (data && !data.isAllowed) handleLogout();
-        if (userRole && data.userRole !== userRole) handleLogout();
+        if (userRole && data?.userRole !== userRole) handleLogout();
         setUser(data);
       }
     );
@@ -110,7 +110,7 @@ export default function Navbar(props) {
           </div>
         )}
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger className="border-white ring-0" asChild>
             <Button
               variant="outline"
               className="text-lightblue-500 dark:text-green-500"

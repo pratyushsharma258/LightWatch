@@ -1,42 +1,33 @@
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import AdminDataTable from "@/components/AdminDataTable";
-import { useEffect } from "react";
-import jwt from "jsonwebtoken";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 function page({ admins }) {
+  const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
-    const cookies = document.cookie;
-
-    const parsedCookies = cookies.split(";").reduce((acc, cookie) => {
-      const [key, value] = cookie.trim().split("=");
-      acc[key] = value;
-      return acc;
-    }, {});
-
-    jwt.verify(
-      parsedCookies.token,
-      process.env.NEXT_PUBLIC_JWT_SECRET,
-      {},
-      (err, data) => {
-        if (err) console.log("Not found");
-        if (data.userRole !== "super") router.replace("/login");
-      }
-    );
+    setIsClient(true);
   }, []);
 
-  const router = useRouter();
   return (
-    <div className="min-w-screen min-h-screen bg-deepblue">
-      <Navbar />
-      {admins && (
-        <AdminDataTable
-          admins={admins}
-          className={
-            "absolute top-10 w-full text-orange-peel flex items-center"
-          }
-        />
+    <div className="min-w-screen min-h-screen bg-lightblue-250 dark:bg-green-950 text-lightblue-700 dark:text-green-600">
+      {isClient ? (
+        <>
+          <Navbar userRole="super" />
+          {admins && (
+            <AdminDataTable
+              admins={admins}
+              className={
+                "absolute top-14 w-full text-lightblue-700 dark:text-green-600 flex items-center"
+              }
+            />
+          )}
+        </>
+      ) : (
+        <></>
       )}
     </div>
   );

@@ -32,14 +32,15 @@ function AdminDataTable({ admins, className }) {
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="min-w-screen">
           {admins.map((admin) => (
-            <TableRow key={admin._id}>
+            <TableRow>
               <TableCell>{admin.username}</TableCell>
               <TableCell>{admin.email}</TableCell>
               <TableCell>{admin.isAllowed ? "Yes" : "No"}</TableCell>
               <TableCell>
                 <Button
+                  className="bg-lightblue hover:bg-lightblue-250 dark:bg-green-700 dark:hover:bg-green-500"
                   onClick={() =>
                     handleToggleIsAllowed(admin._id, admin.isAllowed)
                   }
