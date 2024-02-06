@@ -12,7 +12,7 @@ import Map from "@/components/Map";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 
-function index({ foundLight }) {
+function Index({ foundLight }) {
   const router = useRouter();
   const {
     latitude,
@@ -243,4 +243,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default index;
+export default Index;

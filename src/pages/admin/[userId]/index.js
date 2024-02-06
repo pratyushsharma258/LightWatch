@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PulseLoader } from "react-spinners";
 
-function userpage({ content, existingLightInfo, existingGrievanceInfo }) {
+function Userpage({ content, existingLightInfo, existingGrievanceInfo }) {
   const { toast } = useToast();
 
   const [userIsMarking, setUserIsMarking] = useState(false);
@@ -117,4 +117,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default userpage;
+export default Userpage;

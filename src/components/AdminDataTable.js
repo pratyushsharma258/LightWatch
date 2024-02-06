@@ -33,8 +33,8 @@ function AdminDataTable({ admins, className }) {
           </TableRow>
         </TableHeader>
         <TableBody className="min-w-screen">
-          {admins.map((admin) => (
-            <TableRow>
+          {admins.map((admin, index) => (
+            <TableRow key={index}>
               <TableCell>{admin.username}</TableCell>
               <TableCell>{admin.email}</TableCell>
               <TableCell>{admin.isAllowed ? "Yes" : "No"}</TableCell>

@@ -25,7 +25,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { PulseLoader } from "react-spinners";
 
-function signup() {
+function Signup() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -192,4 +192,4 @@ function signup() {
   );
 }
 
-export default signup;
+export default Signup;

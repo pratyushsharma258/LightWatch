@@ -18,7 +18,7 @@ import Map from "@/components/Map";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 
-function index() {
+function Index() {
   const router = useRouter();
   const { lat, long, userId } = router.query;
 
@@ -204,4 +204,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;

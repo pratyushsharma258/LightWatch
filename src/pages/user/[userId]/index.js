@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
 
-function userpage({ existingLightInfo }) {
+function Userpage({ existingLightInfo }) {
   const buttonStyles =
     "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
 
@@ -34,4 +34,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default userpage;
+export default Userpage;

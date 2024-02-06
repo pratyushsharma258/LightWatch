@@ -4,7 +4,7 @@ import AdminDataTable from "@/components/AdminDataTable";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-function page({ admins }) {
+function Page({ admins }) {
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
@@ -43,4 +43,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default page;
+export default Page;
