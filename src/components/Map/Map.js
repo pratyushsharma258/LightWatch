@@ -174,11 +174,16 @@ export default function Map(props) {
                           <Button
                             className="text-xs text-lightblue dark:text-green-500 p-0 ml-2 mr-1 h-full bg-inherit"
                             variant="link"
-                            onClick={() =>
-                              router.push(`/admin/${userId}/edit/${pos._id}`)
-                            }
+                            onClick={() => {
+                              setLoading(true);
+                              router.push(`/admin/${userId}/edit/${pos._id}`);
+                            }}
                           >
-                            <EditIcon size={18} />
+                            {loading ? (
+                              <PulseLoader size={7} color="#ffffff" />
+                            ) : (
+                              <EditIcon size={18} />
+                            )}
                           </Button>
                           <Dialog>
                             <DialogTrigger asChild>

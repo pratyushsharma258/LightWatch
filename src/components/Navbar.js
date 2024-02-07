@@ -19,15 +19,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { PulseLoader } from "react-spinners";
 
 export default function Navbar(props) {
   const { userRole } = props;
   const [user, setUser] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const { setTheme, theme } = useTheme();
 
   const router = useRouter();
   const handleLogout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    setIsLoading(true);
     router.replace("/login");
   };
 
@@ -86,7 +89,7 @@ export default function Navbar(props) {
                   variant="link"
                   className="text-lightblue dark:text-green-500"
                 >
-                  Logout
+                  LogOut
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px] text-lightblue dark:text-green-500">
@@ -102,7 +105,11 @@ export default function Navbar(props) {
                     className="bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                     onClick={handleLogout}
                   >
-                    Log Out
+                    {isLoading ? (
+                      <PulseLoader color="#ffffff" size={8} margin={2} />
+                    ) : (
+                      "Log Out"
+                    )}
                   </Button>
                 </DialogFooter>
               </DialogContent>

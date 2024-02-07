@@ -227,10 +227,16 @@ function Index({ foundLight }) {
                       <Button
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                         onClick={redirectHandler}
-                        type="clear"
+                        type="button"
                       >
-                        <Close className="h-5 w-5 mr-1" />
-                        Go Back
+                        {isLoading ? (
+                          <PulseLoader size={7} color="#ffffff" />
+                        ) : (
+                          <>
+                            <Close className="h-5 w-5 mr-1" />
+                            Go Back
+                          </>
+                        )}
                       </Button>
                     </div>
                   </form>

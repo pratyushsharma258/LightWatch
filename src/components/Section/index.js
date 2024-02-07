@@ -20,6 +20,7 @@ import Close from "@/components/icons/Close";
 import Tagicon from "../icons/Tagicon";
 import { useToast } from "../ui/use-toast";
 import { PulseLoader } from "react-spinners";
+import { set } from "mongoose";
 
 function Section(props) {
   const router = useRouter();
@@ -185,6 +186,7 @@ function Section(props) {
                           className="absolute top-0 right-0 text-lightblue-700 dark:text-green-600"
                           variant="link"
                           onClick={async () => {
+                            isLoading(true);
                             const data = {
                               _id: grievance?._id,
                             };
@@ -194,11 +196,21 @@ function Section(props) {
                               data
                             );
                             if (response?.data?.status) {
+                              isLoading(false);
+                              toast({
+                                title: "Grievance Resolved",
+                                description:
+                                  "Complaint marked as resolved successfully.",
+                              });
                               router.reload();
                             }
                           }}
                         >
-                          <CheckCircle />
+                          {isLoading ? (
+                            <PulseLoader size={7} color="#ffffff" />
+                          ) : (
+                            <CheckCircle />
+                          )}
                         </Button>
                       )}
                       <p>{grievance?.description}</p>
@@ -228,12 +240,17 @@ function Section(props) {
                           <Button
                             variant="link"
                             onClick={() => {
+                              setIsLoading(true);
                               router.push(
                                 `${router.asPath}/edit/${grievance?.streetLightId}`
                               );
                             }}
                           >
-                            <Tagicon className="w-5 h-5 -m-1 p-0" />
+                            {isLoading ? (
+                              <PulseLoader size={7} color="#ffffff" />
+                            ) : (
+                              <Tagicon className="w-5 h-5 -m-1 p-0" />
+                            )}
                           </Button>{" "}
                         </p>
                       )}

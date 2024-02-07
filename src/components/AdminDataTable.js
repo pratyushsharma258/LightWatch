@@ -9,16 +9,33 @@ import {
 import { Button } from "./ui/button";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Toaster } from "./ui/toaster";
+import { set } from "mongoose";
 
 function AdminDataTable({ admins, className }) {
   const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleToggleIsAllowed = async function (_id, isAllowed) {
+    setIsLoading(true);
     const response = await axios.patch("/api/fetchAdmins", {
       _id,
       isAllowed,
     });
     if (response.data) {
+      setIsLoading(false);
+      toast({
+        title: "Admin updated",
+        description: "Admin permission updated successfully",
+      });
       router.replace(router.asPath);
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong",
+      });
     }
   };
   return (
@@ -45,13 +62,18 @@ function AdminDataTable({ admins, className }) {
                     handleToggleIsAllowed(admin._id, admin.isAllowed)
                   }
                 >
-                  Toggle isAllowed
+                  {isLoading ? (
+                    <PulseLoader color="#ffffff" size={8} margin={2} />
+                  ) : (
+                    "Toggle isAllowed"
+                  )}
                 </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      <Toaster />
     </div>
   );
 }
