@@ -74,7 +74,7 @@ export default function MarkerMap(props) {
   return (
     <div className="flex">
       <MapContainer
-        center={markers?.responseObject[0]?.coordinates || position || [0, 0]}
+        center={markers?.responseObject[0]?.coordinates || [0, 0]}
         zoom={zoom}
         scrollWheelZoom={true}
         className={props.className}
