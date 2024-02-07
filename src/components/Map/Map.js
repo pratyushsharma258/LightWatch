@@ -25,6 +25,8 @@ import { Textarea } from "../ui/textarea";
 import { useTheme } from "next-themes";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
+import { useToast } from "@/components/ui/use-toast";
+import { PulseLoader } from "react-spinners";
 
 const customWorkingIcon = new L.Icon({
   iconUrl: "/workingLamp.png",
@@ -59,6 +61,8 @@ export default function Map(props) {
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
   const [description, setDescription] = useState();
   const { theme } = useTheme();
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -70,11 +74,23 @@ export default function Map(props) {
 
   const submitHandler = async function (ev, streetLightId) {
     ev.preventDefault();
+    setLoading(true);
     const formData = { userId, streetLightId, description };
     const response = await axios.post("/api/grievance", formData);
     if (response.data?.filed) {
+      setLoading(false);
+      toast({
+        title: "Grievance Filed",
+        description: "Complaint registered successfully",
+      });
       setDescription("");
       router.reload();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something Went Wrong",
+      });
     }
   };
 
@@ -89,10 +105,16 @@ export default function Map(props) {
   };
 
   const deleteHandler = async (_id) => {
+    setLoading(true);
     const response = await axios.delete("/api/streetlight", {
       params: { _id },
     });
     if (response.data.deleteStatus) {
+      setLoading(false);
+      toast({
+        title: "Done",
+        description: "Streetlight deleted successfully",
+      });
       router.replace(`/admin/${userId}`);
     }
   };
@@ -174,7 +196,7 @@ export default function Map(props) {
                                   Delete the current entry
                                 </DialogDescription>
                               </DialogHeader>
-                              <div className="grid gap-4 py-4 text-lightblue-400 dark:text-green-600">
+                              <div className="grid gap-2 py-4 text-lightblue-400 dark:text-green-600">
                                 <div className="flex flex-grow items-center">
                                   Database ID : {pos._id}
                                 </div>
@@ -190,7 +212,13 @@ export default function Map(props) {
                                   className="bg-lightblue-650 text-white hover:bg-lightblue-850 dark:bg-green-700 dark:text-green-400 dark:hover:bg-green-600"
                                   onClick={() => deleteHandler(pos._id)}
                                 >
-                                  Proceed
+                                  {loading ? (
+                                    <>
+                                      <PulseLoader size={7} color="#ffffff" />
+                                    </>
+                                  ) : (
+                                    <>Proceed</>
+                                  )}
                                 </Button>
                               </DialogFooter>
                             </DialogContent>
@@ -239,14 +267,23 @@ export default function Map(props) {
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                             className="w-full placeholder:text-white text-white bg-lightblue border-lightblue dark:bg-inherit dark:text-green-500 dark:placeholder:text-green-700"
+                            required={true}
                           />
                           <div className="mt-2 grid grid-cols-2 gap-2">
                             <Button
                               className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                               type="submit"
                             >
-                              <Check className="h-5 w-5 mr-1" />
-                              Save
+                              {loading ? (
+                                <>
+                                  <PulseLoader size={4} color="#ffffff" />
+                                </>
+                              ) : (
+                                <>
+                                  <Check className="h-5 w-5 mr-1" />
+                                  Save
+                                </>
+                              )}
                             </Button>
                             <Button
                               className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"

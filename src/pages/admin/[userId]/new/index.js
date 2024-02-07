@@ -7,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
@@ -17,9 +15,13 @@ import { useRouter } from "next/router";
 import Map from "@/components/Map";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
+import { PulseLoader } from "react-spinners";
 
 function Index() {
   const router = useRouter();
+  const { toast } = useToast();
   const { lat, long, userId } = router.query;
 
   const [ratedWattage, setRatedWattage] = useState();
@@ -28,8 +30,10 @@ function Index() {
   const [expectedLife, setExpectedLife] = useState();
   const [description, setDescription] = useState("");
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = async function (ev) {
+    setIsLoading(true);
     ev.preventDefault();
     const data = {
       lat,
@@ -44,14 +48,18 @@ function Index() {
     const response = await axios.post("/api/streetlight", data);
 
     if (response.data._id) {
-      toast("Streetlight registered", {
+      setIsLoading(false);
+      toast({
+        title: "Streetlight registered",
         description: "Registered succesfully in database.",
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Success"),
-        },
       });
       redirectHandler();
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something went wrong",
+      });
     }
   };
 
@@ -178,8 +186,16 @@ function Index() {
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                         type="submit"
                       >
-                        <Check className="h-5 w-5 mr-1" />
-                        Save
+                        {isLoading ? (
+                          <>
+                            <PulseLoader size={7} color="#ffffff" />
+                          </>
+                        ) : (
+                          <>
+                            <Check className="h-5 w-5 mr-1" />
+                            Save
+                          </>
+                        )}
                       </Button>
                       <Button
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"

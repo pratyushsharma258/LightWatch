@@ -2,6 +2,7 @@ import Map from "@/components/Map";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Sidebar from "@/components/Sidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 function Userpage({ existingLightInfo }) {
   const buttonStyles =
@@ -18,6 +19,7 @@ function Userpage({ existingLightInfo }) {
         markers={existingLightInfo}
         role={"user"}
       />
+      <Toaster />
     </div>
   );
 }

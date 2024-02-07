@@ -18,27 +18,43 @@ import { Input } from "../ui/input";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 import Tagicon from "../icons/Tagicon";
+import { useToast } from "../ui/use-toast";
+import { PulseLoader } from "react-spinners";
 
 function Section(props) {
   const router = useRouter();
   const { userId } = router.query;
-  const { username, info, content, markerPosition, grievanceInfo } = props;
+  const { toast } = useToast();
+  const { info, content, markerPosition, grievanceInfo } = props;
   const streetlights = info?.responseObject;
   const grievanceArray = grievanceInfo?.allGrievances;
   const submitHandler = async function (ev) {
+    setIsLoading(true);
     ev.preventDefault();
 
     const formData = { description, userId };
     const response = await axios.post("/api/grievance", formData);
 
     if (response.data?.filed) {
+      setIsLoading(false);
+      toast({
+        title: "Grievance Filed",
+        description: "Complaint registered successfully",
+      });
       router.reload();
       setDescription("");
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Something Went Wrong",
+      });
     }
   };
 
   const [description, setDescription] = useState();
   const [grievances, setGrievances] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   function sortGrievances(grievances) {
     const pendingGrievances = grievances.filter(
@@ -46,7 +62,9 @@ function Section(props) {
     );
 
     pendingGrievances.sort((a, b) => {
-      return parseInt(a.filedAt) - parseInt(b.filedAt);
+      if (router.asPath.includes("admin"))
+        return parseInt(a.filedAt) - parseInt(b.filedAt);
+      else return parseInt(b.filedAt) - parseInt(a.filedAt);
     });
 
     const resolvedGrievances = grievances.filter(
@@ -307,14 +325,23 @@ function Section(props) {
                 value={description}
                 className="w-full mb-2 h-48 min-h-40 max-h-96 text-sm placeholder:text-white text-white bg-lightblue border-lightblue dark:bg-inherit dark:text-green-500 dark:placeholder:text-green-700 "
                 onChange={(ev) => setDescription(ev.target.value)}
+                required={true}
               />
               <div className="grid grid-cols-2 gap-2">
                 <Button
                   className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                   type="submit"
                 >
-                  <Check className="h-5 w-5 mr-1" />
-                  Save
+                  {isLoading ? (
+                    <>
+                      <PulseLoader size={7} color="#ffffff" />
+                    </>
+                  ) : (
+                    <>
+                      <Check className="h-5 w-5 mr-1" />
+                      Save
+                    </>
+                  )}
                 </Button>
                 <Button
                   className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"

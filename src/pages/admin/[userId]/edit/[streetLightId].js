@@ -1,8 +1,8 @@
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner";
+import { PulseLoader } from "react-spinners";
+import { Toaster } from "@/components/ui/toaster";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
@@ -11,9 +11,11 @@ import { useRouter } from "next/router";
 import Map from "@/components/Map";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
+import { useToast } from "@/components/ui/use-toast";
 
 function Index({ foundLight }) {
   const router = useRouter();
+  const { toast } = useToast();
   const {
     latitude,
     longitude,
@@ -31,9 +33,12 @@ function Index({ foundLight }) {
   const [expectedLife, setExpectedLife] = useState(exL);
   const [description, setDescription] = useState(des);
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { userId } = router.query;
 
   const submitHandler = async function (ev) {
+    setIsLoading(true);
     ev.preventDefault();
     const data = {
       _id,
@@ -46,8 +51,13 @@ function Index({ foundLight }) {
       description,
     };
     const response = await axios.patch("/api/streetlight", data);
-    console.log(response.data.status);
+
     if (response.data.status) {
+      setIsLoading(false);
+      toast({
+        title: "Done",
+        description: "Details modified successfully",
+      });
       redirectHandler();
     }
   };
@@ -84,7 +94,7 @@ function Index({ foundLight }) {
             <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_56px)] shadow-lightblue dark:shadow-green-500 bg-white z-20 absolute top-[56px] dark:bg-deepgreen">
               <Card className="w-[24rem] h-[calc(100vh_-_56px)] flex flex-grow flex-col rounded-none border-none bg-white text-lightblue dark:bg-deepgreen">
                 <CardHeader>
-                  <CardTitle className="mb-1 text-lightblue text-xl dark:text-green-500">
+                  <CardTitle className="text-lightblue text-xl dark:text-green-500">
                     Spread more light
                   </CardTitle>
                 </CardHeader>
@@ -104,7 +114,6 @@ function Index({ foundLight }) {
                     <span className="text-xs text-licorice mb-0">
                       Database ID
                     </span>
-
                     <Input
                       type="number"
                       placeholder="Latitude"
@@ -199,13 +208,21 @@ function Index({ foundLight }) {
                     <span className="text-xs text-licorice mb-0">
                       Description (if Any)
                     </span>
-                    <div className="grid grid-cols-2 gap-2 mt-4">
+                    <div className="grid grid-cols-2 gap-2 mt-2">
                       <Button
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                         type="submit"
                       >
-                        <Check className="h-5 w-5 mr-1" />
-                        Save
+                        {isLoading ? (
+                          <>
+                            <PulseLoader size={7} color="#ffffff" />
+                          </>
+                        ) : (
+                          <>
+                            <Check className="h-5 w-5 mr-1" />
+                            Save
+                          </>
+                        )}
                       </Button>
                       <Button
                         className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"

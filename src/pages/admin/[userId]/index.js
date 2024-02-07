@@ -79,7 +79,6 @@ function Userpage({ content, existingLightInfo, existingGrievanceInfo }) {
           </Skeleton>
         </>
       )}
-
       <Toaster />
     </div>
   );

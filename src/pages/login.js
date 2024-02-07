@@ -79,6 +79,11 @@ function Login() {
         });
         router.replace(`/${userData.userRole}/${userData.userId}`);
       } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "You are not registered as an admin.",
+        });
         document.cookie =
           "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         router.replace("/signupFallback");
