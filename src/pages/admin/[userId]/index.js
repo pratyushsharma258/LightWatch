@@ -95,6 +95,8 @@ export async function getServerSideProps() {
       }
     );
 
+    console.log(resLight.data);
+
     resGrievance = await axios.get(
       "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/grievance",
       {
