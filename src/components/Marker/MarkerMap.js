@@ -40,7 +40,7 @@ const customDarkHangerIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 
-export default function MarkerMap(props) {
+export default function Markermap(props) {
   const { zoom, markers, markingPosition, handler } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
   const { theme } = useTheme();

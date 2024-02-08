@@ -1,6 +1,6 @@
 import Map from "@/components/Map";
 import axios from "axios";
-import MarkerMap from "../../../components/Markermap";
+import MarkerMap from "@/components/Marker";
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
