@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
-function Userpage({ content, existingLightInfo, existingGrievanceInfo }) {
+function Userpage({ existingGrievanceInfo }) {
+  let existingLightInfo;
+
   const [userIsMarking, setUserIsMarking] = useState(false);
   const [markerPosition, setMarkerPosition] = useState(
     [
@@ -16,7 +18,14 @@ function Userpage({ content, existingLightInfo, existingGrievanceInfo }) {
 
   const [isCLient, setIsCLient] = useState(false);
 
-  useEffect(() => {
+  useEffect(async () => {
+    const resLight = await axios.get(
+      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
+      {
+        params: {},
+      }
+    );
+    existingLightInfo = resLight?.data;
     setIsCLient(true);
   }, []);
 
