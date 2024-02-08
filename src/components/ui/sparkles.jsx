@@ -29,13 +29,16 @@ export const SparklesCore = (props) => {
 
   const particlesLoaded = async (container) => {
     if (container) {
-      console.log(container);
-      controls.start({
-        opacity: 1,
-        transition: {
-          duration: 1,
-        },
-      });
+      try {
+        controls?.start({
+          opacity: 1,
+          transition: {
+            duration: 1,
+          },
+        });
+      } catch {
+        console.warn("Wait for component mount");
+      }
     }
   };
 
