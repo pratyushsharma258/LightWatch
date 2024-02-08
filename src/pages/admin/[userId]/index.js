@@ -103,7 +103,7 @@ export async function getServerSideProps() {
         params: {},
       }
     );
-
+    console.log(resGrievance.data);
     // resLight = await axios.get("http://localhost:3000/api/streetlight", {
     //   params: {},
     // });
