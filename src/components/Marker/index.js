@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const MarkerMap = dynamic(() => import("./Markermap"), {
+const MarkerMap = dynamic(() => import("./MarkerMap"), {
   ssr: false,
 });
 
