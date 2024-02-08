@@ -60,9 +60,7 @@ export default function Home() {
             >
               <button
                 className="inline-flex h-12 hover:scale-95 mt-8 animate-shimmer items-center justify-center rounded-md border border-lightblue-800 bg-[linear-gradient(110deg,#001b43,45%,#5096ff,55%,#001b43)] bg-[length:200%_100%] px-6 font-medium text-lightblue-200 transition-colors focus:outline-none relative top-24"
-                onClick={() => {
-                  router.push("/login");
-                }}
+                onClick={() => router.push("/login")}
               >
                 Get Started
               </button>
