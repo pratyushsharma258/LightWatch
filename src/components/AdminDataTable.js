@@ -10,7 +10,7 @@ import { Button } from "./ui/button";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { Toaster } from "./ui/toaster";
-import { set } from "mongoose";
+import { PulseLoader } from "react-spinners";
 
 function AdminDataTable({ admins, className }) {
   const router = useRouter();
