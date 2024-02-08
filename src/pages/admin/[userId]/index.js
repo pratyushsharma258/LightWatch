@@ -59,25 +59,30 @@ function Userpage({ content, existingLightInfo, existingGrievanceInfo }) {
 }
 
 export async function getServerSideProps() {
-  const resLight = await axios.get(
-    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
-    {
-      params: {},
-    }
-  );
+  try {
+    const resLight = await axios.get(
+      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
+      {
+        params: {},
+      }
+    );
 
-  console.log(resLight.data);
+    console.log(resLight.data);
 
-  const resGrievance = await axios.get(
-    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/grievance",
-    {
-      params: {},
-    }
-  );
-  console.log(resGrievance.data);
+    const resGrievance = await axios.get(
+      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/grievance",
+      {
+        params: {},
+      }
+    );
+    console.log(resGrievance.data);
 
-  const existingLightInfo = resLight?.data;
-  const existingGrievanceInfo = resGrievance?.data;
+    var existingLightInfo = resLight?.data;
+    var existingGrievanceInfo = resGrievance?.data;
+  } catch (err) {
+    console.log(err);
+  }
+
   return {
     props: {
       content: true,
