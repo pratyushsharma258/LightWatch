@@ -1,11 +1,9 @@
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import AdminDataTable from "@/components/AdminDataTable";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function Page({ admins }) {
-  const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

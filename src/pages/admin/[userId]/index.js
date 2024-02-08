@@ -85,44 +85,25 @@ function Userpage({ content, existingLightInfo, existingGrievanceInfo }) {
 }
 
 export async function getServerSideProps() {
-  let resGrievance = null;
-  let resLight = null;
-  try {
-    resLight = await axios.get(
-      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
-      {
-        params: {},
-      }
-    );
+  const resLight = await axios.get(
+    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
+    {
+      params: {},
+    }
+  );
 
-    console.log(resLight.data);
+  console.log(resLight.data);
 
-    resGrievance = await axios.get(
-      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/grievance",
-      {
-        params: {},
-      }
-    );
-    console.log(resGrievance.data);
-    // resLight = await axios.get("http://localhost:3000/api/streetlight", {
-    //   params: {},
-    // });
+  const resGrievance = await axios.get(
+    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/grievance",
+    {
+      params: {},
+    }
+  );
+  console.log(resGrievance.data);
 
-    // resGrievance = await axios.get("http://localhost:3000/api/grievance", {
-    //   params: {},
-    // });
-  } catch {
-    return {
-      props: {
-        content: false,
-        existingLightInfo: null,
-        existingGrievanceInfo: null,
-      },
-    };
-  }
-
-  const existingLightInfo = resLight.data;
-  const existingGrievanceInfo = resGrievance.data;
+  const existingLightInfo = resLight?.data;
+  const existingGrievanceInfo = resGrievance?.data;
   return {
     props: {
       content: true,

@@ -5,11 +5,6 @@ import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 function Userpage({ existingLightInfo }) {
-  const buttonStyles =
-    "m-1 text-lg bg-orange-peel text-deepblue shadow-orange-peel hover:text-orange-peel hover:shadow-deepblue shadow-md h-16 rounded-2xl gap-2";
-
-  const router = useRouter();
-
   return (
     <div className="w-screen min-h-screen flex flex-col">
       <Sidebar info={existingLightInfo} />

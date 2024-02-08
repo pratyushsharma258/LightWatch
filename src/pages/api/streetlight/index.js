@@ -87,4 +87,3 @@ export default async function handler(req, res) {
     return res.json({ status: true });
   }
 }
-// 19.021134907590966 72.85179018974306 http://localhost:3000/admin/65ae6afba0fb4143f8c6f666/new?lat=19.021134907590966&long=72.85179018974306
