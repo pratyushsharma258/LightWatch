@@ -34,7 +34,11 @@ function Page({ admins }) {
 }
 
 export async function getServerSideProps(context) {
-  const response = await axios.get("http://localhost:3000/api/fetchAdmins");
+  const response = await axios.get(
+    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/fetchAdmins"
+  );
+
+  // const response = await axios.get("http://localhost:3000/api/fetchAdmins");
 
   const { admins } = response.data;
 

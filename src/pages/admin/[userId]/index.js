@@ -88,13 +88,27 @@ export async function getServerSideProps() {
   let resGrievance = null;
   let resLight = null;
   try {
-    resLight = await axios.get("http://localhost:3000/api/streetlight", {
-      params: {},
-    });
+    resLight = await axios.get(
+      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
+      {
+        params: {},
+      }
+    );
 
-    resGrievance = await axios.get("http://localhost:3000/api/grievance", {
-      params: {},
-    });
+    resGrievance = await axios.get(
+      "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/grievance",
+      {
+        params: {},
+      }
+    );
+
+    // resLight = await axios.get("http://localhost:3000/api/streetlight", {
+    //   params: {},
+    // });
+
+    // resGrievance = await axios.get("http://localhost:3000/api/grievance", {
+    //   params: {},
+    // });
   } catch {
     return {
       props: {

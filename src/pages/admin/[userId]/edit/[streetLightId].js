@@ -254,10 +254,18 @@ function Index({ foundLight }) {
 }
 export async function getServerSideProps(context) {
   const { streetLightId } = context.params;
+  // https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/
 
-  const resLight = await axios.get("http://localhost:3000/api/streetlight", {
-    params: { id: streetLightId },
-  });
+  const resLight = await axios.get(
+    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
+    {
+      params: { id: streetLightId },
+    }
+  );
+
+  // const resLight = await axios.get("http://localhost:3000/api/streetlight", {
+  //   params: { id: streetLightId },
+  // });
 
   const { foundLight } = resLight.data;
 
