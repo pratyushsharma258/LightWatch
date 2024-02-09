@@ -37,6 +37,10 @@ function Index({ foundLight }) {
 
   const { userId } = router.query;
 
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const submitHandler = async function (ev) {
     setIsLoading(true);
     ev.preventDefault();
@@ -61,10 +65,6 @@ function Index({ foundLight }) {
       redirectHandler();
     }
   };
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const redirectHandler = function (ev) {
     router.push(`/admin/${userId}`);
