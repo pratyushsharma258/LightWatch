@@ -11,6 +11,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { Toaster } from "./ui/toaster";
 import { PulseLoader } from "react-spinners";
+import { useToast } from "./ui/use-toast";
+import { useState } from "react";
 
 function AdminDataTable({ admins, className }) {
   const router = useRouter();
@@ -29,7 +31,7 @@ function AdminDataTable({ admins, className }) {
         title: "Admin updated",
         description: "Admin permission updated successfully",
       });
-      router.replace(router.asPath);
+      router.reload();
     } else {
       toast({
         variant: "destructive",

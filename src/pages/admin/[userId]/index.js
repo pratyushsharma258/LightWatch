@@ -4,6 +4,8 @@ import MarkerMap from "@/components/Marker";
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Toaster } from "@/components/ui/toaster";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PulseLoader } from "react-spinners";
 
 function Userpage() {
   const [existingLightInfo, setExistingLightInfo] = useState();
@@ -16,7 +18,7 @@ function Userpage() {
     ] || [0, 0]
   );
 
-  const [isCLient, setIsCLient] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -34,11 +36,13 @@ function Userpage() {
   };
 
   useEffect(() => {
-    setMarkerPosition([
-      existingLightInfo?.responseObject[0]?.coordinates[0] + 0.0002,
-      existingLightInfo?.responseObject[1]?.coordinates[1] + 0.0002,
-    ]);
-    setIsCLient(true);
+    setMarkerPosition(
+      [
+        existingLightInfo?.responseObject[0]?.coordinates[0] + 0.0002,
+        existingLightInfo?.responseObject[1]?.coordinates[1] + 0.0002,
+      ] || [0, 0]
+    );
+    setIsClient(true);
   }, [existingLightInfo, existingGrievanceInfo]);
 
   return (
@@ -48,8 +52,9 @@ function Userpage() {
         grievanceInfo={existingGrievanceInfo}
         markingHandler={setUserIsMarking}
         markerPosition={markerPosition}
+        isClient={isClient}
       />
-      {isCLient ? (
+      {isClient ? (
         <>
           {userIsMarking ? (
             <MarkerMap
@@ -72,7 +77,11 @@ function Userpage() {
           )}
         </>
       ) : (
-        <></>
+        <>
+          <Skeleton className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0 flex items-center justify-center bg-lightblue-450 rounded-none">
+            <PulseLoader size={20} color="#ffffff" />
+          </Skeleton>
+        </>
       )}
       <Toaster />
     </div>
