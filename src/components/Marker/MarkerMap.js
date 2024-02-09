@@ -44,6 +44,11 @@ export default function Markermap(props) {
   const { zoom, markers, markingPosition, handler } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
   const { theme } = useTheme();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    if (markers?.responseObject) setIsClient(true);
+  }, [markers]);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -69,97 +74,104 @@ export default function Markermap(props) {
     }
   };
 
-  const router = useRouter();
-
   return (
     <div className="flex">
-      <MapContainer
-        center={markers?.responseObject[0]?.coordinates || [0, 0]}
-        zoom={zoom}
-        scrollWheelZoom={true}
-        className={props.className}
-      >
-        {theme === "light" ? (
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-        ) : (
-          <TileLayer
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> contributors'
-          />
-        )}
-        {markers?.responseObject.map((pos, index) => (
-          <Marker
-            key={index}
-            position={pos.coordinates}
-            icon={
-              pos.luminosity > pos.criticalLuminosity
-                ? customWorkingIcon
-                : customStaticIcon
-            }
+      {isClient ? (
+        <>
+          <MapContainer
+            center={markers?.responseObject[0]?.coordinates || [0, 0]}
+            zoom={zoom}
+            scrollWheelZoom={true}
+            className={props.className}
           >
-            <Popup
-              onOpen={handlePopupOpen}
-              maxWidth={popupMaxWidth}
-              minWidth={100}
-            >
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <div className="flex items-center justify-center text-sm">
-                    <div className="flex items-center justify-center">
-                      <Button variant="link" className="p-0">
-                        <strong>Installed On : </strong>{" "}
-                        {new Date(parseInt(pos.createdAt)).toLocaleDateString(
-                          "en-GB"
+            {theme === "light" ? (
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+            ) : (
+              <TileLayer
+                url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> contributors'
+              />
+            )}
+            {markers?.responseObject.map((pos, index) => (
+              <Marker
+                key={index}
+                position={pos.coordinates}
+                icon={
+                  pos.luminosity > pos.criticalLuminosity
+                    ? customWorkingIcon
+                    : customStaticIcon
+                }
+              >
+                <Popup
+                  onOpen={handlePopupOpen}
+                  maxWidth={popupMaxWidth}
+                  minWidth={100}
+                >
+                  <HoverCard>
+                    <HoverCardTrigger asChild>
+                      <div className="flex items-center justify-center text-sm">
+                        <div className="flex items-center justify-center">
+                          <Button variant="link" className="p-0">
+                            <strong>Installed On : </strong>{" "}
+                            {new Date(
+                              parseInt(pos.createdAt)
+                            ).toLocaleDateString("en-GB")}
+                          </Button>
+                        </div>
+                      </div>
+                    </HoverCardTrigger>
+                    <HoverCardContent ref={contentRef} className="w-80">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <h4 className="text-lg font-semibold">
+                            Streetlight Information
+                          </h4>
+                        </div>
+                        <p className="text-xs">
+                          <strong>Rated Wattage:</strong> {pos.ratedWattage}
+                        </p>
+                        <p className="text-xs">
+                          <strong>Luminosity:</strong> {pos.luminosity}
+                        </p>
+                        <p className="text-xs">
+                          <strong>Critical Luminosity:</strong>{" "}
+                          {pos.criticalLuminosity}
+                        </p>
+                        <p className="text-xs">
+                          <strong>Expected Life:</strong> {pos.expectedLife}{" "}
+                          hours
+                        </p>
+                        {pos.description && (
+                          <p className="text-xs">
+                            <strong>Description:</strong> {pos.description}
+                          </p>
                         )}
-                      </Button>
-                    </div>
-                  </div>
-                </HoverCardTrigger>
-                <HoverCardContent ref={contentRef} className="w-80">
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <h4 className="text-lg font-semibold">
-                        Streetlight Information
-                      </h4>
-                    </div>
-                    <p className="text-xs">
-                      <strong>Rated Wattage:</strong> {pos.ratedWattage}
-                    </p>
-                    <p className="text-xs">
-                      <strong>Luminosity:</strong> {pos.luminosity}
-                    </p>
-                    <p className="text-xs">
-                      <strong>Critical Luminosity:</strong>{" "}
-                      {pos.criticalLuminosity}
-                    </p>
-                    <p className="text-xs">
-                      <strong>Expected Life:</strong> {pos.expectedLife} hours
-                    </p>
-                    {pos.description && (
-                      <p className="text-xs">
-                        <strong>Description:</strong> {pos.description}
-                      </p>
-                    )}
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
-            </Popup>
-          </Marker>
-        ))}
-        {newMarkingPosition && (
-          <Marker
-            position={newMarkingPosition}
-            draggable={true}
-            eventHandlers={{
-              dragend: handleMarkerDrag,
-            }}
-            icon={theme === "light" ? customHangerIcon : customDarkHangerIcon}
-          />
-        )}
-      </MapContainer>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                </Popup>
+              </Marker>
+            ))}
+            {newMarkingPosition && (
+              <Marker
+                position={newMarkingPosition}
+                draggable={true}
+                eventHandlers={{
+                  dragend: handleMarkerDrag,
+                }}
+                icon={
+                  theme === "light" ? customHangerIcon : customDarkHangerIcon
+                }
+              />
+            )}
+          </MapContainer>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
