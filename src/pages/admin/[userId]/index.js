@@ -26,8 +26,11 @@ function Userpage({ existingGrievanceInfo }) {
       }
     );
     existingLightInfo = resLight?.data;
-    setIsCLient(true);
   }, []);
+
+  useEffect(() => {
+    setIsCLient(true);
+  }, [existingLightInfo]);
 
   return (
     <div className="w-screen min-h-screen flex flex-col">
