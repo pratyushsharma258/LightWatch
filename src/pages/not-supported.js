@@ -13,7 +13,7 @@ const NotFoundPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`text-4xl font-bold ${textColor} p-4`}
+        className={`text-4xl font-bold ${textColor} p-4 mx-4 text-center`}
       >
         This web service is not supported for small screen devices.
       </motion.h1>
@@ -21,11 +21,10 @@ const NotFoundPage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className={`text-lg mt-1 ${textColor}`}
+        className={`text-lg mt-1 ${textColor} mx-4 text-center`}
       >
         Kindly wait for the LightWatch app to get published. Coming soon .....
       </motion.p>
-      <p className="text-lightblue-600 mt-2 p-4">{redirectMessage}</p>
     </div>
   );
 };
