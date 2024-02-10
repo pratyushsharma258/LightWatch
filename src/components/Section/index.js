@@ -13,7 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { CheckCircle, Globe2, HistoryIcon, LinkIcon } from "lucide-react";
+import { CheckCircle, Globe2, HistoryIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";

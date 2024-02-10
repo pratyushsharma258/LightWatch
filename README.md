@@ -1,8 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project Title
 
-## Getting Started
+An app to assist government in maintainence of street lights and for public to lodge greivances and get a map view of related domain. [Visit](https://light-watch.vercel.app/)
 
-First, run the development server:
+## Table of Contents
+
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [TechStack](#tech-stack)
+
+## Installation
+
+Provide instructions on how to install and set up the project. Include any prerequisites and steps needed to get the project running.
 
 ```bash
 npm run dev
@@ -14,27 +22,41 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Contributing
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Fork the repository
+Create a new branch (git checkout -b feature)
+Make your changes
+Commit your changes (git commit -am 'Add new feature')
+Push to the branch (git push origin feature)
+Create a new Pull Request
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+# Tech Stack
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Frontend Framework/Library
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Next.js
+- Framer Motion
+- Tailwind CSS
 
-## Learn More
+## UI Libraries/Components
 
-To learn more about Next.js, take a look at the following resources:
+- Shadcn UI (based on RadixUI and Tailwind CSS)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Database and Backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Axios
+- MongoDB
 
-## Deploy on Vercel
+## Authentication and Security
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Bcrypt
+- Jsonwebtoken
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Data Visualization
+
+- Chart.js
+
+## Map Integration
+
+- LeafletJS

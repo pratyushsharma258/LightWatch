@@ -84,11 +84,11 @@ function Index({ foundLight }) {
       {isClient ? (
         <>
           <Navbar userRole={"admin"} />
-          <div className="flex flex-col flex-grow">
+          <div className="flex flex-col flex-grow h-screen w-screen">
             <Map
               position={[latitude, longitude]}
               zoom={20}
-              center={[latitude, longitude - 0.02]}
+              center={[latitude, longitude - 0.002]}
               className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10"
             />
             <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_56px)] shadow-lightblue dark:shadow-green-500 bg-white z-20 absolute top-[56px] dark:bg-deepgreen">
@@ -254,7 +254,6 @@ function Index({ foundLight }) {
 }
 export async function getServerSideProps(context) {
   const { streetLightId } = context.params;
-  // https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/
 
   const resLight = await axios.get(
     "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
@@ -262,10 +261,6 @@ export async function getServerSideProps(context) {
       params: { id: streetLightId },
     }
   );
-
-  // const resLight = await axios.get("http://localhost:3000/api/streetlight", {
-  //   params: { id: streetLightId },
-  // });
 
   const { foundLight } = resLight.data;
 

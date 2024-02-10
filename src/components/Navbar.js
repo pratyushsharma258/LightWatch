@@ -48,7 +48,6 @@ export default function Navbar(props) {
       process.env.NEXT_PUBLIC_JWT_SECRET,
       {},
       (err, data) => {
-        if (err) console.error("Not found");
         if (data && !data.isAllowed) handleLogout();
         if (userRole && data?.userRole !== userRole) handleLogout();
         setUser(data);

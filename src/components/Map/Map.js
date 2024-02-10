@@ -57,7 +57,7 @@ const customDarkHangerIcon = new L.Icon({
 });
 
 export default function Map(props) {
-  const { position, zoom, markers, role } = props;
+  const { position, zoom, markers, role, center } = props;
   const [popupMaxWidth, setPopupMaxWidth] = useState(380);
   const [description, setDescription] = useState();
   const { theme } = useTheme();
@@ -74,6 +74,7 @@ export default function Map(props) {
   }, [theme]);
 
   useEffect(() => {
+    if (router.asPath.includes("/edit")) setIsClient(true);
     if (markers?.responseObject) setIsClient(true);
   }, [markers]);
 
@@ -126,12 +127,13 @@ export default function Map(props) {
 
   const { userId } = router.query;
 
+  console.log(position);
   return (
     <div className="flex">
       {isClient ? (
         <>
           <MapContainer
-            center={markers?.responseObject[0]?.coordinates || [0, 0]}
+            center={markers?.responseObject[0]?.coordinates || center || [0, 0]}
             zoom={zoom}
             scrollWheelZoom={true}
             className={props.className}

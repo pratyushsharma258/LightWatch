@@ -62,7 +62,6 @@ function Sidebar(props) {
       process.env.NEXT_PUBLIC_JWT_SECRET,
       {},
       (err, data) => {
-        if (err) console.error("Not found");
         if (data && !data.isAllowed) handleLogout();
         if (!router.asPath.includes(data?.userRole)) handleLogout();
         setUser(data);
