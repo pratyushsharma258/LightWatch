@@ -21,7 +21,7 @@ export default function MyApp({ Component, pageProps }) {
       );
 
     if (isMobile) {
-      router.push("/not-supported");
+      router.replace("/not-supported");
     }
 
     const start = () => {

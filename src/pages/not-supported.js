@@ -1,32 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 const NotFoundPage = () => {
-  const router = useRouter();
-  const [redirectMessage, setRedirectMessage] = useState(
-    "Redirecting in 5 seconds..."
-  );
-
-  const redirectToPrevious = () => {
-    router.back();
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      let counter = 5;
-      const interval = setInterval(() => {
-        counter--;
-        setRedirectMessage(`Redirecting in ${counter} seconds...`);
-        if (counter === 0) {
-          clearInterval(interval);
-          redirectToPrevious();
-        }
-      }, 1000);
-    }
-  }, []);
-
   const bgColor = "bg-lightblue-900";
   const textColor = "text-lightblue-400";
 
@@ -38,7 +13,7 @@ const NotFoundPage = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`text-4xl font-bold ${textColor}`}
+        className={`text-4xl font-bold ${textColor} p-4`}
       >
         This web service is not supported for small screen devices.
       </motion.h1>
@@ -50,7 +25,7 @@ const NotFoundPage = () => {
       >
         Kindly wait for the LightWatch app to get published. Coming soon .....
       </motion.p>
-      <p className="text-lightblue-600 mt-2">{redirectMessage}</p>
+      <p className="text-lightblue-600 mt-2 p-4">{redirectMessage}</p>
     </div>
   );
 };
