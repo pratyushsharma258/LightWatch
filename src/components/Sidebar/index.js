@@ -33,6 +33,7 @@ import { Button } from "../ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Skeleton } from "../ui/skeleton";
+import Infoicon from "../icons/Infoicon";
 
 function Sidebar(props) {
   const { info, markingHandler, markerPosition, grievanceInfo, isClient } =
@@ -243,6 +244,37 @@ function Sidebar(props) {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <div
+                    className="relative w-full flex flex-col items-center"
+                    onClick={() => {
+                      setToggleValue("instructions");
+                      if (user?.userRole === "admin") markingHandler(false);
+                    }}
+                  >
+                    {toggleValue === "instructions" && (
+                      <div className="top-0 w-full h-2 rounded-br-lg bg-lightblue-600 dark:bg-green-950 absolute" />
+                    )}
+                    <div
+                      className={`flex flex-col justify-center items-center w-full ${
+                        toggleValue === "instructions" &&
+                        "bg-white text-deepblue h-16 dark:bg-deepgreen dark:text-green-600"
+                      }`}
+                    >
+                      <Infoicon />
+                      {toggleValue === "instructions" && (
+                        <div className="bottom-0 w-full h-2 rounded-tr-lg bg-lightblue-600 dark:bg-green-950 absolute" />
+                      )}
+                    </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="relative left-2 bottom-0">
+                  <p>Instructions</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
             <TooltipProvider>
               <Dialog>
                 <DialogTrigger>

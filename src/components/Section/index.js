@@ -94,6 +94,83 @@ function Section(props) {
     <div className="h-full w-[29vw] bg-white left-[4vw] right-auto absolute shadow-white shadow-2xl dark:bg-deepgreen dark:shadow-none">
       {isClient ? (
         <>
+          {content === "instructions" && router.asPath.includes("admin") && (
+            <div className="flex flex-col items-center">
+              <div className="relative top-3">
+                <div className="flex flex-grow items-center justify-center p-4 flex-col gap-4">
+                  <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
+                    Welcome to LightWatch
+                  </strong>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600 font-bold">
+                      Instructions for Admin
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      1. To view the grievances filed by the public and access
+                      actions associated with them, click on the Notification
+                      Icon on the Sidebar.
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      2. To add a streetlight, click on the Add Icon on the
+                      Sidebar.
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      3. The statistics of the streetlights and grievances, are
+                      availible on the Home Section.
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      4. To view streetlight information associated with any
+                      streetlight, click on the hangers on the map, they also
+                      give access to editing and deleting features.
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          {content === "instructions" && router.asPath.includes("user") && (
+            <div className="flex flex-col items-center">
+              <div className="relative top-3">
+                <div className="flex flex-grow items-center justify-center p-4 flex-col gap-4 ">
+                  <strong className="font-black animate-pulse tracking-wider text-2xl text-lightblue-700 dark:text-green-600">
+                    Welcome to LightWatch
+                  </strong>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600 font-bold">
+                      Instructions for Users
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      1. To file a General grievance related to the website or
+                      anything else, click on the Add Icon on the Sidebar.
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      2. All your logged grievance along with their associated
+                      information, are availible on the Home Section.
+                    </span>
+                  </p>
+                  <p>
+                    <span className="text-lightblue-700 dark:text-green-600">
+                      3. To file a grievance related to a particular
+                      streetlight, click on the hangers on the map and hover on
+                      them.
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           {content === "home" && router.asPath.includes("admin") && (
             <div className="flex flex-col items-center">
               <div className="relative top-3">

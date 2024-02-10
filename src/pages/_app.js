@@ -2,13 +2,17 @@ import "@/styles/globals.css";
 import { Mulish } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Router from "next/router";
+import { PulseLoader } from "react-spinners";
+import Navbar from "@/components/Navbar";
 
 const mulish = Mulish({ subsets: ["latin"] });
 
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const isMobile =
@@ -19,6 +23,22 @@ export default function MyApp({ Component, pageProps }) {
     if (isMobile) {
       router.push("/not-supported");
     }
+
+    const start = () => {
+      setLoading(true);
+    };
+    const end = () => {
+      setLoading(false);
+    };
+
+    Router.events.on("routeChangeStart", start);
+    Router.events.on("routeChangeComplete", end);
+    Router.events.on("routeChangeError", end);
+    return () => {
+      Router.events.off("routeChangeStart", start);
+      Router.events.off("routeChangeComplete", end);
+      Router.events.off("routeChangeError", end);
+    };
   }, []);
 
   return (
@@ -37,7 +57,16 @@ export default function MyApp({ Component, pageProps }) {
         />
       </Head>
       <main className={mulish.className}>
-        <Component {...pageProps} />
+        {loading ? (
+          <>
+            <Navbar />
+            <div className="w-screen h-[calc(100vh-56px)] bg-lightblue-500 dark:bg-green-900 flex items-center justify-center absolute top-14">
+              <PulseLoader color="#ffffff" loading={loading} size={15} />
+            </div>
+          </>
+        ) : (
+          <Component {...pageProps} />
+        )}
       </main>
     </ThemeProvider>
   );
