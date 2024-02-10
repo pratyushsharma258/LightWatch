@@ -36,13 +36,15 @@ function Userpage() {
   };
 
   useEffect(() => {
-    setMarkerPosition(
-      [
-        existingLightInfo?.responseObject[0]?.coordinates[0] + 0.0002,
-        existingLightInfo?.responseObject[1]?.coordinates[1] + 0.0002,
-      ] || [0, 0]
-    );
-    setIsClient(true);
+    if (existingLightInfo) {
+      setMarkerPosition(
+        [
+          existingLightInfo?.responseObject[0]?.coordinates[0] + 0.0002,
+          existingLightInfo?.responseObject[1]?.coordinates[1] + 0.0002,
+        ] || [0, 0]
+      );
+      setIsClient(true);
+    }
   }, [existingLightInfo, existingGrievanceInfo]);
 
   return (
@@ -78,7 +80,7 @@ function Userpage() {
         </>
       ) : (
         <>
-          <Skeleton className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0 flex items-center justify-center bg-lightblue-450 rounded-none">
+          <Skeleton className="min-w-[67vw] max-h-screen absolute right-0 z-10 top-0 left-auto bottom-0 flex items-center justify-center bg-lightblue-450 dark:bg-green-800 rounded-none">
             <PulseLoader size={20} color="#ffffff" />
           </Skeleton>
         </>

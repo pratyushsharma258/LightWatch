@@ -398,20 +398,20 @@ function Section(props) {
             </div>
             <div className="w-full h-full flex flex-col mt-40 gap-8 items-center justify-center">
               <div className="flex flex-grow w-full items-start flex-col gap-4 p-4">
-                <Skeleton className="h-4 w-full bg-lightblue-350" />
-                <Skeleton className="h-4 w-[200px] bg-lightblue-350" />
+                <Skeleton className="h-4 w-full bg-lightblue-350 dark:bg-green-800" />
+                <Skeleton className="h-4 w-[200px] bg-lightblue-350 dark:bg-green-800" />
               </div>
               <div className="flex flex-grow w-full items-start flex-col gap-4 p-4">
-                <Skeleton className="h-4 w-full bg-lightblue-350" />
-                <Skeleton className="h-4 w-[200px] bg-lightblue-350" />
+                <Skeleton className="h-4 w-full bg-lightblue-350 dark:bg-green-800" />
+                <Skeleton className="h-4 w-[200px] bg-lightblue-350 dark:bg-green-800" />
               </div>
               <div className="flex flex-grow w-full items-start flex-col gap-4 p-4">
-                <Skeleton className="h-4 w-full bg-lightblue-350" />
-                <Skeleton className="h-4 w-[200px] bg-lightblue-350" />
+                <Skeleton className="h-4 w-full bg-lightblue-350 dark:bg-green-800" />
+                <Skeleton className="h-4 w-[200px] bg-lightblue-350 dark:bg-green-800" />
               </div>
               <div className="flex flex-grow w-full items-start flex-col gap-4 p-4">
-                <Skeleton className="h-4 w-full bg-lightblue-350" />
-                <Skeleton className="h-4 w-[200px] bg-lightblue-350" />
+                <Skeleton className="h-4 w-full bg-lightblue-350 dark:bg-green-800" />
+                <Skeleton className="h-4 w-[200px] bg-lightblue-350 dark:bg-green-800" />
               </div>
             </div>
           </div>

@@ -188,7 +188,12 @@ export default function Map(props) {
                                 }}
                               >
                                 {loading ? (
-                                  <PulseLoader size={7} color="#ffffff" />
+                                  <PulseLoader
+                                    size={7}
+                                    color={
+                                      theme === "dark" ? "#ffffff" : "#000000"
+                                    }
+                                  />
                                 ) : (
                                   <EditIcon size={18} />
                                 )}
@@ -199,7 +204,7 @@ export default function Map(props) {
                                     className="text-xs text-red-700 dark:text-red-500 bg-inherit p-1 h-full"
                                     variant="link"
                                   >
-                                    <TrashIcon size={18} />
+                                    {loading ? <></> : <TrashIcon size={18} />}
                                   </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-[425px]">
@@ -229,7 +234,7 @@ export default function Map(props) {
                                         <>
                                           <PulseLoader
                                             size={7}
-                                            color="#ffffff"
+                                            color={"#ffffff"}
                                           />
                                         </>
                                       ) : (
