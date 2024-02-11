@@ -10,16 +10,9 @@ An app to assist government in maintainence of street lights and for public to l
 
 ## Installation
 
-Provide instructions on how to install and set up the project. Include any prerequisites and steps needed to get the project running.
-
 ```bash
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 # Contributing
