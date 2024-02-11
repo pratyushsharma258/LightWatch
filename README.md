@@ -35,6 +35,7 @@ npm run dev
 ## UI Libraries/Components
 
 - Shadcn UI (based on RadixUI and Tailwind CSS)
+- Aceternity UI
 
 ## Database and Backend
 
