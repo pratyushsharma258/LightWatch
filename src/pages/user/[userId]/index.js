@@ -1,4 +1,3 @@
-"use client";
 import Map from "@/components/Map";
 import axios from "axios";
 import { useState, useEffect } from "react";

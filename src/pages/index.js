@@ -1,4 +1,3 @@
-"use client";
 import { LampContainer } from "@/components/ui/lamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate";
 import React, { useEffect, useState } from "react";

@@ -1,4 +1,3 @@
-"use client";
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import AdminDataTable from "@/components/AdminDataTable";
