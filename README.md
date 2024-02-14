@@ -10,26 +10,19 @@ An app to assist government in maintainence of street lights and for public to l
 
 ## Installation
 
-Provide instructions on how to install and set up the project. Include any prerequisites and steps needed to get the project running.
-
 ```bash
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 # Contributing
 
-Fork the repository
-Create a new branch (git checkout -b feature)
-Make your changes
-Commit your changes (git commit -am 'Add new feature')
-Push to the branch (git push origin feature)
-Create a new Pull Request
+- Fork the repository
+- Create a new branch (git checkout -b feature)
+- Make your changes
+- Commit your changes (git commit -am 'Add new feature')
+- Push to the branch (git push origin feature)
+- Create a new Pull Request
 
 # Tech Stack
 
@@ -42,6 +35,7 @@ Create a new Pull Request
 ## UI Libraries/Components
 
 - Shadcn UI (based on RadixUI and Tailwind CSS)
+- Aceternity UI
 
 ## Database and Backend
 
