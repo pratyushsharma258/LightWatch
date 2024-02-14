@@ -1,7 +1,9 @@
+"use client";
 import axios from "axios";
 import Navbar from "@/components/Navbar";
 import AdminDataTable from "@/components/AdminDataTable";
 import { useEffect, useState } from "react";
+import { PulseLoader } from "react-spinners";
 
 function Page() {
   const [isClient, setIsClient] = useState(false);
@@ -35,24 +37,12 @@ function Page() {
           )}
         </>
       ) : (
-        <></>
+        <>
+          <PulseLoader color="#22c561" size={15} loading={isClient} />{" "}
+        </>
       )}
     </div>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const response = await axios.get(
-//     "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/fetchAdmins"
-//   );
-
-//   // const response = await axios.get("http://localhost:3000/api/fetchAdmins");
-
-//   const { admins } = response.data;
-
-//   return {
-//     props: { content: "true", admins },
-//   };
-// }
 
 export default Page;

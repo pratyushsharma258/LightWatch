@@ -75,6 +75,7 @@ export default function Map(props) {
 
   useEffect(() => {
     if (router.asPath.includes("/edit")) setIsClient(true);
+    if (router.asPath.includes("/new")) setIsClient(true);
     if (markers?.responseObject) setIsClient(true);
   }, [markers]);
 
@@ -311,7 +312,7 @@ export default function Map(props) {
                                 <Button
                                   className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                                   onClick={() => setDescription("")}
-                                  type="clear"
+                                  type="button"
                                 >
                                   <Close className="h-5 w-5 mr-1" />
                                   Clear
@@ -350,11 +351,3 @@ export default function Map(props) {
     </div>
   );
 }
-
-// :is(.dark .dark\.leaflet-custom-popup .dark\.leaflet-popup-content-wrapper) {
-//   background-color: #000;
-//   color: #333333;
-//   padding: 10px;
-//   border-radius: 5px;
-//   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-// }

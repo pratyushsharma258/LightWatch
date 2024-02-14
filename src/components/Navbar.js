@@ -49,6 +49,8 @@ export default function Navbar(props) {
       {},
       (err, data) => {
         if (data && !data.isAllowed) handleLogout();
+        if (data && router.query.userId !== data?.userId)
+          router.replace(`/${data.userRole}/${data.userId}`);
         if (userRole && data?.userRole !== userRole) handleLogout();
         setUser(data);
       }

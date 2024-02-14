@@ -1,3 +1,4 @@
+"use client";
 import Map from "@/components/Map";
 import axios from "axios";
 import MarkerMap from "@/components/Marker";

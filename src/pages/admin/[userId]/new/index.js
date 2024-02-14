@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "@/components/Navbar";
 import axios from "axios";
 import {
@@ -77,12 +78,12 @@ function Index() {
       {isClient ? (
         <>
           <Navbar userRole={"admin"} />
-          <div className="flex flex-col flex-grow">
+          <div className="flex flex-col flex-grow h-screen w-screen">
             <Map
               position={[lat, long]}
-              zoom={22}
+              zoom={20}
               center={[lat, long - 0.002]}
-              className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-[56px] z-10"
+              className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-14 z-10"
             />
             <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_56px)] shadow-lightblue dark:shadow-green-500 bg-white z-20 absolute top-[56px] dark:bg-deepgreen">
               <Card className="w-[24rem] h-[calc(100vh_-_56px)] flex flex-grow flex-col rounded-none border-none bg-white text-lightblue dark:bg-deepgreen">

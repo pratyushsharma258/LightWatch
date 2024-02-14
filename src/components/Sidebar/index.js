@@ -64,6 +64,8 @@ function Sidebar(props) {
       {},
       (err, data) => {
         if (data && !data.isAllowed) handleLogout();
+        if (data && router.query.userId !== data.userId)
+          router.replace(`/${data.userRole}/${data.userId}`);
         if (!router.asPath.includes(data?.userRole)) handleLogout();
         setUser(data);
       }
@@ -324,6 +326,8 @@ function Sidebar(props) {
         grievanceInfo={grievanceInfo}
         markerPosition={markerPosition}
         isClient={isClient}
+        contentHandler={setToggleValue}
+        markingHandler={markingHandler}
       />
     </>
   );

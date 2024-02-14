@@ -26,7 +26,15 @@ function Section(props) {
   const router = useRouter();
   const { userId } = router.query;
   const { toast } = useToast();
-  const { info, content, markerPosition, grievanceInfo, isClient } = props;
+  const {
+    info,
+    content,
+    markerPosition,
+    grievanceInfo,
+    isClient,
+    contentHandler,
+    markingHandler,
+  } = props;
   const streetlights = info?.responseObject;
   const grievanceArray = grievanceInfo?.allGrievances;
   const submitHandler = async function (ev) {
@@ -401,7 +409,10 @@ function Section(props) {
                     Proceed
                   </Button>
                   <Button
-                    onClick={() => router.reload()}
+                    onClick={() => {
+                      contentHandler("home");
+                      markingHandler(false);
+                    }}
                     className="bg-lightblue-650 hover:bg-lightblue-350 dark:bg-green-700 dark:hover:bg-green-500"
                   >
                     <Close className={"w-6 h-6 bg-inherit mr-1"} />
@@ -454,10 +465,10 @@ function Section(props) {
                     <Button
                       className="w-full h-8 text-sm bg-lightblue dark:bg-green-700 dark:hover:bg-green-500"
                       onClick={() => setDescription("")}
-                      type="clear"
+                      type="button"
                     >
                       <Close className="h-5 w-5 mr-1" />
-                      Go Back
+                      Clear
                     </Button>
                   </div>
                 </form>

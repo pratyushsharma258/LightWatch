@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";

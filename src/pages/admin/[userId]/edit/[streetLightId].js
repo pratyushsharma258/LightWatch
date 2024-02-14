@@ -12,8 +12,10 @@ import Map from "@/components/Map";
 import Check from "@/components/icons/Check";
 import Close from "@/components/icons/Close";
 import { useToast } from "@/components/ui/use-toast";
+import { mongooseConnect } from "@/lib/mongoose";
+import { streetLightModel } from "@/models/streetLightModel";
 
-function Index({ foundLight }) {
+function Index({ content, foundLight }) {
   const router = useRouter();
   const { toast } = useToast();
   const {
@@ -38,6 +40,10 @@ function Index({ foundLight }) {
   const { userId } = router.query;
 
   useEffect(() => {
+    if (content === false) {
+      setIsClient(false);
+      router.replace(`/admin/${userId}`);
+    }
     setIsClient(true);
   }, []);
 
@@ -89,7 +95,7 @@ function Index({ foundLight }) {
               position={[latitude, longitude]}
               zoom={20}
               center={[latitude, longitude - 0.002]}
-              className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-10 z-10"
+              className="max-w-screen max-h-screen absolute left-0 right-0 bottom-0 top-14 z-10"
             />
             <div className="flex shadow-2xl w-[24rem] h-[calc(100vh_-_56px)] shadow-lightblue dark:shadow-green-500 bg-white z-20 absolute top-[56px] dark:bg-deepgreen">
               <Card className="w-[24rem] h-[calc(100vh_-_56px)] flex flex-grow flex-col rounded-none border-none bg-white text-lightblue dark:bg-deepgreen">
@@ -255,18 +261,54 @@ function Index({ foundLight }) {
 export async function getServerSideProps(context) {
   const { streetLightId } = context.params;
 
-  const resLight = await axios.get(
-    "https://light-watch-git-master-pratyushsharma258s-projects.vercel.app/api/streetlight",
-    {
-      params: { id: streetLightId },
+  await mongooseConnect();
+
+  try {
+    const foundLight = await streetLightModel.findOne({ _id: streetLightId });
+
+    if (foundLight)
+      return {
+        props: {
+          content: true,
+          foundLight: JSON.parse(JSON.stringify(foundLight)),
+        },
+      };
+    else {
+      return {
+        props: {
+          content: false,
+          foundLight: {
+            _id: "",
+            latitude: "",
+            longitude: "",
+            ratedWattage: "",
+            luminosity: "",
+            criticalLuminosity: "",
+            expectedLife: "",
+            description: "",
+            createdAt: "",
+          },
+        },
+      };
     }
-  );
-
-  const { foundLight } = resLight.data;
-
-  return {
-    props: { content: "true", foundLight },
-  };
+  } catch (err) {
+    return {
+      props: {
+        content: false,
+        foundLight: {
+          _id: "",
+          latitude: "",
+          longitude: "",
+          ratedWattage: "",
+          luminosity: "",
+          criticalLuminosity: "",
+          expectedLife: "",
+          description: "",
+          createdAt: "",
+        },
+      },
+    };
+  }
 }
 
 export default Index;
