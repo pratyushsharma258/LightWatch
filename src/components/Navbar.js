@@ -118,7 +118,10 @@ export default function Navbar(props) {
           </div>
         )}
         <DropdownMenu>
-          <DropdownMenuTrigger className="border-white ring-0" asChild>
+          <DropdownMenuTrigger
+            className="ring-0 border-0 focus-visible:ring-offset-0 focus-visible:ring-0"
+            asChild
+          >
             <Button
               variant="outline"
               className="text-lightblue-500 dark:text-green-500"

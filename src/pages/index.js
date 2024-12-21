@@ -1,9 +1,9 @@
-import { LampContainer } from "@/components/ui/lamp";
 import { TextGenerateEffect } from "@/components/ui/text-generate";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 
 export default function Home() {
   const words = "Discover the future of streetlight management with us.";
@@ -21,7 +21,7 @@ export default function Home() {
       {isClient ? (
         <>
           <Navbar />
-          <LampContainer>
+          <AuroraBackground>
             <div className="flex flex-col gap-4">
               <motion.h1
                 initial={{ opacity: 0.5, y: 100 }}
@@ -65,7 +65,7 @@ export default function Home() {
                 Get Started
               </button>
             </motion.div>
-          </LampContainer>
+          </AuroraBackground>
         </>
       ) : (
         <></>

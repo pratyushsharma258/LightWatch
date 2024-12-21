@@ -44,6 +44,15 @@ function Login() {
   const submitHandler = async function (ev) {
     ev.preventDefault();
 
+    if (!(username && password && userRole)) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please fill all the details",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     const userFormData = { username, password, userRole };
@@ -153,6 +162,7 @@ function Login() {
                       setUserRole(e);
                     }}
                     value={userRole}
+                    required={true}
                   >
                     <SelectTrigger className="w-full mb-4 dark:text-green-700 dark:bg-deepgreen">
                       <SelectValue placeholder="Select User Role" />
